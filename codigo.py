@@ -28,13 +28,13 @@ df = pd.DataFrame(
        {"Nome da despesa": "Presente", "Valor": 100, "Categoria": "outros", "Data": "2024-12-25"}
     ]
 )
-df["Data"] = pd.to_datetime(df["Data"]).dt.date
-meses_disponiveis = ["Tudo"] + list(pd.to_datetime(df["Data"]).dt.strftime("%Y-%m").unique())
+df["Data"] = pd.to_datetime(df["Data"])
+meses_disponiveis = ["Tudo"] + list(df["Data"].dt.strftime("%Y-%m").unique())
 mes_selecionado = st.selectbox("Selecione o mês (AAAA-MM) ou 'Tudo' para ver todos:", meses_disponiveis)
 if mes_selecionado == "Tudo":
     despesas_filtradas = df
 else:
-    despesas_filtradas = df[pd.to_datetime(df["Data"]).dt.strftime("%Y-%m") == mes_selecionado]
+    despesas_filtradas = df[df["Data"].dt.strftime("%Y-%m") == mes_selecionado]
 if "pagina_atual" not in st.session_state:
     st.session_state.pagina_atual = 0
 tamanho_pagina = 10
