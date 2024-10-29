@@ -29,6 +29,20 @@ df = pd.DataFrame(
     ]
 )
 df["Data"] = pd.to_datetime(df["Data"]).dt.date
+meses_disponiveis = ["Tudo"] + list(pd.to_datetime(df["Data"]).dt.strftime("%Y-%m").unique())
+
+# Selecionar o mês desejado pelo usuário
+mes_selecionado = st.selectbox("Selecione o mês (AAAA-MM) ou 'Tudo' para ver todos:", meses_disponiveis)
+
+# Filtrar o DataFrame pelo mês selecionado ou mostrar tudo se "Tudo" for selecionado
+if mes_selecionado == "Tudo":
+    despesas_filtradas = df
+else:
+    despesas_filtradas = df[pd.to_datetime(df["Data"]).dt.strftime("%Y-%m") == mes_selecionado]
+
+# Exibir o DataFrame filtrado
+st.write("Despesas do mês selecionado:")
+st.write(despesas_filtradas)
 if "pagina_atual" not in st.session_state:
     st.session_state.pagina_atual = 0
 tamanho_pagina = 10
