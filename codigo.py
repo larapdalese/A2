@@ -1,24 +1,28 @@
 import streamlit as st
 import pandas as pd
 
-# Criação do DataFrame com a nova coluna 'Data'
+# Criação do DataFrame com a coluna 'Data' em meses diferentes
 df = pd.DataFrame(
     [
-       {"Nome da despesa": "Sephora", "Valor": 750.99, "Categoria": "beleza", "Data": "2024-10-01"},
-       {"Nome da despesa": "Starbucks", "Valor": 36, "Categoria": "comida", "Data": "2024-10-02"},
-       {"Nome da despesa": "Uber", "Valor": 15, "Categoria": "transporte", "Data": "2024-10-03"},
-       {"Nome da despesa": "Saraiva", "Valor": 45.50, "Categoria": "livros", "Data": "2024-10-04"}
+       {"Nome da despesa": "Sephora", "Valor": 750.99, "Categoria": "beleza", "Data": "2024-01-15"},
+       {"Nome da despesa": "Starbucks", "Valor": 36, "Categoria": "comida", "Data": "2024-02-20"},
+       {"Nome da despesa": "Uber", "Valor": 15, "Categoria": "transporte", "Data": "2024-03-10"},
+       {"Nome da despesa": "Saraiva", "Valor": 45.50, "Categoria": "livros", "Data": "2024-04-05"}
     ]
 )
 
-# Transformar a coluna 'Data' para o tipo datetime, caso deseje realizar manipulações de datas
+# Converter a coluna 'Data' para o tipo datetime
 df["Data"] = pd.to_datetime(df["Data"])
 
-# Permitir edição da tabela no Streamlit
-edited_df = st.data_editor(df, num_rows="dynamic")
+# Criar uma lista dos meses disponíveis no DataFrame
+meses_disponiveis = df["Data"].dt.strftime("%Y-%m").unique()
 
-# Encontrar a despesa com o maior valor
-highest_expense = edited_df.loc[edited_df["Valor"].idxmax()]
+# Selecionar o mês desejado pelo usuário
+mes_selecionado = st.selectbox("Selecione o mês (AAAA-MM):", meses_disponiveis)
 
-st.write("Despesa de maior valor:")
-st.write(highest_expense)
+# Filtrar o DataFrame pelo mês selecionado
+despesas_filtradas = df[df["Data"].dt.strftime("%Y-%m") == mes_selecionado]
+
+# Exibir o DataFrame filtrado
+st.write("Despesas do mês selecionado:")
+st.write(despesas_filtradas)
