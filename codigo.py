@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-
 df = pd.DataFrame(
     [
        {"Nome da despesa": "Sephora", "Valor": 750.99, "Categoria": "beleza", "Data": "2024-01-15"},
@@ -30,12 +29,18 @@ df = pd.DataFrame(
     ]
 )
 df["Data"] = pd.to_datetime(df["Data"]).dt.date
-meses_disponiveis = ["Tudo"] + list(pd.to_datetime(df["Data"]).dt.strftime("%Y-%m").unique())
-mes_selecionado = st.selectbox("Selecione o mês da despesa ou 'Tudo' para ver todas!!", meses_disponiveis)
-if mes_selecionado == "Tudo":
-    despesas_filtradas = df
-else:
-    despesas_filtradas = df[pd.to_datetime(df["Data"]).dt.strftime("%Y-%m") == mes_selecionado]
-st.write("Despesas do mês selecionado:")
-st.write(despesas_filtradas)
-
+if "pagina_atual" not in st.session_state:
+    st.session_state.pagina_atual = 0
+tamanho_pagina = 10
+total_paginas = (len(df) - 1) // tamanho_pagina + 1
+col1, col2, col3 = st.columns([1, 2, 1])
+with col1:
+    if st.button("< Anterior") and st.session_state.pagina_atual > 0:
+        st.session_state.pagina_atual -= 1
+with col3:
+    if st.button("Próximo >") and st.session_state.pagina_atual < total_paginas - 1:
+        st.session_state.pagina_atual += 1
+inicio = st.session_state.pagina_atual * tamanho_pagina
+fim = inicio + tamanho_pagina
+st.write(f"Despesas {inicio + 1} - {min(fim, len(df))} de {len(df)}")
+st.write(df.iloc[inicio:fim])
