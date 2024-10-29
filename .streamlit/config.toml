@@ -1,6 +1,10 @@
 [theme]
 base="light"
-primaryColor="#FF6347" # Tomate
-backgroundColor="#F2EEE9" # Azul Alice
-secondaryBackgroundColor="#FFFFFF"
-textColor="#000000"
+primaryColor="#E85234"
+backgroundColor="#F2EEE9"
+secondaryBackgroundColor="#F2F7D3" 
+textColor="#E85234" 
+font="sans serif" 
+
+[global]
+font = "sans serif" 
