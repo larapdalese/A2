@@ -2,9 +2,4 @@
 base="light"
 primaryColor="#E85234"
 backgroundColor="#F2EEE9"
-secondaryBackgroundColor="#F2F7D3" 
 textColor="#E85234" 
-font="sans serif" 
-
-[global]
-font = "sans serif" 
