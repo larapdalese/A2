@@ -35,6 +35,28 @@ df = pd.DataFrame(
 )
 df["Data"] = pd.to_datetime(df["Data"]).dt.date
 
+if "pagina_atual" not in st.session_state:
+    st.session_state.pagina_atual = 0
+
+# Configurar tamanho da página e número total de páginas
+tamanho_pagina = 10
+total_paginas = (len(df) - 1) // tamanho_pagina + 1
+
+# Navegação entre as páginas
+col1, col2, col3 = st.columns([1, 2, 1])
+with col1:
+    if st.button("< Anterior") and st.session_state.pagina_atual > 0:
+        st.session_state.pagina_atual -= 1
+with col3:
+    if st.button("Próximo >") and st.session_state.pagina_atual < total_paginas - 1:
+        st.session_state.pagina_atual += 1
+
+# Mostrar o intervalo de despesas atual
+inicio = st.session_state.pagina_atual * tamanho_pagina
+fim = inicio + tamanho_pagina
+st.write(f"Despesas {inicio + 1} - {min(fim, len(df))} de {len(df)}")
+st.write(df.iloc[inicio:fim])
+
 # Título e entrada para orçamento
 st.markdown("<h1 style='text-align: center;'>Orçamento do mês:</h1>", unsafe_allow_html=True)
 orcamento = st.number_input("Insira o orçamento do mês:", min_value=0.0, format="%.2f")
