@@ -60,12 +60,12 @@ with st.form(key='adicionar_despesa'):
     data_despesa = st.date_input("Data", value=pd.to_datetime("today").date())
     submitted = st.form_submit_button("Adicionar despesa")
     if submitted:
-        nova_despesa = {
-            "Nome da despesa": nome_despesa,
-            "Valor": valor_despesa,
-            "Categoria": categoria_despesa,
-            "Data": data_despesa
-        }
-        df = df.append(nova_despesa, ignore_index=True)
+        nova_despesa = pd.DataFrame({
+            "Nome da despesa": [nome_despesa],
+            "Valor": [valor_despesa],
+            "Categoria": [categoria_despesa],
+            "Data": [data_despesa]
+        })
+        df = pd.concat([df, nova_despesa], ignore_index=True)
         meses_disponiveis = ["Tudo"] + list(df["Data"].dt.strftime("%Y-%m").unique())
         st.success("Despesa adicionada com sucesso!")
