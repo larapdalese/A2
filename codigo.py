@@ -38,47 +38,51 @@ st.markdown("<h1 style='text-align: center;'>Orçamento do mês:</h1>", unsafe_a
 orcamento = st.number_input("Insira o orçamento do mês:", min_value=0.0, format="%.2f")
 st.markdown("<h2 style='text-align: center;'>Despesas</h2>", unsafe_allow_html=True)
 
-# Opções de visualização com "Mais 2"
+# Opções de visualização
 st.markdown("<h4 style='text-align: center;'>Selecione uma opção:</h4>", unsafe_allow_html=True)
-opcao = st.selectbox("Opções:", ["Todas as despesas", "Por categoria", "Mais 2"])
-sub_opcao = None
-
-if opcao == "Mais 2":
-    sub_opcao = st.selectbox("Selecione a sub-opção:", ["Por mês", "Outra opção"])
-
-# Visualização à esquerda
-col1, col2 = st.columns([1, 1.5])
+col1, col2, col3 = st.columns(3)
+grafico_gerado = False
 
 with col1:
-    if opcao == "Todas as despesas":
+    if st.button("Todas as Despesas"):
         st.write(df)
-    elif opcao == "Por categoria":
-        categoria_selecionada = st.selectbox("Selecione a categoria:", df["Categoria"].unique())
+        despesas_filtradas = df
+        grafico_gerado = True
+
+with col2:
+    mes_selecionado = st.selectbox("Por mês:", ["Tudo"] + list(pd.to_datetime(df["Data"]).dt.strftime("%Y-%m").unique()))
+    if mes_selecionado:
+        if mes_selecionado == "Tudo":
+            despesas_filtradas = df
+        else:
+            despesas_filtradas = df[pd.to_datetime(df["Data"]).dt.strftime("%Y-%m") == mes_selecionado]
+        st.write(despesas_filtradas)
+        grafico_gerado = True
+
+with col3:
+    categoria_selecionada = st.selectbox("Por categoria:", df["Categoria"].unique())
+    if categoria_selecionada:
         despesas_categoria = df[df["Categoria"] == categoria_selecionada]
         st.write(despesas_categoria)
-    elif sub_opcao == "Por mês":
-        mes_selecionado = st.selectbox("Selecione o mês:", ["Tudo"] + list(df["Data"].dt.strftime("%Y-%m").unique()))
-        if mes_selecionado != "Tudo":
-            despesas_filtradas = df[df["Data"].dt.strftime("%Y-%m") == mes_selecionado]
-        else:
-            despesas_filtradas = df
-        st.write(despesas_filtradas)
+        grafico_gerado = True
 
-# Gráficos à direita
-with col2:
-    if opcao == "Por categoria":
-        fig = px.pie(df, values='Valor', names='Categoria', title="Distribuição por Categoria")
-        st.plotly_chart(fig)
-        
-        # Gráfico de linha por mês
-        fig_line = px.line(df, x="Data", y="Valor", color="Categoria", title="Despesas Mensais")
-        st.plotly_chart(fig_line)
-
-# Total gasto
-total_gasto = df["Valor"].sum()
+# Exibir total gasto
+total_gasto = df["Valor"].sum()  # Calcular total de todas as despesas
 st.markdown(f"<h3 style='text-align: center;'>Total Gasto: R$ {total_gasto:.2f}</h3>", unsafe_allow_html=True)
 
-# Formulário para adicionar nova despesa
+# Exibir gráficos apenas se alguma opção foi selecionada
+if grafico_gerado:
+    # Gráfico de rosca para mostrar a distribuição de gastos por categoria
+    fig_pie = px.pie(df, names="Categoria", values="Valor", title="Distribuição de Gastos por Categoria", hole=0.4)
+    st.plotly_chart(fig_pie, use_container_width=True)
+
+    # Gráfico de linha para mostrar a evolução das despesas ao longo dos meses
+    df["Mes"] = df["Data"].dt.to_period("M").astype(str)
+    despesas_por_mes = df.groupby("Mes")["Valor"].sum().reset_index()
+    fig_line = px.line(despesas_por_mes, x="Mes", y="Valor", title="Evolução dos Gastos Mensais")
+    st.plotly_chart(fig_line, use_container_width=True)
+
+# Adicionar nova despesa
 st.subheader("Adicionar nova despesa")
 with st.form("nova_despesa_form"):
     nome_despesa = st.text_input("Nome da despesa")
@@ -87,6 +91,14 @@ with st.form("nova_despesa_form"):
     data_despesa = st.date_input("Data", value=pd.to_datetime("today"))
     submitted = st.form_submit_button("Adicionar despesa")
     if submitted:
-        nova_despesa = {"Nome da despesa": nome_despesa, "Valor": valor_despesa, "Categoria": categoria_despesa, "Data": data_despesa}
-        df = pd.concat([df, pd.DataFrame([nova_despesa])], ignore_index=True)
+        nova_despesa = {
+            "Nome da despesa": nome_despesa,
+            "Valor": valor_despesa,
+            "Categoria": categoria_despesa,
+            "Data": data_despesa
+        }
+        df = df.append(nova_despesa, ignore_index=True)  # Adicionar nova despesa ao DataFrame
         st.success("Despesa adicionada com sucesso!")
+
+# Exibir DataFrame atualizado
+st.write(df)
