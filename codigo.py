@@ -1,9 +1,6 @@
 import streamlit as st
 import pandas as pd
 
-# Configuração da página
-st.set_page_config(page_title="Orçamento Mensal", layout="wide")
-
 # Criar DataFrame de despesas
 df = pd.DataFrame(
     [
@@ -35,28 +32,6 @@ df = pd.DataFrame(
 )
 df["Data"] = pd.to_datetime(df["Data"]).dt.date
 
-if "pagina_atual" not in st.session_state:
-    st.session_state.pagina_atual = 0
-
-# Configurar tamanho da página e número total de páginas
-tamanho_pagina = 10
-total_paginas = (len(df) - 1) // tamanho_pagina + 1
-
-# Navegação entre as páginas
-col1, col2, col3 = st.columns([1, 2, 1])
-with col1:
-    if st.button("< Anterior") and st.session_state.pagina_atual > 0:
-        st.session_state.pagina_atual -= 1
-with col3:
-    if st.button("Próximo >") and st.session_state.pagina_atual < total_paginas - 1:
-        st.session_state.pagina_atual += 1
-
-# Mostrar o intervalo de despesas atual
-inicio = st.session_state.pagina_atual * tamanho_pagina
-fim = inicio + tamanho_pagina
-st.write(f"Despesas {inicio + 1} - {min(fim, len(df))} de {len(df)}")
-st.write(df.iloc[inicio:fim])
-
 # Título e entrada para orçamento
 st.markdown("<h1 style='text-align: center;'>Orçamento do mês:</h1>", unsafe_allow_html=True)
 orcamento = st.number_input("Insira o orçamento do mês:", min_value=0.0, format="%.2f")
@@ -65,39 +40,9 @@ st.markdown("<h2 style='text-align: center;'>Despesas</h2>", unsafe_allow_html=T
 # Opções de visualização
 st.markdown("<h4 style='text-align: center;'>Selecione uma opção:</h4>", unsafe_allow_html=True)
 col1, col2, col3 = st.columns(3)
-
-# Variáveis para controle de paginação
-linhas_por_pagina = 5
-if 'pagina_atual' not in st.session_state:
-    st.session_state.pagina_atual = 0
-
-# Funções de navegação
-def mostrar_pagina(pagina):
-    inicio = pagina * linhas_por_pagina
-    fim = inicio + linhas_por_pagina
-    return df.iloc[inicio:fim]
-
-def pagina_anterior():
-    if st.session_state.pagina_atual > 0:
-        st.session_state.pagina_atual -= 1
-
-def proxima_pagina():
-    if st.session_state.pagina_atual < (len(df) // linhas_por_pagina):
-        st.session_state.pagina_atual += 1
-
 with col1:
     if st.button("Todas as Despesas"):
-        despesas_pagina = mostrar_pagina(st.session_state.pagina_atual)
-        st.dataframe(despesas_pagina, use_container_width=True)
-        # Botões de navegação
-        col_pagina1, col_pagina2 = st.columns([1, 1])
-        with col_pagina1:
-            if st.button("Anterior"):
-                pagina_anterior()
-        with col_pagina2:
-            if st.button("Próximo"):
-                proxima_pagina()
-
+        st.write(df)
 with col2:
     mes_selecionado = st.selectbox("Por mês:", ["Tudo"] + list(pd.to_datetime(df["Data"]).dt.strftime("%Y-%m").unique()))
     if mes_selecionado:
@@ -105,16 +50,15 @@ with col2:
             despesas_filtradas = df
         else:
             despesas_filtradas = df[pd.to_datetime(df["Data"]).dt.strftime("%Y-%m") == mes_selecionado]
-        st.dataframe(despesas_filtradas, use_container_width=True)
-
+        st.write(despesas_filtradas)
 with col3:
     categoria_selecionada = st.selectbox("Por categoria:", df["Categoria"].unique())
     if categoria_selecionada:
         despesas_categoria = df[df["Categoria"] == categoria_selecionada]
-        st.dataframe(despesas_categoria, use_container_width=True)
+        st.write(despesas_categoria)
 
 # Exibir total gasto
-total_gasto = df["Valor"].sum()
+total_gasto = df["Valor"].sum()  # Calcular total de todas as despesas
 st.markdown(f"<h3 style='text-align: center;'>Total Gasto: R$ {total_gasto:.2f}</h3>", unsafe_allow_html=True)
 
 # Adicionar nova despesa
@@ -132,8 +76,8 @@ with st.form("nova_despesa_form"):
             "Categoria": categoria_despesa,
             "Data": data_despesa
         }
-        df = pd.concat([df, pd.DataFrame([nova_despesa])], ignore_index=True)
+        df = df.append(nova_despesa, ignore_index=True)  # Adicionar nova despesa ao DataFrame
         st.success("Despesa adicionada com sucesso!")
 
 # Exibir DataFrame atualizado
-st.dataframe(df, use_container_width=True)
+st.write(df)
