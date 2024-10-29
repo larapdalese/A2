@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 
+st.set_page_config(page_title="Orçamento Mensal", layout="wide")
 df = pd.DataFrame(
     [
         {"Nome da despesa": "Sephora", "Valor": 750.99, "Categoria": "beleza", "Data": "2024-01-15"},
@@ -37,7 +38,7 @@ st.markdown("<h4 style='text-align: center;'>Selecione uma opção:</h4>", unsaf
 col1, col2, col3 = st.columns(3)
 with col1:
     if st.button("Todas as Despesas"):
-        st.write(df)
+        st.dataframe(df, use_container_width=True) 
 with col2:
     mes_selecionado = st.selectbox("Por mês:", ["Tudo"] + list(pd.to_datetime(df["Data"]).dt.strftime("%Y-%m").unique()))
     if mes_selecionado:
@@ -45,12 +46,12 @@ with col2:
             despesas_filtradas = df
         else:
             despesas_filtradas = df[pd.to_datetime(df["Data"]).dt.strftime("%Y-%m") == mes_selecionado]
-        st.write(despesas_filtradas)
+        st.dataframe(despesas_filtradas, use_container_width=True)
 with col3:
     categoria_selecionada = st.selectbox("Por categoria:", df["Categoria"].unique())
     if categoria_selecionada:
         despesas_categoria = df[df["Categoria"] == categoria_selecionada]
-        st.write(despesas_categoria)
+        st.dataframe(despesas_categoria, use_container_width=True)
 total_gasto = df["Valor"].sum()  
 st.markdown(f"<h3 style='text-align: center;'>Total Gasto: R$ {total_gasto:.2f}</h3>", unsafe_allow_html=True)
 st.subheader("Adicionar nova despesa")
@@ -67,6 +68,6 @@ with st.form("nova_despesa_form"):
             "Categoria": categoria_despesa,
             "Data": data_despesa
         }
-        df = df.append(nova_despesa, ignore_index=True)
+        df = df.append(nova_despesa, ignore_index=True) 
         st.success("Despesa adicionada com sucesso!")
-st.write(df)
+st.dataframe(df, use_container_width=True)
