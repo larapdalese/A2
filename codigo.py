@@ -41,8 +41,7 @@ tamanho_pagina = 10
 total_paginas = (len(despesas_filtradas) - 1) // tamanho_pagina + 1
 inicio = st.session_state.pagina_atual * tamanho_pagina
 fim = inicio + tamanho_pagina
-st.write(f"Despesas {inicio + 1} - {min(fim, len(despesas_filtradas))} de {len(despesas_filtradas)}")
-st.write(despesas_filtradas.iloc[inicio:fim])
+st.write(despesas_filtradas.iloc[inicio:fim].reset_index(drop=True))
 total_gasto = despesas_filtradas["Valor"].sum()
 st.write(f"Total gasto: R$ {total_gasto:.2f}")
 col1, col2, col3 = st.columns([1, 2, 1])
@@ -52,4 +51,3 @@ with col1:
 with col3:
     if st.button("Próximo >") and st.session_state.pagina_atual < total_paginas - 1:
         st.session_state.pagina_atual += 1
-
