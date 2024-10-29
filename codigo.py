@@ -1,7 +1,10 @@
 import streamlit as st
 import pandas as pd
 
+# Configuração da página
 st.set_page_config(page_title="Orçamento Mensal", layout="wide")
+
+# Criar DataFrame de despesas
 df = pd.DataFrame(
     [
         {"Nome da despesa": "Sephora", "Valor": 750.99, "Categoria": "beleza", "Data": "2024-01-15"},
@@ -31,14 +34,18 @@ df = pd.DataFrame(
     ]
 )
 df["Data"] = pd.to_datetime(df["Data"]).dt.date
+
+# Título e entrada para orçamento
 st.markdown("<h1 style='text-align: center;'>Orçamento do mês:</h1>", unsafe_allow_html=True)
 orcamento = st.number_input("Insira o orçamento do mês:", min_value=0.0, format="%.2f")
 st.markdown("<h2 style='text-align: center;'>Despesas</h2>", unsafe_allow_html=True)
+
+# Opções de visualização
 st.markdown("<h4 style='text-align: center;'>Selecione uma opção:</h4>", unsafe_allow_html=True)
 col1, col2, col3 = st.columns(3)
 with col1:
     if st.button("Todas as Despesas"):
-        st.dataframe(df, use_container_width=True) 
+        st.dataframe(df, use_container_width=True)  # Usar o width do container
 with col2:
     mes_selecionado = st.selectbox("Por mês:", ["Tudo"] + list(pd.to_datetime(df["Data"]).dt.strftime("%Y-%m").unique()))
     if mes_selecionado:
@@ -52,8 +59,12 @@ with col3:
     if categoria_selecionada:
         despesas_categoria = df[df["Categoria"] == categoria_selecionada]
         st.dataframe(despesas_categoria, use_container_width=True)
-total_gasto = df["Valor"].sum()  
+
+# Exibir total gasto
+total_gasto = df["Valor"].sum()  # Calcular total de todas as despesas
 st.markdown(f"<h3 style='text-align: center;'>Total Gasto: R$ {total_gasto:.2f}</h3>", unsafe_allow_html=True)
+
+# Adicionar nova despesa
 st.subheader("Adicionar nova despesa")
 with st.form("nova_despesa_form"):
     nome_despesa = st.text_input("Nome da despesa")
@@ -68,6 +79,8 @@ with st.form("nova_despesa_form"):
             "Categoria": categoria_despesa,
             "Data": data_despesa
         }
-        df = df.append(nova_despesa, ignore_index=True) 
+        df = df.append(nova_despesa, ignore_index=True)  # Adicionar nova despesa ao DataFrame
         st.success("Despesa adicionada com sucesso!")
+
+# Exibir DataFrame atualizado
 st.dataframe(df, use_container_width=True)
