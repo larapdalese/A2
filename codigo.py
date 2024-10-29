@@ -1,13 +1,6 @@
 import streamlit as st
 import pandas as pd
 
-[theme]
-base="light"
-primaryColor="#FF6347" # Tomate
-backgroundColor="#F0F8FF" # Azul Alice
-secondaryBackgroundColor="#FFFFFF"
-textColor="#000000"
-
 df = pd.DataFrame(
     [
        {"Nome da despesa": "Sephora", "Valor": 750.99, "Categoria": "beleza", "Data": "2024-01-15"},
