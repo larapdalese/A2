@@ -2,16 +2,22 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# Estilo CSS para remover margens laterais
+# Aplicar estilo CSS para usar tela cheia
+st.set_page_config(layout="wide")  # Configurar a página para o layout expandido
+
+# Estilo CSS para reduzir margens laterais e expandir área de exibição
 st.markdown("""
     <style>
-    /* Ajustar a largura da página */
+    /* Expandir o container principal */
     .main .block-container {
-        padding-left: 1rem;
-        padding-right: 1rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        max-width: 100%;
     }
-    /* Deixar o gráfico e DataFrame maiores */
-    .css-1lcbmhc {
+    /* Expandir visualização dos gráficos e dataframes */
+    .css-1lcbmhc, .css-1fcdlh8 {
         max-width: 100%;
     }
     </style>
