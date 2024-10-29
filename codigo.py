@@ -38,17 +38,17 @@ st.markdown("<h1 style='text-align: center;'>Orçamento do mês:</h1>", unsafe_a
 orcamento = st.number_input("Insira o orçamento do mês:", min_value=0.0, format="%.2f")
 st.markdown("<h2 style='text-align: center;'>Opções</h2>", unsafe_allow_html=True)
 
-# Colunas de layout fixo para o gráfico e as opções
-col1, col2 = st.columns([1, 3])
+# Dividir layout em duas colunas iguais
+col1, col2 = st.columns(2)
 
 # Exibir gráfico de rosca à esquerda
 with col1:
     fig_pie = px.pie(df, names="Categoria", values="Valor", title="Distribuição de Gastos por Categoria", hole=0.4)
-    st.plotly_chart(fig_pie, use_container_width=True)
+    fig_pie.update_layout(margin=dict(t=30, l=0, r=0, b=0))  # Remove margens extras
+    st.plotly_chart(fig_pie, use_container_width=True)  # Gráfico usa toda a largura da coluna
 
 # Exibir menu de opções à direita
 with col2:
-    # Opções principais
     escolha = st.radio("Opções", ["Todas as Despesas", "Por Categoria", "Mais 3"])
 
     # Exibir DataFrames de acordo com a opção escolhida
