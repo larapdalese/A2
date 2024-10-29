@@ -30,23 +30,15 @@ df = pd.DataFrame(
 )
 df["Data"] = pd.to_datetime(df["Data"]).dt.date
 meses_disponiveis = ["Tudo"] + list(pd.to_datetime(df["Data"]).dt.strftime("%Y-%m").unique())
-
-# Selecionar o mês desejado pelo usuário
 mes_selecionado = st.selectbox("Selecione o mês (AAAA-MM) ou 'Tudo' para ver todos:", meses_disponiveis)
-
-# Filtrar o DataFrame pelo mês selecionado ou mostrar tudo se "Tudo" for selecionado
 if mes_selecionado == "Tudo":
     despesas_filtradas = df
 else:
     despesas_filtradas = df[pd.to_datetime(df["Data"]).dt.strftime("%Y-%m") == mes_selecionado]
-
-# Exibir o DataFrame filtrado
-st.write("Despesas do mês selecionado:")
-st.write(despesas_filtradas)
 if "pagina_atual" not in st.session_state:
     st.session_state.pagina_atual = 0
 tamanho_pagina = 10
-total_paginas = (len(df) - 1) // tamanho_pagina + 1
+total_paginas = (len(despesas_filtradas) - 1) // tamanho_pagina + 1
 col1, col2, col3 = st.columns([1, 2, 1])
 with col1:
     if st.button("< Anterior") and st.session_state.pagina_atual > 0:
@@ -56,5 +48,5 @@ with col3:
         st.session_state.pagina_atual += 1
 inicio = st.session_state.pagina_atual * tamanho_pagina
 fim = inicio + tamanho_pagina
-st.write(f"Despesas {inicio + 1} - {min(fim, len(df))} de {len(df)}")
-st.write(df.iloc[inicio:fim])
+st.write(f"Despesas {inicio + 1} - {min(fim, len(despesas_filtradas))} de {len(despesas_filtradas)}")
+st.write(despesas_filtradas.iloc[inicio:fim])
