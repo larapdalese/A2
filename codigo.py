@@ -41,7 +41,7 @@ tamanho_pagina = 10
 total_paginas = (len(despesas_filtradas) - 1) // tamanho_pagina + 1
 inicio = st.session_state.pagina_atual * tamanho_pagina
 fim = inicio + tamanho_pagina
-st.write(despesas_filtradas.iloc[inicio:fim].reset_index(drop=True))
+st.dataframe(despesas_filtradas.iloc[inicio:fim], use_container_width=True)
 total_gasto = despesas_filtradas["Valor"].sum()
 st.write(f"Total gasto: R$ {total_gasto:.2f}")
 col1, col2, col3 = st.columns([1, 2, 1])
