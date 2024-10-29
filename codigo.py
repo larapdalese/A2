@@ -2,6 +2,21 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+# Estilo CSS para remover margens laterais
+st.markdown("""
+    <style>
+    /* Ajustar a largura da página */
+    .main .block-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    /* Deixar o gráfico e DataFrame maiores */
+    .css-1lcbmhc {
+        max-width: 100%;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 # Criar DataFrame de despesas
 df = pd.DataFrame(
     [
@@ -38,14 +53,14 @@ st.markdown("<h1 style='text-align: center;'>Orçamento do mês:</h1>", unsafe_a
 orcamento = st.number_input("Insira o orçamento do mês:", min_value=0.0, format="%.2f")
 st.markdown("<h2 style='text-align: center;'>Opções</h2>", unsafe_allow_html=True)
 
-# Dividir layout em duas colunas iguais
+# Dividir layout em duas colunas de tamanhos iguais
 col1, col2 = st.columns(2)
 
 # Exibir gráfico de rosca à esquerda
 with col1:
     fig_pie = px.pie(df, names="Categoria", values="Valor", title="Distribuição de Gastos por Categoria", hole=0.4)
-    fig_pie.update_layout(margin=dict(t=30, l=0, r=0, b=0))  # Remove margens extras
-    st.plotly_chart(fig_pie, use_container_width=True)  # Gráfico usa toda a largura da coluna
+    fig_pie.update_layout(margin=dict(t=30, l=0, r=0, b=0))
+    st.plotly_chart(fig_pie, use_container_width=True)
 
 # Exibir menu de opções à direita
 with col2:
