@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+
 df = pd.DataFrame(
     [
        {"Nome da despesa": "Sephora", "Valor": 750.99, "Categoria": "beleza", "Data": "2024-01-15"},
@@ -30,7 +31,7 @@ df = pd.DataFrame(
 )
 df["Data"] = pd.to_datetime(df["Data"])
 meses_disponiveis = ["Tudo"] + list(df["Data"].dt.strftime("%Y-%m").unique())
-mes_selecionado = st.selectbox("Selecione o mês ou 'Tudo' para ver todos:", meses_disponiveis)
+mes_selecionado = st.selectbox("Selecione o mês (AAAA-MM) ou 'Tudo' para ver todos:", meses_disponiveis)
 if mes_selecionado == "Tudo":
     despesas_filtradas = df
 else:
@@ -41,8 +42,7 @@ tamanho_pagina = 10
 total_paginas = (len(despesas_filtradas) - 1) // tamanho_pagina + 1
 inicio = st.session_state.pagina_atual * tamanho_pagina
 fim = inicio + tamanho_pagina
-st.write(f"Despesas {inicio + 1} - {min(fim, len(despesas_filtradas))} de {len(despesas_filtradas)}")
-st.write(despesas_filtradas.iloc[inicio:fim])
+st.dataframe(despesas_filtradas.iloc[inicio:fim], use_container_width=True)
 total_gasto = despesas_filtradas["Valor"].sum()
 st.write(f"Total gasto: R$ {total_gasto:.2f}")
 col1, col2, col3 = st.columns([1, 2, 1])
@@ -52,3 +52,20 @@ with col1:
 with col3:
     if st.button("Próximo >") and st.session_state.pagina_atual < total_paginas - 1:
         st.session_state.pagina_atual += 1
+st.write("Adicionar nova despesa:")
+with st.form(key='adicionar_despesa'):
+    nome_despesa = st.text_input("Nome da despesa")
+    valor_despesa = st.number_input("Valor", min_value=0.0, format="%.2f")
+    categoria_despesa = st.selectbox("Categoria", ["beleza", "saúde", "comida", "transporte", "livros", "lazer", "fitness", "pets", "vestuário", "supermercado", "educação", "outros"])
+    data_despesa = st.date_input("Data", value=pd.to_datetime("today").date())
+    submitted = st.form_submit_button("Adicionar despesa")
+    if submitted:
+        nova_despesa = {
+            "Nome da despesa": nome_despesa,
+            "Valor": valor_despesa,
+            "Categoria": categoria_despesa,
+            "Data": data_despesa
+        }
+        df = df.append(nova_despesa, ignore_index=True)
+        meses_disponiveis = ["Tudo"] + list(df["Data"].dt.strftime("%Y-%m").unique())
+        st.success("Despesa adicionada com sucesso!")
