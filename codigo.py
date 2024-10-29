@@ -10,7 +10,7 @@ df = pd.DataFrame(
 )
 df["Data"] = pd.to_datetime(df["Data"]).dt.date
 meses_disponiveis = ["Tudo"] + list(pd.to_datetime(df["Data"]).dt.strftime("%Y-%m").unique())
-mes_selecionado = st.selectbox("Selecione o mês (AAAA-MM) ou 'Tudo' para ver todos:", meses_disponiveis)
+mes_selecionado = st.selectbox("Selecione o mês da despesa ou 'Tudo' para ver todas!!", meses_disponiveis)
 if mes_selecionado == "Tudo":
     despesas_filtradas = df
 else:
