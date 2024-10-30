@@ -82,6 +82,15 @@ with col1:
     st.plotly_chart(fig_pie, use_container_width=True)
 
 # Exibir menu de opções à direita
+df = pd.DataFrame(data)
+df['Mes'] = df['Data'].dt.to_period('M')  # Criar coluna de mês
+
+# Início do Streamlit
+st.title("Análise de Despesas")
+
+# Layout
+col1, col2 = st.columns(2)
+
 with col2:
     escolha = st.radio("Opções", ["Todas as Despesas", "Por Categoria", "Mais 3"])
 
@@ -102,27 +111,26 @@ with col2:
             else:
                 despesas_mes = df[df["Data"].dt.to_period("M").astype(str) == mes_selecionado]
                 st.write(despesas_mes)
-                
+
         elif escolha_mais_3 == "Gastos totais ao longo do tempo":
-               if escolha_mais_3 == "Categorias ao longo dos meses":
-    # Agrupando os dados por mês e categoria
-    despesas_por_categoria_mes = df.groupby(['Mes', 'Categoria'])['Valor'].sum().reset_index()
+            # Aqui você pode adicionar o código para visualizar gastos totais ao longo do tempo.
+            pass
+            
+        elif escolha_mais_3 == "Categorias ao longo dos meses":
+            # Agrupando os dados por mês e categoria
+            despesas_por_categoria_mes = df.groupby(['Mes', 'Categoria'])['Valor'].sum().reset_index()
 
-    # Criando o gráfico de barras
-    fig_gastos_categoria_mensais = px.bar(
-        despesas_por_categoria_mes,
-        x='Mes',
-        y='Valor',
-        color='Categoria',
-        title='Distribuição de Gastos por Categoria ao Longo dos Meses',
-        labels={'Valor': 'Valor Total', 'Mes': 'Mês'},
-        barmode='group'  # Para barras lado a lado
-    )
+            # Criando o gráfico de barras
+            fig_gastos_categoria_mensais = px.bar(
+                despesas_por_categoria_mes,
+                x='Mes',
+                y='Valor',
+                color='Categoria',
+                title='Distribuição de Gastos por Categoria ao Longo dos Meses',
+                labels={'Valor': 'Valor Total', 'Mes': 'Mês'},
+                barmode='group'  # Para barras lado a lado
+            )
 
-    # Exibindo o gráfico no Streamlit
-    st.plotly_chart(fig_gastos_categoria_mensais, use_container_width=True)
+            # Exibindo o gráfico no Streamlit
+            st.plotly_chart(fig_gastos_categoria_mensais, use_container_width=True)
 
-ax.set_title('Despesas por Categoria')
-
-# Exibindo o gráfico no Streamlit
-st.pyplot(fig)
