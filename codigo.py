@@ -67,6 +67,20 @@ df = pd.DataFrame(
 )
 df["Data"] = pd.to_datetime(df["Data"])
 
+color_map = {
+    "beleza": "#FF6699",
+    "saúde": "#66FF66",
+    "comida": "#FFCC00",
+    "transporte": "#6699FF",
+    "vestuário": "#FF9966",
+    "supermercado": "#66FFFF",
+    "educação": "#9966FF",
+    "lazer": "#FF6666"
+}
+
+# Adicionar coluna de cores ao DataFrame com base na categoria
+df["Cor"] = df["Categoria"].map(color_map)
+
 # Título e entrada para orçamento
 st.markdown("<h1 style='text-align: center;'>Orçamento do mês:</h1>", unsafe_allow_html=True)
 orcamento = st.number_input("Insira o orçamento do mês:", min_value=0.0, format="%.2f")
