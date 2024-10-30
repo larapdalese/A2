@@ -70,6 +70,14 @@ df = pd.DataFrame(
     {"Nome da despesa": "Acessórios", "Data": "2024-05-20", "Categoria": "vestuário", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 150},
     {"Nome da despesa": "Supermercado", "Data": "2024-06-15", "Categoria": "supermercado", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 500},
     {"Nome da despesa": "Material escolar", "Data": "2024-07-15", "Categoria": "educação", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 150},
+    {"Nome da despesa": "Show", "Data": "2024-01-10", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 200.00},
+    {"Nome da despesa": "Ingressos para teatro", "Data": "2024-02-20", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 150.00},
+    {"Nome da despesa": "Jantar em restaurante", "Data": "2024-03-25", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 250.00},
+    {"Nome da despesa": "Passeio no parque", "Data": "2024-04-10", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 50.00},
+    {"Nome da despesa": "Viagem de fim de semana", "Data": "2024-05-15", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 800.00},
+    {"Nome da despesa": "Aluguel de filme", "Data": "2024-06-05", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 20.00},
+    {"Nome da despesa": "Atividades de lazer com amigos", "Data": "2024-07-12", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 100.00},
+    {"Nome da despesa": "Dia de spa", "Data": "2024-08-20", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 300.00},    
 ]
 )
 df["Data"] = pd.to_datetime(df["Data"])
