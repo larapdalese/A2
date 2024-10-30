@@ -2,6 +2,73 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
+import streamlit as st
+
+# Título do aplicativo
+st.title("Meu Perfil")
+
+# CSS para estilização
+st.markdown(
+    """
+    <style>
+    .header {
+        position: relative;
+        width: 100%;
+        height: 200px;  /* Altura da imagem de cabeçalho */
+        overflow: hidden;
+    }
+    
+    .header img {
+        width: 100%;
+        height: auto;
+    }
+    
+    .profile-photo {
+        position: absolute;
+        bottom: -50px;  /* Ajuste para posicionar a imagem do perfil */
+        left: 20px;     /* Distância do lado esquerdo */
+        border-radius: 50%;
+        width: 100px;  /* Tamanho da imagem do perfil */
+        height: 100px; /* Tamanho da imagem do perfil */
+        border: 3px solid white;  /* Borda branca */
+    }
+
+    .user-info {
+        margin-top: 70px;  /* Espaço abaixo da imagem do perfil */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# Exibir foto de cabeçalho
+header_image = "https://i.pinimg.com/564x/3f/a6/9f/3fa69f6c8b6f7dbf8fccd3ac7ee5b2b3.jpg"
+profile_photo = "https://i.pinimg.com/564x/86/8d/ab/868dab99f9d90a367c320a170ab9eab3.jpg"
+
+st.markdown(
+    f"""
+    <div class="header">
+        <img src="{header_image}" alt="Header Image">
+        <img class="profile-photo" src="{profile_photo}" alt="Profile Photo">
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# Adicionar informações do usuário
+st.markdown("""
+    <div class="user-info">
+        ### Nome do Usuário
+        - Bio: Aqui está uma breve descrição sobre você.
+        - Localização: Cidade, País
+        - Interesses: Interesses que você gostaria de compartilhar.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# Adicione mais elementos abaixo conforme necessário
+
 # Aplicar estilo CSS para usar tela cheia
 st.set_page_config(layout="wide")  # Configurar a página para o layout expandido
 
@@ -23,34 +90,6 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-st.title("Meu Perfil")
-
-# Exibir foto de cabeçalho
-st.image("https://i.pinimg.com/564x/3f/a6/9f/3fa69f6c8b6f7dbf8fccd3ac7ee5b2b3.jpg", use_column_width=True)
-
-# Usar HTML para criar uma imagem redonda
-profile_photo = "https://i.pinimg.com/564x/86/8d/ab/868dab99f9d90a367c320a170ab9eab3.jpg"
-st.markdown(
-    f"""
-    <style>
-    .profile-photo {{
-        border-radius: 50%;
-        width: 100px;  /* Ajuste o tamanho da imagem conforme necessário */
-        height: 100px; /* Ajuste o tamanho da imagem conforme necessário */
-    }}
-    </style>
-    <img class="profile-photo" src="{profile_photo}" alt="Profile Photo">
-    """,
-    unsafe_allow_html=True
-)
-
-# Adicionar informações do usuário
-st.markdown("""
-    ### Nome do Usuário
-    - Bio: Aqui está uma breve descrição sobre você.
-    - Localização: Cidade, País
-    - Interesses: Interesses que você gostaria de compartilhar.
-""")
 
 # Criar DataFrame de despesas
 df = pd.DataFrame(
