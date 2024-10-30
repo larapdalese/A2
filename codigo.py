@@ -104,16 +104,23 @@ with col2:
                 st.write(despesas_mes)
                 
         elif escolha_mais_3 == "Gastos totais ao longo do tempo":
-            df["AnoMes"] = df["Data"].dt.to_period("M").astype(str)
-            despesas_por_mes = df.groupby("AnoMes")["Valor"].sum().reset_index()
-            fig_gastos_totais = px.line(despesas_por_mes, x="AnoMes", y="Valor", title="Gastos Totais ao Longo do Tempo")
-            st.plotly_chart(fig_gastos_totais, use_container_width=True)
-        
-        elif escolha_mais_3 == "Categorias ao longo dos meses":
-            df["Mes"] = df["Data"].dt.month
-            despesas_por_mes = df.groupby("Mes")["Valor"].sum().reset_index()
-            fig_gastos_mensais = px.line(despesas_por_mes, x="Mes", y="Valor", title="Gastos ao Longo dos Meses")
-            st.plotly_chart(fig_gastos_mensais, use_container_width=True)
+               if escolha_mais_3 == "Categorias ao longo dos meses":
+    # Agrupando os dados por mês e categoria
+    despesas_por_categoria_mes = df.groupby(['Mes', 'Categoria'])['Valor'].sum().reset_index()
+
+    # Criando o gráfico de barras
+    fig_gastos_categoria_mensais = px.bar(
+        despesas_por_categoria_mes,
+        x='Mes',
+        y='Valor',
+        color='Categoria',
+        title='Distribuição de Gastos por Categoria ao Longo dos Meses',
+        labels={'Valor': 'Valor Total', 'Mes': 'Mês'},
+        barmode='group'  # Para barras lado a lado
+    )
+
+    # Exibindo o gráfico no Streamlit
+    st.plotly_chart(fig_gastos_categoria_mensais, use_container_width=True)
 
 ax.set_title('Despesas por Categoria')
 
