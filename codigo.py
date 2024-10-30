@@ -5,7 +5,7 @@ import plotly.express as px
 # Configurações do layout do Streamlit
 st.set_page_config(page_title="Simple Budget Tracker", layout="wide")
 
-# CSS personalizado para deixar o estilo mais parecido com o Notion
+# CSS para estilizar as categorias e outros elementos
 st.markdown("""
     <style>
         .main .block-container {
@@ -62,11 +62,6 @@ color_map = {
     "Other": "#CCCCCC"
 }
 
-# Função para estilizar as categorias no DataFrame
-def color_category(category):
-    color = color_map.get(category, "#CCCCCC")
-    return f'<span class="category-label" style="background-color: {color};">{category}</span>'
-
 # Adicionar Despesa
 st.subheader("Add New Expense")
 with st.form("expense_form"):
@@ -88,17 +83,50 @@ with st.form("expense_form"):
         df = df.append(new_expense, ignore_index=True)
         st.success("Expense added!")
 
-# Exibir Tabela de Despesas
-st.subheader("Expense Table")
-df["Category"] = df["Category"].apply(color_category)
-st.write(df.to_html(escape=False, index=False), unsafe_allow_html=True)
+# Sessão de visualização de despesas com abas
+st.subheader("Expense Analysis")
 
-# Gráfico de rosca de despesas por categoria
-st.subheader("Expenses by Category")
-category_summary = df.groupby("Category")["Amount"].sum().reset_index()
-fig = px.pie(category_summary, values="Amount", names="Category", title="Expenses by Category", hole=0.4)
-fig.update_traces(marker=dict(colors=[color_map[cat] for cat in category_summary["Category"]]))
-st.plotly_chart(fig, use_container_width=True)
+# Criação das abas
+tabs = st.tabs(["All Expenses", "By Month", "By Category"])
+
+# Abas de visualização e filtros
+with tabs[0]:
+    st.write("### All Expenses")
+    st.write(df)
+
+with tabs[1]:
+    st.write("### Expenses By Month")
+    # Extrair o mês e o ano de cada data
+    df['Month'] = df['Date'].dt.to_period("M")
+    month_selected = st.selectbox("Select Month:", df['Month'].unique())
+    
+    # Filtrar o DataFrame pelo mês selecionado
+    df_month = df[df['Month'] == month_selected]
+    if not df_month.empty:
+        fig_month = px.pie(df_month, names="Category", values="Amount", title=f"Expenses in {month_selected}", hole=0.4)
+        fig_month.update_traces(marker=dict(colors=[color_map[cat] for cat in df_month["Category"]]))
+        st.plotly_chart(fig_month, use_container_width=True)
+    else:
+        st.write("No expenses found for the selected month.")
+
+with tabs[2]:
+    st.write("### Expenses By Category")
+    category_selected = st.selectbox("Select Category:", df['Category'].unique())
+    
+    # Filtrar o DataFrame pela categoria selecionada
+    df_category = df[df['Category'] == category_selected]
+    if not df_category.empty:
+        fig_category = px.pie(df_category, names="Date", values="Amount", title=f"Expenses in {category_selected} category", hole=0.4)
+        fig_category.update_traces(marker=dict(colors=[color_map[category_selected]]))
+        st.plotly_chart(fig_category, use_container_width=True)
+    else:
+        st.write("No expenses found for the selected category.")
+        
+# Exibir total de despesas e orçamento restante
+total_expenses = df["Amount"].sum()
+remaining_budget = monthly_budget - total_expenses
+st.markdown(f"### Total Expenses: ${total_expenses:.2f}")
+st.markdown(f"### Remaining Budget: ${remaining_budget:.2f}")
 
 # Mostrar orçamento e gastos totais
 total_expenses = df["Amount"].sum()
