@@ -68,20 +68,9 @@ with col1:
     fig_pie.update_layout(margin=dict(t=30, l=0, r=0, b=0))
     st.plotly_chart(fig_pie, use_container_width=True)
 
-# Exibir menu de opções à direita com opções lado a lado
+# Exibir menu de opções à direita
 with col2:
-    st.write("**Opções**")
-    col_a, col_b, col_c = st.columns(3)  # Criar três colunas para as opções
-
-    with col_a:
-        if st.button("Todas as Despesas"):
-            escolha = "Todas as Despesas"
-    with col_b:
-        if st.button("Por Categoria"):
-            escolha = "Por Categoria"
-    with col_c:
-        if st.button("Mais 3"):
-            escolha = "Mais 3"
+    escolha = st.radio("Opções", ["Todas as Despesas", "Por Categoria", "Mais 3"])
 
     # Exibir DataFrames de acordo com a opção escolhida
     if escolha == "Todas as Despesas":
