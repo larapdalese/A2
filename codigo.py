@@ -60,10 +60,13 @@ df = pd.DataFrame(
         {"Nome da despesa": "Acessórios", "Data": "2024-05-20", "Categoria": "vestuário", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 150},
         {"Nome da despesa": "Supermercado", "Data": "2024-06-15", "Categoria": "supermercado", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 500},
         {"Nome da despesa": "Material escolar", "Data": "2024-07-15", "Categoria": "educação", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 150}, 
-        {"Nome da despesa": "Lazer no parque", "Data": "2024-08-05", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 100},
-        {"Nome da despesa": "Festa de aniversário", "Data": "2024-09-15", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 250},
+        {"Nome da despesa": "Show", "Data": "2024-07-20", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 250},
+        {"Nome da despesa": "Cinema", "Data": "2024-08-05", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 50},
+        {"Nome da despesa": "Férias", "Data": "2024-08-20", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 3000}
     ]
 )
+df["Data"] = pd.to_datetime(df["Data"])
+
 
 # Seção de orçamento
 st.header('Orçamento do mês:')
@@ -74,29 +77,33 @@ orçamento = st.number_input('Insira o orçamento:', min_value=0.0)
 # Seção de Despesas
 st.subheader('Despesas')
 
-# Criar três colunas para as opções
-col1, col2, col3 = st.columns(3)
+# Seleção para visualizar diferentes opções
+opcao = st.selectbox('Escolha uma opção:', ['Todas as Despesas', 'Por Categoria', 'Mais 3'])
 
-# Adicionar opções nas colunas
-with col1:
-    st.button('Todas as Despesas')
-with col2:
-    st.button('Por Categoria')
-with col3:
-    st.button('Mais 3')
-
-# Aqui você pode adicionar lógica para manipular o que acontece ao clicar em cada botão
-if st.button('Todas as Despesas'):
+# Lógica para exibir a opção selecionada
+if opcao == 'Todas as Despesas':
     st.write(df)
 
-if st.button('Por Categoria'):
+elif opcao == 'Por Categoria':
     categoria = st.selectbox('Escolha uma categoria:', df['Categoria'].unique())
     st.write(df[df['Categoria'] == categoria])
 
-if st.button('Mais 3'):
+elif opcao == 'Mais 3':
     st.write("Mais informações que você pode adicionar aqui...")
 
 # Exemplo de gráfico
 st.subheader('Gráfico de Despesas')
 fig = px.bar(df, x='Nome da despesa', y='Valor', color='Categoria', title='Gráfico de Despesas')
 st.plotly_chart(fig)
+with col1:
+    if st.button('Todas as Despesas'):
+        st.write(df)
+
+with col2:
+    if st.button('Por Categoria'):
+        categoria = st.selectbox('Escolha uma categoria:', df['Categoria'].unique())
+        st.write(df[df['Categoria'] == categoria])
+
+with col3:
+    if st.button('Mais 3'):
+        st.write("Mais informações que você pode adicionar aqui...")
