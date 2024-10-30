@@ -23,6 +23,35 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
+st.title("Meu Perfil")
+
+# Exibir foto de cabeçalho
+st.image("https://i.pinimg.com/564x/3f/a6/9f/3fa69f6c8b6f7dbf8fccd3ac7ee5b2b3.jpg", use_column_width=True)
+
+# Usar HTML para criar uma imagem redonda
+profile_photo = "https://i.pinimg.com/564x/86/8d/ab/868dab99f9d90a367c320a170ab9eab3.jpg"
+st.markdown(
+    f"""
+    <style>
+    .profile-photo {{
+        border-radius: 50%;
+        width: 100px;  /* Ajuste o tamanho da imagem conforme necessário */
+        height: 100px; /* Ajuste o tamanho da imagem conforme necessário */
+    }}
+    </style>
+    <img class="profile-photo" src="{profile_photo}" alt="Profile Photo">
+    """,
+    unsafe_allow_html=True
+)
+
+# Adicionar informações do usuário
+st.markdown("""
+    ### Nome do Usuário
+    - Bio: Aqui está uma breve descrição sobre você.
+    - Localização: Cidade, País
+    - Interesses: Interesses que você gostaria de compartilhar.
+""")
+
 # Criar DataFrame de despesas
 df = pd.DataFrame(
     [
