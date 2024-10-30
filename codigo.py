@@ -51,6 +51,7 @@ df = pd.DataFrame(
     {"Nome da despesa": "Mesada", "Data": "2024-06-05", "Categoria": "Salário", "Forma de pagamento": "débito", "Tipo": "ganho", "Valor": 500},
     {"Nome da despesa": "Trabalho", "Data": "2024-06-10", "Categoria": "Salário", "Forma de pagamento": "pix", "Tipo": "ganho", "Valor": 3000},
 ]
+)
 df["Data"] = pd.to_datetime(df["Data"])
 
 # Título e entrada para orçamento
