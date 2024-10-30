@@ -116,27 +116,24 @@ with col2:
             st.plotly_chart(fig_gastos_mensais, use_container_width=True)
 
         elif escolha_mais_4 == "Adicionar despesa":
-    # Inputs para adicionar uma nova despesa
-    nome_despesa = st.text_input("Nome da despesa:")
-    data_despesa = st.date_input("Data da despesa:")
-    categoria_despesa = st.selectbox("Categoria:", df['Categoria'].unique())
-    forma_pagamento = st.selectbox("Forma de pagamento:", ["crédito", "débito", "pix"])
-    valor_despesa = st.number_input("Valor:", min_value=0.0, format="%.2f")
-
-    if st.button("Adicionar"):
-        nova_despesa = {
-            "Nome da despesa": nome_despesa,
-            "Data": str(data_despesa),
-            "Categoria": categoria_despesa,
-            "Forma de pagamento": forma_pagamento,
-            "Tipo": "gasto",
-            "Valor": valor_despesa
-        }
-        df = df.append(nova_despesa, ignore_index=True)  # Adiciona nova despesa ao DataFrame
-        st.success(f"Despesa '{nome_despesa}' adicionada com sucesso!")
-
-
-ax.set_title('Despesas por Categoria')
-
-# Exibindo o gráfico no Streamlit
-st.pyplot(fig)
+            with st.form(key='my_form'):
+                nome_despesa = st.text_input("Nome da despesa:")
+                data_despesa = st.date_input("Data da despesa:")
+                categoria_despesa = st.selectbox("Categoria:", df["Categoria"].unique())
+                forma_pagamento = st.selectbox("Forma de pagamento:", ["crédito", "débito", "pix"])
+                valor_despesa = st.number_input("Valor da despesa:", min_value=0.0, format="%.2f")
+                
+                submit_button = st.form_submit_button(label='Adicionar despesa')
+                
+                if submit_button:
+                    nova_despesa = {
+                        "Nome da despesa": nome_despesa,
+                        "Data": data_despesa,
+                        "Categoria": categoria_despesa,
+                        "Forma de pagamento": forma_pagamento,
+                        "Tipo": "gasto",
+                        "Valor": valor_despesa
+                    }
+                    df = df.append(nova_despesa, ignore_index=True)  # Adiciona a nova despesa ao DataFrame
+                    st.success("Despesa adicionada com sucesso!")
+                    st.write(df)  # Exibe o DataFrame atualizado
