@@ -88,3 +88,41 @@ with col1:
 with col2:
     # Exibir o DataFrame com a coluna "Categoria" em HTML para aplicar o estilo de cor
     st.write(df.to_html(escape=False, index=False), unsafe_allow_html=True)
+
+with col2:
+    escolha = st.radio("Opções", ["Todas as Despesas", "Por Categoria", "Mais 3"])
+
+    # Exibir DataFrames de acordo com a opção escolhida
+    if escolha == "Todas as Despesas":
+        st.write(df)
+    elif escolha == "Por Categoria":
+        categoria_selecionada = st.selectbox("Escolha uma categoria:", df["Categoria"].unique())
+        despesas_categoria = df[df["Categoria"] == categoria_selecionada]
+        st.write(despesas_categoria)
+    elif escolha == "Mais 3":
+        escolha_mais_3 = st.radio("Opções adicionais", ["Por mês", "Gastos totais ao longo do tempo", "Gastos ao longo dos meses"])
+        
+        if escolha_mais_3 == "Por mês":
+            mes_selecionado = st.selectbox("Selecione o mês:", ["Tudo"] + list(df["Data"].dt.to_period("M").astype(str).unique()))
+            if mes_selecionado == "Tudo":
+                st.write(df)
+            else:
+                despesas_mes = df[df["Data"].dt.to_period("M").astype(str) == mes_selecionado]
+                st.write(despesas_mes)
+                
+        elif escolha_mais_3 == "Gastos totais ao longo do tempo":
+            df["AnoMes"] = df["Data"].dt.to_period("M").astype(str)
+            despesas_por_mes = df.groupby("AnoMes")["Valor"].sum().reset_index()
+            fig_gastos_totais = px.line(despesas_por_mes, x="AnoMes", y="Valor", title="Gastos Totais ao Longo do Tempo")
+            st.plotly_chart(fig_gastos_totais, use_container_width=True)
+        
+        elif escolha_mais_3 == "Gastos ao longo dos meses":
+            df["Mes"] = df["Data"].dt.month
+            despesas_por_mes = df.groupby("Mes")["Valor"].sum().reset_index()
+            fig_gastos_mensais = px.line(despesas_por_mes, x="Mes", y="Valor", title="Gastos ao Longo dos Meses")
+            st.plotly_chart(fig_gastos_mensais, use_container_width=True)
+
+ax.set_title('Despesas por Categoria')
+
+# Exibindo o gráfico no Streamlit
+st.pyplot(fig)
