@@ -67,43 +67,55 @@ df = pd.DataFrame(
 )
 df["Data"] = pd.to_datetime(df["Data"])
 
+# Título e entrada para orçamento
+st.markdown("<h1 style='text-align: center;'>Orçamento do mês:</h1>", unsafe_allow_html=True)
+orcamento = st.number_input("Insira o orçamento do mês:", min_value=0.0, format="%.2f")
+st.markdown("<h2 style='text-align: center;'>Opções</h2>", unsafe_allow_html=True)
 
-# Seção de orçamento
-st.header('Orçamento do mês:')
+# Dividir layout em duas colunas de tamanhos iguais
+col1, col2 = st.columns(2)
 
-# Caixa de texto para inserir o orçamento
-orçamento = st.number_input('Insira o orçamento:', min_value=0.0)
-
-# Seção de Despesas
-st.subheader('Despesas')
-
-# Seleção para visualizar diferentes opções
-opcao = st.selectbox('Escolha uma opção:', ['Todas as Despesas', 'Por Categoria', 'Mais 3'])
-
-# Lógica para exibir a opção selecionada
-if opcao == 'Todas as Despesas':
-    st.write(df)
-
-elif opcao == 'Por Categoria':
-    categoria = st.selectbox('Escolha uma categoria:', df['Categoria'].unique())
-    st.write(df[df['Categoria'] == categoria])
-
-elif opcao == 'Mais 3':
-    st.write("Mais informações que você pode adicionar aqui...")
-
-# Exemplo de gráfico
-st.subheader('Gráfico de Despesas')
-fig = px.bar(df, x='Nome da despesa', y='Valor', color='Categoria', title='Gráfico de Despesas')
-st.plotly_chart(fig)
+# Exibir gráfico de rosca à esquerda
 with col1:
-    if st.button('Todas as Despesas'):
-        st.write(df)
+    fig_pie = px.pie(df, names="Categoria", values="Valor", title="Distribuição de Gastos por Categoria", hole=0.4)
+    fig_pie.update_layout(margin=dict(t=30, l=0, r=0, b=0))
+    st.plotly_chart(fig_pie, use_container_width=True)
 
+# Exibir menu de opções à direita
 with col2:
-    if st.button('Por Categoria'):
-        categoria = st.selectbox('Escolha uma categoria:', df['Categoria'].unique())
-        st.write(df[df['Categoria'] == categoria])
+    escolha = st.radio("Opções", ["Todas as Despesas", "Por Categoria", "Mais 3"])
 
-with col3:
-    if st.button('Mais 3'):
-        st.write("Mais informações que você pode adicionar aqui...")
+    # Exibir DataFrames de acordo com a opção escolhida
+    if escolha == "Todas as Despesas":
+        st.write(df)
+    elif escolha == "Por Categoria":
+        categoria_selecionada = st.selectbox("Escolha uma categoria:", df["Categoria"].unique())
+        despesas_categoria = df[df["Categoria"] == categoria_selecionada]
+        st.write(despesas_categoria)
+    elif escolha == "Mais 3":
+        escolha_mais_3 = st.radio("Opções adicionais", ["Por mês", "Gastos totais ao longo do tempo", "Gastos ao longo dos meses"])
+        
+        if escolha_mais_3 == "Por mês":
+            mes_selecionado = st.selectbox("Selecione o mês:", ["Tudo"] + list(df["Data"].dt.to_period("M").astype(str).unique()))
+            if mes_selecionado == "Tudo":
+                st.write(df)
+            else:
+                despesas_mes = df[df["Data"].dt.to_period("M").astype(str) == mes_selecionado]
+                st.write(despesas_mes)
+                
+        elif escolha_mais_3 == "Gastos totais ao longo do tempo":
+            df["AnoMes"] = df["Data"].dt.to_period("M").astype(str)
+            despesas_por_mes = df.groupby("AnoMes")["Valor"].sum().reset_index()
+            fig_gastos_totais = px.line(despesas_por_mes, x="AnoMes", y="Valor", title="Gastos Totais ao Longo do Tempo")
+            st.plotly_chart(fig_gastos_totais, use_container_width=True)
+        
+        elif escolha_mais_3 == "Gastos ao longo dos meses":
+            df["Mes"] = df["Data"].dt.month
+            despesas_por_mes = df.groupby("Mes")["Valor"].sum().reset_index()
+            fig_gastos_mensais = px.line(despesas_por_mes, x="Mes", y="Valor", title="Gastos ao Longo dos Meses")
+            st.plotly_chart(fig_gastos_mensais, use_container_width=True)
+
+ax.set_title('Despesas por Categoria')
+
+# Exibindo o gráfico no Streamlit
+st.pyplot(fig)
