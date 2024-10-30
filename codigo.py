@@ -54,8 +54,13 @@ color_map = {
     "lazer": "#FF6666"
 }
 
-# Adicionar coluna de cores ao DataFrame com base na categoria
-df["Cor"] = df["Categoria"].map(color_map)
+# Função para aplicar a cor de fundo no texto da categoria
+def colorize_category(value):
+    color = color_map.get(value, "#FFFFFF")  # Padrão branco se a categoria não tiver cor específica
+    return f'<span style="background-color: {color}; color: black; padding: 4px; border-radius: 4px;">{value}</span>'
+
+# Aplicar a função de formatação à coluna Categoria
+df["Categoria"] = df["Categoria"].apply(colorize_category)
 
 # Título e entrada para orçamento
 st.markdown("<h1 style='text-align: center;'>Orçamento do mês:</h1>", unsafe_allow_html=True)
@@ -79,7 +84,7 @@ with col1:
     fig_pie.update_layout(margin=dict(t=30, l=0, r=0, b=0))
     st.plotly_chart(fig_pie, use_container_width=True)
 
-# Exibir DataFrame colorido à direita
+# Exibir DataFrame com a coluna "Categoria" grifada à direita
 with col2:
-    # Aplicar as cores de acordo com a categoria ao DataFrame exibido
-    st.dataframe(df.style.apply(lambda x: [f"background-color: {color_map[x['Categoria']]}" if x['Categoria'] in color_map else "" for _ in x], axis=1))
+    # Exibir o DataFrame com a coluna "Categoria" em HTML para aplicar o estilo de cor
+    st.write(df.to_html(escape=False, index=False), unsafe_allow_html=True)
