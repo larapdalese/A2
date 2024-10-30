@@ -94,7 +94,7 @@ with col2:
         despesas_categoria = df[df["Categoria"] == categoria_selecionada]
         st.write(despesas_categoria)
     elif escolha == "Mais 4":
-        escolha_mais_4 = st.radio("Opções adicionais", ["Por mês", "Gastos totais ao longo do tempo", "Gastos ao longo dos meses", "Adicionar despesa"])
+        escolha_mais_4 = st.radio("Opções adicionais", ["Por mês", "Gastos totais ao longo do tempo", "Categorias ao longo dos meses", "Adicionar despesa"])
         
         if escolha_mais_4 == "Por mês":
             mes_selecionado = st.selectbox("Selecione o mês:", ["Tudo"] + list(df["Data"].dt.to_period("M").astype(str).unique()))
@@ -110,11 +110,12 @@ with col2:
             fig_gastos_totais = px.line(despesas_por_mes, x="AnoMes", y="Valor", title="Gastos Totais ao Longo do Tempo")
             st.plotly_chart(fig_gastos_totais, use_container_width=True)
         
-        elif escolha_mais_4 == "Gastos ao longo dos meses":
+        elif escolha_mais_4 == "Categorias ao longo dos meses":
             df["Mes"] = df["Data"].dt.month
-            despesas_por_mes = df.groupby("Mes")["Valor"].sum().reset_index()
-            fig_gastos_mensais = px.line(despesas_por_mes, x="Mes", y="Valor", title="Gastos ao Longo dos Meses")
-            st.plotly_chart(fig_gastos_mensais, use_container_width=True)
+            despesas_por_categoria_mes = df.groupby(["Mes", "Categoria"])["Valor"].sum().reset_index()
+            fig_categorias_mensais = px.bar(despesas_por_categoria_mes, x="Mes", y="Valor", color="Categoria", 
+                                             title="Categorias ao Longo dos Meses", barmode="group")
+            st.plotly_chart(fig_categorias_mensais, use_container_width=True)
 
         elif escolha_mais_4 == "Adicionar despesa":
             with st.form(key='my_form'):
