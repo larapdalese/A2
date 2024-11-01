@@ -87,6 +87,15 @@ df = pd.DataFrame(
 )
 df["Data"] = pd.to_datetime(df["Data"])
 
+def exibir_pagina(df, page_size=10):
+    total_paginas = (len(df) - 1) // page_size + 1
+    pagina = st.number_input("Página", min_value=1, max_value=total_paginas, step=1) - 1
+    inicio = pagina * page_size
+    fim = inicio + page_size
+    st.write(df.iloc[inicio:fim])
+
+# Exibir a tabela de despesas dividida por páginas
+exibir_pagina(df)
 
 # Título e entrada para orçamento
 st.markdown("<h1 style='text-align: center;'>Orçamento do mês:</h1>", unsafe_allow_html=True)
