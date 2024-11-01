@@ -110,7 +110,7 @@ with col2:
     if escolha == "Todas as Despesas":
         st.write(df)
     elif escolha == "Mais 3":
-        escolha_mais_3 = st.radio("Opções adicionais", ["Por mês", "Gastos ao Longo do Tempo",, "Adicionar Despesa"])
+        escolha_mais_3 = st.radio("Opções adicionais", ["Por mês", "Gastos ao Longo do Tempo", "Adicionar Despesa"])
         
         if escolha_mais_3 == "Por mês":
             mes_selecionado = st.selectbox("Selecione o mês:", ["Tudo"] + list(df["Data"].dt.to_period("M").astype(str).unique()))
