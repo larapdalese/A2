@@ -1,16 +1,16 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from datetime import datetime
+import pytz
 
+# Configurações da página
 st.set_page_config(layout="wide") 
 st.markdown("""
     <style>
     /* Expandir o container principal */
     .main .block-container {
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
+        padding: 1rem 0.5rem;
         max-width: 100%;
     }
     /* Expandir visualização dos gráficos e dataframes */
@@ -18,10 +18,14 @@ st.markdown("""
         max-width: 100%;
     }
     </style>
-    """, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
+
+# Definição do fuso horário
 fuso_horario_brasilia = pytz.timezone("America/Sao_Paulo")
 data_hora_atual = datetime.now(fuso_horario_brasilia).strftime("%d/%m/%Y %H:%M:%S")
 st.write(f"**Data e Hora Atual (Brasília):** {data_hora_atual}")
+
+# Criação do DataFrame
 df = pd.DataFrame(
     [
         {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
@@ -63,41 +67,58 @@ df = pd.DataFrame(
         {"Nome da despesa": "Férias", "Data": "2024-08-20", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 3000}
     ]
 )
+
+
+df = pd.DataFrame(data)
 df["Data"] = pd.to_datetime(df["Data"])
+
+# Título do orçamento
 st.markdown("<h1 style='text-align: center;'>Orçamento do mês:</h1>", unsafe_allow_html=True)
 orcamento = st.number_input("Insira o orçamento do mês:", min_value=0.0, format="%.2f")
+
+# Opções de visualização
 st.markdown("<h2 style='text-align: center;'>Opções</h2>", unsafe_allow_html=True)
 col1, col2 = st.columns(2)
+
 with col1:
+    # Gráfico de pizza
     fig_pie = px.pie(df, names="Categoria", values="Valor", title="Distribuição de Gastos por Categoria", hole=0.4)
     fig_pie.update_layout(margin=dict(t=30, l=0, r=0, b=0))
     st.plotly_chart(fig_pie, use_container_width=True)
+
 with col2:
     escolha = st.radio("Opções", ["Todas as Despesas", "Por Categoria", "Mais 3"])
+
+    # Função para exibir despesas por categoria
+    def exibir_despesas_por_categoria(categoria):
+        despesas_categoria = df[df["Categoria"] == categoria]
+        st.write(despesas_categoria)
+
     if escolha == "Todas as Despesas":
         st.write(df)
     elif escolha == "Por Categoria":
         categoria_selecionada = st.selectbox("Escolha uma categoria:", df["Categoria"].unique())
-        despesas_categoria = df[df["Categoria"] == categoria_selecionada]
-        st.write(despesas_categoria)
+        exibir_despesas_por_categoria(categoria_selecionada)
     elif escolha == "Mais 3":
-        escolha_mais_3 = st.radio("Opções adicionais", ["Por mês", "Gastos totais ao longo do tempo", "Gastos ao longo dos meses"])       
+        escolha_mais_3 = st.radio("Opções adicionais", ["Por mês", "Gastos totais ao longo do tempo", "Gastos ao longo dos meses"])
+
+        # Exibição de despesas por mês
         if escolha_mais_3 == "Por mês":
             mes_selecionado = st.selectbox("Selecione o mês:", ["Tudo"] + list(df["Data"].dt.to_period("M").astype(str).unique()))
             if mes_selecionado == "Tudo":
                 st.write(df)
             else:
                 despesas_mes = df[df["Data"].dt.to_period("M").astype(str) == mes_selecionado]
-                st.write(despesas_mes)             
+                st.write(despesas_mes)
+
+        # Gastos totais ao longo do tempo
         elif escolha_mais_3 == "Gastos totais ao longo do tempo":
-            df["AnoMes"] = df["Data"].dt.to_period("M").astype(str)
-            despesas_por_mes = df.groupby("AnoMes")["Valor"].sum().reset_index()
-            fig_gastos_totais = px.line(despesas_por_mes, x="AnoMes", y="Valor", title="Gastos Totais ao Longo do Tempo")
-            st.plotly_chart(fig_gastos_totais, use_container_width=True)      
+            despesas_por_mes = df.groupby(df["Data"].dt.to_period("M"))["Valor"].sum().reset_index()
+            fig_gastos_totais = px.line(despesas_por_mes, x="Data", y="Valor", title="Gastos Totais ao Longo do Tempo")
+            st.plotly_chart(fig_gastos_totais, use_container_width=True)
+
+        # Gastos ao longo dos meses
         elif escolha_mais_3 == "Gastos ao longo dos meses":
-            df["Mes"] = df["Data"].dt.month
-            despesas_por_mes = df.groupby("Mes")["Valor"].sum().reset_index()
-            fig_gastos_mensais = px.line(despesas_por_mes, x="Mes", y="Valor", title="Gastos ao Longo dos Meses")
+            despesas_por_mes = df.groupby(df["Data"].dt.month)["Valor"].sum().reset_index()
+            fig_gastos_mensais = px.line(despesas_por_mes, x="Data", y="Valor", title="Gastos ao Longo dos Meses")
             st.plotly_chart(fig_gastos_mensais, use_container_width=True)
-ax.set_title('Despesas por Categoria')
-st.pyplot(fig)
