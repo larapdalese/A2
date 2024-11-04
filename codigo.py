@@ -89,6 +89,9 @@ with col1:
     st.plotly_chart(fig)
 
 with col2:
+    st.empty() 
+
+with col2:
     st.subheader("Despesas")
     option = st.selectbox("Selecione uma visualização:", ["Todas as Despesas", "Por mês", "Por categoria"])
     
