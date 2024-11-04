@@ -79,8 +79,7 @@ with col1:
 # Adiciona um espaço fixo na coluna da direita
 with col2:
     st.write("")  # Insira um espaço fixo ou ajuste o conteúdo conforme necessário  # Você pode adicionar mais espaços se necessário
-    st.write("")  # Aumente a quantidade de linhas em branco até o alinhamento ficar correto
-    st.write("")  # Se necessário
+    st.write("")  # Aumente a quantidade de linhas em branco até o alinhamento ficar correto  # Se necessário
 
     st.subheader("Despesas")
     option = st.selectbox("Selecione uma visualização:", ["Todas as Despesas", "Por mês", "Por categoria"])
