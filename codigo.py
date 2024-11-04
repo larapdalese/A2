@@ -31,44 +31,19 @@ pages = {
 }
 pg = st.navigation(pages)
 pg.run()
-import streamlit as st
-
-# Definindo as funções de cada página
-def main_page():
-    st.title("Página Principal")
-    st.write("Bem-vindo à página principal!")
-
-def perfil_page():
-    st.title("Perfil")
-    st.write("Aqui estão os detalhes do perfil.")
-
-def categoria_page():
-    st.title("Por Categoria")
-    st.write("Aqui estão as informações por categoria.")
-
-def investimentos_page():
-    st.title("Investimentos")
-    st.write("Aqui estão os detalhes dos investimentos.")
-
-def configuracoes_page():
-    st.title("Configurações e Suporte")
-    st.write("Aqui estão as configurações e suporte.")
-
-# Configurando as páginas
 pages = {
-    "Menu": [
-        st.Page(main_page, title="Página Principal"),
-        st.Page(perfil_page, title="Perfil"),
-        st.Page(categoria_page, title="Por Categoria"),
-        st.Page(investimentos_page, title="Investimentos"),
-        st.Page(configuracoes_page, title="Configurações e Suporte"),
+    "Your account": [
+        st.Page("create_account.py", title="Create your account"),
+        st.Page("manage_account.py", title="Manage your account"),
+    ],
+    "Resources": [
+        st.Page("learn.py", title="Learn about us"),
+        st.Page("trial.py", title="Try it out"),
     ],
 }
 
-# Chamando a navegação
 pg = st.navigation(pages)
 pg.run()
-
 df = pd.DataFrame(
     [
         {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
