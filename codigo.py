@@ -109,26 +109,17 @@ with col2:
                 despesas_mes = df[df["Data"].dt.to_period("M").astype(str) == mes_selecionado]
                 st.write(despesas_mes)
     elif escolha_mais_2 == "Gastos ao longo do tempo":
-    # Certifique-se de que a coluna Data está em formato datetime
-         df["Data"] = pd.to_datetime(df["Data"], errors='coerce')  # Coerce irá converter inválidos em NaT
+         df["Data"] = pd.to_datetime(df["Data"], errors='coerce') 
 
          if df.empty:
              st.warning("Não há dados disponíveis para exibir.")
     else:
-        # Cria a coluna AnoMes
         df["AnoMes"] = df["Data"].dt.to_period("M").astype(str)
-        
-        # Agrupa os dados
         despesas_por_mes = df.groupby("AnoMes")["Valor"].sum().reset_index()
-        
-        # Mostra os dados para depuração
         st.write(despesas_por_mes)
-        
-        # Gera o gráfico
         fig_gastos_totais = px.line(despesas_por_mes, x="AnoMes", y="Valor", title="Gastos ao longo do tempo")
         st.plotly_chart(fig_gastos_totais, use_container_width=True)
-
-        elif escolha_mais_2 == "Adicionar despesa":
+    elif escolha_mais_2 == "Adicionar despesa":
             with st.form(key='my_form'):
                 nome_despesa = st.text_input("Nome da despesa:")
                 data_despesa = st.date_input("Data da despesa:")
