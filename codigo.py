@@ -22,38 +22,23 @@ st.markdown("""
     }
     </style>
     """, unsafe_allow_html=True)
-import streamlit as st
-
-# Função principal
+pages = {
+    "Página Principal": [st.Page("home.py", title="Página Principal")],
+    "Perfil": [st.Page("profile.py", title="Perfil")],
+    "Por categoria": [st.Page("by_category.py", title="Por categoria")],
+    "Investimentos": [st.Page("investments.py", title="Investimentos")],
+    "Configurações e Suporte": [st.Page("settings.py", title="Configurações e Suporte")]
+}
+pg = st.navigation(pages)
+pg.run()
 def main():
-    # Título da aplicação
-    st.title("Meu Aplicativo")
-
-    # Menu lateral
-    menu = st.sidebar.selectbox("Menu", ["Página Principal", "Perfil", "Por categoria", "Investimentos", "Configurações e Suporte"])
-
-    # Exibir conteúdo baseado na escolha do menu
-    if menu == "Página Principal":
-        show_home()
-    elif menu == "Perfil":
-        show_profile()
-    elif menu == "Por categoria":
-        show_by_category()
-    elif menu == "Investimentos":
-        show_investments()
-    elif menu == "Configurações e Suporte":
-        show_settings_support()
-
-# Funções para cada página
-def show_home():
-    st.subheader("Página Principal")
-    st.write("Bem-vindo à página principal do seu aplicativo!")
-
-def show_profile():
-    st.subheader("Perfil")
+    st.title("Bem-vindo ao Meu Aplicativo")
+    st.write("Esta é a página principal do seu aplicativo.")
+if __name__ == "__main__":
+    main()
+def main():
+    st.title("Perfil")
     st.write("Esta é a seção do Perfil.")
-    
-    # Informações do usuário
     user_info = {
         "Nome de usuário": "João Silva",
         "@": "@joaosilva",
@@ -62,27 +47,25 @@ def show_profile():
         "Aniversário": "15/05/1990",
         "E-mail": "joao.silva@email.com"
     }
-    
-    # Exibir informações do usuário
     for key, value in user_info.items():
         st.write(f"**{key}:** {value}")
-
-def show_by_category():
-    st.subheader("Por Categoria")
-    st.write("Esta é a seção de despesas por categoria.")
-
-def show_investments():
-    st.subheader("Investimentos")
-    st.write("Esta é a seção de Investimentos.")
-
-def show_settings_support():
-    st.subheader("Configurações e Suporte")
-    st.write("Esta é a seção de Configurações e Suporte.")
-
-# Execução do aplicativo
 if __name__ == "__main__":
     main()
-
+def main():
+    st.title("Por Categoria")
+    st.write("Esta é a seção de despesas por categoria.")
+if __name__ == "__main__":
+    main()
+def main():
+    st.title("Investimentos")
+    st.write("Esta é a seção de Investimentos.")
+if __name__ == "__main__":
+    main()
+def main():
+    st.title("Configurações e Suporte")
+    st.write("Esta é a seção de Configurações e Suporte.")
+if __name__ == "__main__":
+    main()
 df = pd.DataFrame(
     [
         {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
