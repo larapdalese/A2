@@ -113,7 +113,7 @@ with col2:
                 despesas_mes = df[df["Data"].dt.to_period("M").astype(str) == mes_selecionado]
                 st.write(despesas_mes)
         
-        elif escolha_mais_2 == "Gastos ao longo do tempo":  # Corrigido o nome
+        elif escolha_mais_2 == "Gastos ao longo do tempo":
             df["Data"] = pd.to_datetime(df["Data"], errors='coerce')
 
             if df.empty:
@@ -124,7 +124,7 @@ with col2:
                 st.write(despesas_por_mes)
                 fig_gastos_totais = px.line(despesas_por_mes, x="AnoMes", y="Valor", title="Gastos ao longo do tempo")
                 st.plotly_chart(fig_gastos_totais, use_container_width=True)
-        
+
         elif escolha_mais_2 == "Adicionar despesa":
             with st.form(key='my_form'):
                 nome_despesa = st.text_input("Nome da despesa:")
@@ -143,4 +143,6 @@ with col2:
                         "Tipo": "gasto",
                         "Valor": valor_despesa
                     }
-                    df = df.append(n
+                    df = df.append(nova_despesa, ignore_index=True)  
+                    st.success("Despesa adicionada com sucesso!")
+                    st.write(df)
