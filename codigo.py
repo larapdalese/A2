@@ -58,63 +58,48 @@ df = pd.DataFrame(
         {"Nome da despesa": "Vestido", "Data": "2024-05-15", "Categoria": "vestuário", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 200},
         {"Nome da despesa": "Acessórios", "Data": "2024-05-20", "Categoria": "vestuário", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 150},
         {"Nome da despesa": "Supermercado", "Data": "2024-06-15", "Categoria": "supermercado", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 500},
-        {"Nome da despesa": "Material escolar", "Data": "2024-07-15", "Categoria": "educação", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 150}, 
-        {"Nome da despesa": "Show", "Data": "2024-07-20", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 250},
-        {"Nome da despesa": "Cinema", "Data": "2024-08-05", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 50},
-        {"Nome da despesa": "Férias", "Data": "2024-08-20", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 3000}
+        {"Nome da despesa": "Material escolar", "Data": "2024-07-15", "Categoria": "educação", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 100},
+        {"Nome da despesa": "Cinema", "Data": "2024-07-20", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 60},
     ]
 )
-df["Data"] = pd.to_datetime(df["Data"])
 
-# Título e entrada para orçamento
-st.markdown("<h1 style='text-align: center;'>Orçamento do mês:</h1>", unsafe_allow_html=True)
-orcamento = st.number_input("Insira o orçamento do mês:", min_value=0.0, format="%.2f")
-st.markdown("<h2 style='text-align: center;'>Opções</h2>", unsafe_allow_html=True)
+# Criar uma coluna de data do tipo datetime
+df['Data'] = pd.to_datetime(df['Data'])
 
-# Dividir layout em duas colunas de tamanhos iguais
-col1, col2 = st.columns(2)
+# Calcular totais
+total_gastos = df[df['Tipo'] == 'gasto']['Valor'].sum()
+total_ganhos = df[df['Tipo'] == 'ganho']['Valor'].sum()
+saldo = total_ganhos - total_gastos
 
-# Exibir gráfico de rosca à esquerda
+# Colunas para a seção do orçamento
+col1, col2 = st.columns([2, 1])  # Mais espaço para a coluna do orçamento
+
 with col1:
-    fig_pie = px.pie(df, names="Categoria", values="Valor", title="Distribuição de Gastos por Categoria", hole=0.4)
-    fig_pie.update_layout(margin=dict(t=30, l=0, r=0, b=0))
-    st.plotly_chart(fig_pie, use_container_width=True)
+    st.header("Orçamento do Mês:")
+    # Campo para inserir o orçamento do mês
+    orçamento = st.number_input("Insira seu orçamento mensal:", min_value=0, value=0, step=100)
+    st.write(f"O orçamento mensal é: R$ {orçamento}")
 
-# Exibir menu de opções à direita
+    # Exibir totais
+    st.write(f"Total de Gastos: R$ {total_gastos:.2f}")
+    st.write(f"Total de Ganhos: R$ {total_ganhos:.2f}")
+    st.write(f"Saldo: R$ {saldo:.2f}")
+
+    # Gráfico de pizza para despesas
+    fig = px.pie(df[df['Tipo'] == 'gasto'], values='Valor', names='Nome da despesa', title='Distribuição das Despesas')
+    st.plotly_chart(fig)
+
 with col2:
-    escolha = st.radio("Opções", ["Todas as Despesas", "Por Categoria", "Mais 3"])
-
-    # Exibir DataFrames de acordo com a opção escolhida
-    if escolha == "Todas as Despesas":
-        st.write(df)
-    elif escolha == "Por Categoria":
-        categoria_selecionada = st.selectbox("Escolha uma categoria:", df["Categoria"].unique())
-        despesas_categoria = df[df["Categoria"] == categoria_selecionada]
-        st.write(despesas_categoria)
-    elif escolha == "Mais 3":
-        escolha_mais_3 = st.radio("Opções adicionais", ["Por mês", "Gastos totais ao longo do tempo", "Gastos ao longo dos meses"])
-        
-        if escolha_mais_3 == "Por mês":
-            mes_selecionado = st.selectbox("Selecione o mês:", ["Tudo"] + list(df["Data"].dt.to_period("M").astype(str).unique()))
-            if mes_selecionado == "Tudo":
-                st.write(df)
-            else:
-                despesas_mes = df[df["Data"].dt.to_period("M").astype(str) == mes_selecionado]
-                st.write(despesas_mes)
-                
-        elif escolha_mais_3 == "Gastos totais ao longo do tempo":
-            df["AnoMes"] = df["Data"].dt.to_period("M").astype(str)
-            despesas_por_mes = df.groupby("AnoMes")["Valor"].sum().reset_index()
-            fig_gastos_totais = px.line(despesas_por_mes, x="AnoMes", y="Valor", title="Gastos Totais ao Longo do Tempo")
-            st.plotly_chart(fig_gastos_totais, use_container_width=True)
-        
-        elif escolha_mais_3 == "Gastos ao longo dos meses":
-            df["Mes"] = df["Data"].dt.month
-            despesas_por_mes = df.groupby("Mes")["Valor"].sum().reset_index()
-            fig_gastos_mensais = px.line(despesas_por_mes, x="Mes", y="Valor", title="Gastos ao Longo dos Meses")
-            st.plotly_chart(fig_gastos_mensais, use_container_width=True)
-
-ax.set_title('Despesas por Categoria')
-
-# Exibindo o gráfico no Streamlit
-st.pyplot(fig)
+    st.subheader("Despesas")
+    option = st.selectbox("Selecione uma visualização:", ["Todas as Despesas", "Por mês", "Por categoria"])
+    
+    if option == "Todas as Despesas":
+        st.dataframe(df)
+    elif option == "Por mês":
+        mes_selecionado = st.selectbox("Selecione o mês:", df['Data'].dt.month.unique(), format_func=lambda x: pd.to_datetime(f"2024-{x}-01").strftime("%B"))
+        despesas_mes = df[df['Data'].dt.month == mes_selecionado]
+        st.dataframe(despesas_mes)
+    elif option == "Por categoria":
+        categoria_selecionada = st.selectbox("Selecione a categoria:", df['Categoria'].unique())
+        despesas_categoria = df[df['Categoria'] == categoria_selecionada]
+        st.dataframe(despesas_categoria)
