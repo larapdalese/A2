@@ -73,7 +73,19 @@ df = pd.DataFrame(
         {"Nome da despesa": "Almoço de negócios", "Data": "2024-08-22", "Categoria": "comida", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 95},
         {"Nome da despesa": "Aula de yoga", "Data": "2024-09-05", "Categoria": "educação", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 120},
         {"Nome da despesa": "Medicamentos", "Data": "2024-10-30", "Categoria": "saúde", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 200},
-        {"Nome da despesa": "Despesas com animais de estimação", "Data": "2024-11-18", "Categoria": "saúde", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 85}
+        {"Nome da despesa": "Despesas com animais de estimação", "Data": "2024-11-18", "Categoria": "saúde", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 85},
+        {"Nome da despesa": "Investimentos", "Data": "2024-01-01", "Categoria": "investimentos", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 700},
+        {"Nome da despesa": "Investimentos", "Data": "2024-02-01", "Categoria": "investimentos", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 700},
+        {"Nome da despesa": "Investimentos", "Data": "2024-03-01", "Categoria": "investimentos", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 700},
+        {"Nome da despesa": "Investimentos", "Data": "2024-04-01", "Categoria": "investimentos", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 700},
+        {"Nome da despesa": "Investimentos", "Data": "2024-05-01", "Categoria": "investimentos", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 700},
+        {"Nome da despesa": "Investimentos", "Data": "2024-06-01", "Categoria": "investimentos", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 700},
+        {"Nome da despesa": "Investimentos", "Data": "2024-07-01", "Categoria": "investimentos", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 700},
+        {"Nome da despesa": "Investimentos", "Data": "2024-08-01", "Categoria": "investimentos", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 700},
+        {"Nome da despesa": "Investimentos", "Data": "2024-09-01", "Categoria": "investimentos", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 700},
+        {"Nome da despesa": "Investimentos", "Data": "2024-10-01", "Categoria": "investimentos", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 700},
+        {"Nome da despesa": "Investimentos", "Data": "2024-11-01", "Categoria": "investimentos", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 700},
+        {"Nome da despesa": "Investimentos", "Data": "2024-12-01", "Categoria": "investimentos", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 700},
     ]
 )
 
