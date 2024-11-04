@@ -23,6 +23,71 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
+import streamlit as st
+import pandas as pd
+
+def intro():
+    st.write("# Bem-vindo ao meu aplicativo Streamlit! 👋")
+
+def wishlist_page():
+    st.write("# Wishlist")
+    st.write("Esta é a página da Wishlist onde você pode adicionar itens que deseja!")
+
+    # Dados da Wishlist
+    data = [
+        {"Nome do item": "Fenty Beauty Lipgloss", "Valor": 750.99},
+        {"Nome do item": "Clinique Almost Lipstick", "Valor": 125.50},
+        {"Nome do item": "Monotheme Vanilla Blossom", "Valor": 36.00},
+    ]
+
+    # Criar DataFrame
+    wishlist_df = pd.DataFrame(data)
+
+    # Exibir DataFrame na página
+    st.write("### Itens na Wishlist")
+    st.dataframe(wishlist_df)
+
+# Função para criar um botão estilizado
+def create_wishlist_button():
+    st.markdown(
+        """
+        <style>
+        .wishlist-button {
+            display: inline-block;
+            padding: 20px;
+            background-color: #4CAF50; /* Cor da capa */
+            color: white;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 24px;
+            margin: 10px;
+        }
+        </style>
+        <a class="wishlist-button" href="#wishlist">Wishlist</a>
+        """,
+        unsafe_allow_html=True,
+    )
+
+# Mapeando as funções para as páginas
+page_names_to_funcs = {
+    "Introdução": intro,
+    "Wishlist": wishlist_page
+}
+
+# Sidebar para selecionar a página
+demo_name = st.sidebar.selectbox("Escolha uma página", page_names_to_funcs.keys())
+
+# Chama a função correspondente à página selecionada
+if demo_name == "Wishlist":
+    wishlist_page()
+else:
+    intro()
+
+# Cria o botão "Wishlist" que leva à nova página
+create_wishlist_button()
+
+
 # Exemplo de DataFrame
 df = pd.DataFrame(
     [
