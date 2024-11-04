@@ -111,7 +111,7 @@ with col2:
     elif escolha_mais_2 == "Gastos ao longo do tempo":
     # Certifique-se de que a coluna Data está em formato datetime
     df["Data"] = pd.to_datetime(df["Data"], errors='coerce')  # Coerce irá converter inválidos em NaT
-    
+
     if df.empty:
         st.warning("Não há dados disponíveis para exibir.")
     else:
