@@ -113,12 +113,12 @@ with col2:
                 despesas_mes = df[df["Data"].dt.to_period("M").astype(str) == mes_selecionado]
                 st.write(despesas_mes)
         
-        elif escolha_mais_2 == "Gastos ao longo do tempo":
-    df["Data"] = pd.to_datetime(df["Data"], errors='coerce')  # Converte a coluna 'Data'
+    elif escolha_mais_2 == "Gastos ao longo do tempo":
+        df["Data"] = pd.to_datetime(df["Data"], errors='coerce')  # Converte a coluna 'Data'
 
-    if df.empty:
-        st.warning("Não há dados disponíveis para exibir.")
-    else:
+        if df.empty:
+            st.warning("Não há dados disponíveis para exibir.")
+        else:
         # Verifique se existem valores nulos na coluna 'Valor'
         if df["Valor"].isnull().any():
             st.warning("Existem valores nulos na coluna 'Valor'.")
