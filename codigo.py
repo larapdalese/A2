@@ -118,9 +118,8 @@ with col2:
 
         if df.empty:
             st.warning("Não há dados disponíveis para exibir.")
-        else:
-        # Verifique se existem valores nulos na coluna 'Valor'
-        if df["Valor"].isnull().any():
+                     else:
+                         if df["Valor"].isnull().any():
             st.warning("Existem valores nulos na coluna 'Valor'.")
         else:
             df["AnoMes"] = df["Data"].dt.to_period("M").astype(str)  # Cria a coluna AnoMes
