@@ -62,7 +62,18 @@ df = pd.DataFrame(
         {"Nome da despesa": "Material escolar", "Data": "2024-07-15", "Categoria": "educação", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 150}, 
         {"Nome da despesa": "Show", "Data": "2024-07-20", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 250},
         {"Nome da despesa": "Cinema", "Data": "2024-08-05", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 50},
-        {"Nome da despesa": "Férias", "Data": "2024-08-20", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 3000}
+        {"Nome da despesa": "Férias", "Data": "2024-08-20", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 3000},
+        {"Nome da despesa": "Corte de cabelo", "Data": "2024-02-20", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 100},
+        {"Nome da despesa": "Consulta médica", "Data": "2024-03-15", "Categoria": "saúde", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 250},
+        {"Nome da despesa": "Lanchonete", "Data": "2024-04-05", "Categoria": "comida", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 45},
+        {"Nome da despesa": "Supermercado", "Data": "2024-04-20", "Categoria": "supermercado", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 320},
+        {"Nome da despesa": "Curso de idiomas", "Data": "2024-05-10", "Categoria": "educação", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 300},
+        {"Nome da despesa": "Creme para pele", "Data": "2024-06-12", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 200},
+        {"Nome da despesa": "Vacina", "Data": "2024-07-20", "Categoria": "saúde", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 150},
+        {"Nome da despesa": "Almoço de negócios", "Data": "2024-08-22", "Categoria": "comida", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 95},
+        {"Nome da despesa": "Aula de yoga", "Data": "2024-09-05", "Categoria": "educação", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 120},
+        {"Nome da despesa": "Medicamentos", "Data": "2024-10-30", "Categoria": "saúde", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 200},
+        {"Nome da despesa": "Despesas com animais de estimação", "Data": "2024-11-18", "Categoria": "saúde", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 85}
     ]
 )
 
