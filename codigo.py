@@ -108,7 +108,7 @@ with col2:
             else:
                 despesas_mes = df[df["Data"].dt.to_period("M").astype(str) == mes_selecionado]
                 st.write(despesas_mes)
- elif escolha_mais_2 == "Gastos ao longo do tempo":
+        elif escolha_mais_2 == "Gastos ao longo do tempo":
     # Certifique-se de que a coluna Data está em formato datetime
     df["Data"] = pd.to_datetime(df["Data"], errors='coerce')  # Coerce irá converter inválidos em NaT
     
