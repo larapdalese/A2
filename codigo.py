@@ -31,10 +31,12 @@ def main():
     st.title("Meu Aplicativo")
 
     # Menu lateral
-    menu = st.sidebar.selectbox("Menu", ["Perfil", "Por categoria", "Investimentos", "Configurações e Suporte", "Voltar para a página principal"])
+    menu = st.sidebar.radio("Menu", ["Página Principal", "Perfil", "Por categoria", "Investimentos", "Configurações e Suporte"])
 
     # Exibir conteúdo baseado na escolha do menu
-    if menu == "Perfil":
+    if menu == "Página Principal":
+        show_home()
+    elif menu == "Perfil":
         show_profile()
     elif menu == "Por categoria":
         show_by_category()
@@ -42,8 +44,6 @@ def main():
         show_investments()
     elif menu == "Configurações e Suporte":
         show_settings_support()
-    elif menu == "Voltar para a página principal":
-        show_home()
 
 # Funções para cada página
 def show_home():
@@ -87,6 +87,7 @@ def show_settings_support():
 # Execução do aplicativo
 if __name__ == "__main__":
     main()
+
 
 df = pd.DataFrame(
     [
