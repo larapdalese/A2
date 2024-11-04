@@ -110,10 +110,10 @@ with col2:
                 st.write(despesas_mes)
     elif escolha_mais_2 == "Gastos ao longo do tempo":
     # Certifique-se de que a coluna Data está em formato datetime
-    df["Data"] = pd.to_datetime(df["Data"], errors='coerce')  # Coerce irá converter inválidos em NaT
+         df["Data"] = pd.to_datetime(df["Data"], errors='coerce')  # Coerce irá converter inválidos em NaT
 
-    if df.empty:
-        st.warning("Não há dados disponíveis para exibir.")
+         if df.empty:
+             st.warning("Não há dados disponíveis para exibir.")
     else:
         # Cria a coluna AnoMes
         df["AnoMes"] = df["Data"].dt.to_period("M").astype(str)
