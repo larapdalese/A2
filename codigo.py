@@ -22,70 +22,47 @@ st.markdown("""
     }
     </style>
     """, unsafe_allow_html=True)
-st.sidebar.title("Menu")
-option = st.sidebar.radio("Selecione uma opção:", ("Perfil", "Por categoria", "Investimentos", "Configurações e Suporte"))
-def mostrar_pagina_principal():
+def pagina_principal():
     st.title("Página Principal")
-    st.write("Bem-vindo à Página Principal! Selecione uma opção na barra lateral.")
+    st.write("Bem-vindo à página principal do seu aplicativo!")
 
-# Função para exibir a página de perfil
-def mostrar_perfil():
+# Função para a página de Perfil
+def pagina_perfil():
     st.title("Perfil")
-    st.write("Aqui você pode ver e editar seu perfil.")
-    if st.button("Voltar para a Página Principal"):
-        st.session_state.page = "principal"
+    st.write("Aqui estão as informações do seu perfil.")
 
-# Função para exibir a página por categoria
-def mostrar_por_categoria():
-    st.title("Despesas por Categoria")
-    st.write("Aqui você pode visualizar as despesas por categoria.")
-    if st.button("Voltar para a Página Principal"):
-        st.session_state.page = "principal"
+# Função para a página Por Categoria
+def pagina_por_categoria():
+    st.title("Por Categoria")
+    st.write("Aqui você pode ver as despesas por categoria.")
 
-# Função para exibir a página de investimentos
-def mostrar_investimentos():
+# Função para a página de Investimentos
+def pagina_investimentos():
     st.title("Investimentos")
-    st.write("Aqui você pode gerenciar seus investimentos.")
-    if st.button("Voltar para a Página Principal"):
-        st.session_state.page = "principal"
+    st.write("Aqui estão suas opções de investimentos.")
 
-# Função para exibir a página de configurações e suporte
-def mostrar_configuracoes():
+# Função para a página de Configurações e Suporte
+def pagina_configuracoes():
     st.title("Configurações e Suporte")
-    st.write("Aqui você pode encontrar opções de configuração e suporte.")
-    if st.button("Voltar para a Página Principal"):
-        st.session_state.page = "principal"
+    st.write("Aqui você pode configurar suas preferências e obter suporte.")
 
-# Inicialização do estado da sessão
-if 'page' not in st.session_state:
-    st.session_state.page = "principal"
+# Criação da barra lateral
+opcao = st.sidebar.selectbox(
+    "Escolha uma opção:",
+    ("Página Principal", "Perfil", "Por Categoria", "Investimentos", "Configurações e Suporte")
+)
 
-# Navegação com base na página selecionada
-if st.session_state.page == "principal":
-    mostrar_pagina_principal()
-    st.sidebar.title("Menu")
-    option = st.sidebar.radio("Selecione uma opção:", ("Perfil", "Por categoria", "Investimentos", "Configurações e Suporte"))
-
-    if option == "Perfil":
-        st.session_state.page = "perfil"
-    elif option == "Por categoria":
-        st.session_state.page = "por_categoria"
-    elif option == "Investimentos":
-        st.session_state.page = "investimentos"
-    elif option == "Configurações e Suporte":
-        st.session_state.page = "configuracoes"
-
-elif st.session_state.page == "perfil":
-    mostrar_perfil()
-
-elif st.session_state.page == "por_categoria":
-    mostrar_por_categoria()
-
-elif st.session_state.page == "investimentos":
-    mostrar_investimentos()
-
-elif st.session_state.page == "configuracoes":
-    mostrar_configuracoes()
+# Exibição da página correspondente com base na opção selecionada
+if opcao == "Página Principal":
+    pagina_principal()
+elif opcao == "Perfil":
+    pagina_perfil()
+elif opcao == "Por Categoria":
+    pagina_por_categoria()
+elif opcao == "Investimentos":
+    pagina_investimentos()
+elif opcao == "Configurações e Suporte":
+    pagina_configuracoes()
 # Criar DataFrame de despesas
 df = pd.DataFrame(
     [
