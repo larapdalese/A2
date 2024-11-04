@@ -22,6 +22,29 @@ st.markdown("""
     }
     </style>
     """, unsafe_allow_html=True)
+st.sidebar.title("Menu")
+option = st.sidebar.radio("Selecione uma opção:", ("Perfil", "Por categoria", "Investimentos", "Configurações e Suporte"))
+
+# Conteúdo baseado na opção selecionada
+if option == "Perfil":
+    st.subheader("Perfil")
+    st.write("Aqui você pode ver e editar seu perfil.")
+    # Adicione mais conteúdo do perfil aqui
+
+elif option == "Por categoria":
+    st.subheader("Despesas por Categoria")
+    st.write("Aqui você pode visualizar as despesas por categoria.")
+    # Adicione mais conteúdo de despesas por categoria aqui
+
+elif option == "Investimentos":
+    st.subheader("Investimentos")
+    st.write("Aqui você pode gerenciar seus investimentos.")
+    # Adicione mais conteúdo de investimentos aqui
+
+elif option == "Configurações e Suporte":
+    st.subheader("Configurações e Suporte")
+    st.write("Aqui você pode encontrar opções de configuração e suporte.")
+    # Adicione mais conteúdo de configurações e suporte aqui
 
 # Criar DataFrame de despesas
 df = pd.DataFrame(
