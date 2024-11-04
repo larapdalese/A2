@@ -5,7 +5,6 @@ from datetime import datetime
 import pytz
 import time
 
-
 st.set_page_config(layout="wide")  
 st.markdown("""
     <style>
@@ -24,23 +23,8 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 fuso_horario_brasilia = pytz.timezone("America/Sao_Paulo")
-
-# Espaço reservado para exibição da data e hora
-place_holder = st.empty()
-
-# Loop para atualizar a data e a hora em tempo real
-while True:
-    # Obtendo a data e a hora atual no fuso horário de Brasília
-    agora = datetime.now(fuso_horario_brasilia)
-    
-    # Formatando a data e a hora para exibição
-    data_hora_formatada = agora.strftime("%d/%m/%Y %H:%M:%S")
-    
-    # Atualizando o espaço reservado com a data e hora
-    place_holder.text(f"Data e Hora em Tempo Real: {data_hora_formatada}")
-    
-    # Aguardando 1 segundo antes da próxima atualização
-    time.sleep(1)
+data_hora_atual = datetime.now(fuso_horario_brasilia).strftime("%d/%m/%Y %H:%M:%S")
+st.write(f"**Data e Hora Atual (Brasília):** {data_hora_atual}")
 df = pd.DataFrame(
     [
         {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
