@@ -96,47 +96,51 @@ with col1:
     fig_pie.update_layout(margin=dict(t=30, l=0, r=0, b=0))
     st.plotly_chart(fig_pie, use_container_width=True)
 with col2:
-    escolha = st.radio("Opções", ["Todas as Despesas", "Gastos ao logo do tempo", "Mais 2"])
+    escolha = st.radio("Opções", ["Todas as Despesas", "Gastos ao longo do tempo", "Mais 2"])
+    
     if escolha == "Todas as Despesas":
         st.write(df)
+    
     elif escolha == "Mais 2":
         escolha_mais_2 = st.radio("Opções adicionais", ["Por mês", "Adicionar despesa"])
+        
         if escolha_mais_2 == "Por mês":
             mes_selecionado = st.selectbox("Selecione o mês:", ["Tudo"] + list(df["Data"].dt.to_period("M").astype(str).unique()))
+            
             if mes_selecionado == "Tudo":
                 st.write(df)
             else:
                 despesas_mes = df[df["Data"].dt.to_period("M").astype(str) == mes_selecionado]
                 st.write(despesas_mes)
-elif escolha_mais_2 == "Gastos ao longo do tempo":
-    df["Data"] = pd.to_datetime(df["Data"], errors='coerce')
+        
+        elif escolha_mais_2 == "Gastos ao longo do tempo":  # Corrigido o nome
+            df["Data"] = pd.to_datetime(df["Data"], errors='coerce')
 
-    if df.empty:
-        st.warning("Não há dados disponíveis para exibir.")
-    else:
-        df["AnoMes"] = df["Data"].dt.to_period("M").astype(str)
-        despesas_por_mes = df.groupby("AnoMes")["Valor"].sum().reset_index()
-        st.write(despesas_por_mes)
-        fig_gastos_totais = px.line(despesas_por_mes, x="AnoMes", y="Valor", title="Gastos ao longo do tempo")
-        st.plotly_chart(fig_gastos_totais, use_container_width=True)
-
-elif escolha_mais_2 == "Adicionar despesa":
-    with st.form(key='my_form'):
-        nome_despesa = st.text_input("Nome da despesa:")
-        data_despesa = st.date_input("Data da despesa:")
-        categoria_despesa = st.selectbox("Categoria:", df["Categoria"].unique())
-        forma_pagamento = st.selectbox("Forma de pagamento:", ["crédito", "débito", "pix"])
-        valor_despesa = st.number_input("Valor da despesa:", min_value=0.0, format="%.2f")
-        submit_button = st.form_submit_button(label='Adicionar despesa')        
-        if submit_button:
-            nova_despesa = {
-                "Nome da despesa": nome_despesa,
-                "Data": data_despesa,
-                "Categoria": categoria_despesa,
-                "Forma de pagamento": forma_pagamento,
-                "Tipo": "gasto",
-                "Valor": valor_despesa
-            }
-            df = df.append(nova_despesa, ignore_index=True)  
-            st.success("Despesa adicionada com sucesso!")
-            st.write(df)
+            if df.empty:
+                st.warning("Não há dados disponíveis para exibir.")
+            else:
+                df["AnoMes"] = df["Data"].dt.to_period("M").astype(str)
+                despesas_por_mes = df.groupby("AnoMes")["Valor"].sum().reset_index()
+                st.write(despesas_por_mes)
+                fig_gastos_totais = px.line(despesas_por_mes, x="AnoMes", y="Valor", title="Gastos ao longo do tempo")
+                st.plotly_chart(fig_gastos_totais, use_container_width=True)
+        
+        elif escolha_mais_2 == "Adicionar despesa":
+            with st.form(key='my_form'):
+                nome_despesa = st.text_input("Nome da despesa:")
+                data_despesa = st.date_input("Data da despesa:")
+                categoria_despesa = st.selectbox("Categoria:", df["Categoria"].unique())
+                forma_pagamento = st.selectbox("Forma de pagamento:", ["crédito", "débito", "pix"])
+                valor_despesa = st.number_input("Valor da despesa:", min_value=0.0, format="%.2f")
+                submit_button = st.form_submit_button(label='Adicionar despesa')        
+                
+                if submit_button:
+                    nova_despesa = {
+                        "Nome da despesa": nome_despesa,
+                        "Data": data_despesa,
+                        "Categoria": categoria_despesa,
+                        "Forma de pagamento": forma_pagamento,
+                        "Tipo": "gasto",
+                        "Valor": valor_despesa
+                    }
+                    df = df.append(n
