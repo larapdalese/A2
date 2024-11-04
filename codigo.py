@@ -38,6 +38,50 @@ pages = {
 pg = st.navigation(pages)
 pg.run()
 
+st.set_page_config(layout="wide")
+
+# Estilo e posicionamento dos elementos
+st.markdown("""
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-left: 10px;
+            width: 200px;
+        }
+        .calendar, .clock {
+            color: #FFFFFF;
+            background-color: #4D5D39;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .clock {
+            background-color: #A2B09F;
+            font-size: 24px;
+        }
+    </style>
+    <div class="container">
+        <div class="calendar">
+            <h3>{}</h3>
+        </div>
+        <div class="clock" id="clock"></div>
+    </div>
+
+    <script>
+        function updateTime() {
+            var now = new Date();
+            var timeString = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', hour12: true});
+            document.getElementById('clock').innerHTML = timeString;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
+""".format(datetime.now().strftime("%A, %B %d, %Y")), unsafe_allow_html=True)
+
 ####
 
 # Criar DataFrame de despesas
