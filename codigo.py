@@ -22,48 +22,7 @@ st.markdown("""
     }
     </style>
     """, unsafe_allow_html=True)
-def pagina_principal():
-    st.title("Página Principal")
-    st.write("Bem-vindo à página principal do seu aplicativo!")
 
-# Função para a página de Perfil
-def pagina_perfil():
-    st.title("Perfil")
-    st.write("Aqui estão as informações do seu perfil.")
-
-# Função para a página Por Categoria
-def pagina_por_categoria():
-    st.title("Por Categoria")
-    st.write("Aqui você pode ver as despesas por categoria.")
-
-# Função para a página de Investimentos
-def pagina_investimentos():
-    st.title("Investimentos")
-    st.write("Aqui estão suas opções de investimentos.")
-
-# Função para a página de Configurações e Suporte
-def pagina_configuracoes():
-    st.title("Configurações e Suporte")
-    st.write("Aqui você pode configurar suas preferências e obter suporte.")
-
-# Criação da barra lateral
-opcao = st.sidebar.selectbox(
-    "Escolha uma opção:",
-    ("Página Principal", "Perfil", "Por Categoria", "Investimentos", "Configurações e Suporte")
-)
-
-# Exibição da página correspondente com base na opção selecionada
-if opcao == "Página Principal":
-    pagina_principal()
-elif opcao == "Perfil":
-    pagina_perfil()
-elif opcao == "Por Categoria":
-    pagina_por_categoria()
-elif opcao == "Investimentos":
-    pagina_investimentos()
-elif opcao == "Configurações e Suporte":
-    pagina_configuracoes()
-# Criar DataFrame de despesas
 df = pd.DataFrame(
     [
         {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
