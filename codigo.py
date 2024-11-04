@@ -31,41 +31,44 @@ pages = {
 }
 pg = st.navigation(pages)
 pg.run()
-def main():
-    st.title("Bem-vindo ao Meu Aplicativo")
-    st.write("Esta é a página principal do seu aplicativo.")
-if __name__ == "__main__":
-    main()
-def main():
+import streamlit as st
+
+# Definindo as funções de cada página
+def main_page():
+    st.title("Página Principal")
+    st.write("Bem-vindo à página principal!")
+
+def perfil_page():
     st.title("Perfil")
-    st.write("Esta é a seção do Perfil.")
-    user_info = {
-        "Nome de usuário": "João Silva",
-        "@": "@joaosilva",
-        "Localização": "São Paulo, SP",
-        "Data de criação da conta": "01/01/2020",
-        "Aniversário": "15/05/1990",
-        "E-mail": "joao.silva@email.com"
-    }
-    for key, value in user_info.items():
-        st.write(f"**{key}:** {value}")
-if __name__ == "__main__":
-    main()
-def main():
+    st.write("Aqui estão os detalhes do perfil.")
+
+def categoria_page():
     st.title("Por Categoria")
-    st.write("Esta é a seção de despesas por categoria.")
-if __name__ == "__main__":
-    main()
-def main():
+    st.write("Aqui estão as informações por categoria.")
+
+def investimentos_page():
     st.title("Investimentos")
-    st.write("Esta é a seção de Investimentos.")
-if __name__ == "__main__":
-    main()
-def main():
+    st.write("Aqui estão os detalhes dos investimentos.")
+
+def configuracoes_page():
     st.title("Configurações e Suporte")
-    st.write("Esta é a seção de Configurações e Suporte.")
-if __name__ == "__main__":
-    main()
+    st.write("Aqui estão as configurações e suporte.")
+
+# Configurando as páginas
+pages = {
+    "Menu": [
+        st.Page(main_page, title="Página Principal"),
+        st.Page(perfil_page, title="Perfil"),
+        st.Page(categoria_page, title="Por Categoria"),
+        st.Page(investimentos_page, title="Investimentos"),
+        st.Page(configuracoes_page, title="Configurações e Suporte"),
+    ],
+}
+
+# Chamando a navegação
+pg = st.navigation(pages)
+pg.run()
+
 df = pd.DataFrame(
     [
         {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
