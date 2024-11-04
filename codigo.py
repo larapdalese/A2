@@ -69,6 +69,18 @@ with col1:
     # Agrupar despesas por categoria
     despesas_por_categoria = df[df['Tipo'] == 'gasto'].groupby('Categoria')['Valor'].sum().reset_index()
 
+    # Definir um limite para considerar as menores categorias como "Outros"
+    threshold = 50  # Exemplo: categorias com valor total menor que 50 serão agrupadas
+
+    # Criar nova categoria "Outros" para categorias menores que o limite
+    despesas_por_categoria['Categoria'] = despesas_por_categoria.apply(
+        lambda x: x['Categoria'] if x['Valor'] >= threshold else 'Outros',
+        axis=1
+    )
+
+    # Agrupar novamente após a modificação
+    despesas_por_categoria = despesas_por_categoria.groupby('Categoria')['Valor'].sum().reset_index()
+
     # Gráfico de pizza para despesas
     fig = px.pie(despesas_por_categoria, values='Valor', names='Categoria', title='Distribuição das Despesas por Categoria')
     
