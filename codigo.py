@@ -23,6 +23,9 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
+import streamlit as st
+
+# Função principal
 def main():
     # Título da aplicação
     st.title("Meu Aplicativo")
@@ -49,7 +52,25 @@ def show_home():
 
 def show_profile():
     st.subheader("Perfil")
-    st.write("Esta é a seção do Perfil.")
+    st.write("Preencha as informações do seu perfil abaixo:")
+
+    # Campos para as informações do perfil
+    nome_usuario = st.text_input("Nome de Usuário")
+    at = st.text_input("Nome de Usuário (com @)")
+    localizacao = st.text_input("Localização")
+    data_criacao = st.date_input("Data de Criação da Conta")
+    aniversario = st.date_input("Aniversário")
+    email = st.text_input("E-mail")
+
+    # Exibir informações do perfil após preenchimento
+    if st.button("Salvar"):
+        st.write("**Informações do Perfil:**")
+        st.write(f"**Nome de Usuário:** {nome_usuario}")
+        st.write(f"**@:** {at}")
+        st.write(f"**Localização:** {localizacao}")
+        st.write(f"**Data de Criação da Conta:** {data_criacao}")
+        st.write(f"**Aniversário:** {aniversario}")
+        st.write(f"**E-mail:** {email}")
 
 def show_by_category():
     st.subheader("Por Categoria")
@@ -66,7 +87,6 @@ def show_settings_support():
 # Execução do aplicativo
 if __name__ == "__main__":
     main()
-
 
 df = pd.DataFrame(
     [
