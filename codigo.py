@@ -56,7 +56,7 @@ saldo = total_ganhos - total_gastos
 col1, col2 = st.columns([2, 1])  # Mais espaço para a coluna do orçamento
 
 with col1:
-    st.header("Orçamento do Mês:")
+    st.header("Dados financeiros:")
     # Campo para inserir o orçamento do mês
     orçamento = st.number_input("Insira seu orçamento mensal:", min_value=0, value=0, step=100)
     st.write(f"O orçamento mensal é: R$ {orçamento}")
