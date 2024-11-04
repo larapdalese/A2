@@ -22,7 +22,6 @@ st.markdown("""
     }
     </style>
     """, unsafe_allow_html=True)
-
 import streamlit as st
 
 # Função principal
@@ -31,7 +30,7 @@ def main():
     st.title("Meu Aplicativo")
 
     # Menu lateral
-    menu = st.sidebar.radio("Menu", ["Página Principal", "Perfil", "Por categoria", "Investimentos", "Configurações e Suporte"])
+    menu = st.sidebar.selectbox("Menu", ["Página Principal", "Perfil", "Por categoria", "Investimentos", "Configurações e Suporte"])
 
     # Exibir conteúdo baseado na escolha do menu
     if menu == "Página Principal":
@@ -52,25 +51,21 @@ def show_home():
 
 def show_profile():
     st.subheader("Perfil")
-    st.write("Preencha as informações do seu perfil abaixo:")
-
-    # Campos para as informações do perfil
-    nome_usuario = st.text_input("Nome de Usuário")
-    at = st.text_input("Nome de Usuário (com @)")
-    localizacao = st.text_input("Localização")
-    data_criacao = st.date_input("Data de Criação da Conta")
-    aniversario = st.date_input("Aniversário")
-    email = st.text_input("E-mail")
-
-    # Exibir informações do perfil após preenchimento
-    if st.button("Salvar"):
-        st.write("**Informações do Perfil:**")
-        st.write(f"**Nome de Usuário:** {nome_usuario}")
-        st.write(f"**@:** {at}")
-        st.write(f"**Localização:** {localizacao}")
-        st.write(f"**Data de Criação da Conta:** {data_criacao}")
-        st.write(f"**Aniversário:** {aniversario}")
-        st.write(f"**E-mail:** {email}")
+    st.write("Esta é a seção do Perfil.")
+    
+    # Informações do usuário
+    user_info = {
+        "Nome de usuário": "João Silva",
+        "@": "@joaosilva",
+        "Localização": "São Paulo, SP",
+        "Data de criação da conta": "01/01/2020",
+        "Aniversário": "15/05/1990",
+        "E-mail": "joao.silva@email.com"
+    }
+    
+    # Exibir informações do usuário
+    for key, value in user_info.items():
+        st.write(f"**{key}:** {value}")
 
 def show_by_category():
     st.subheader("Por Categoria")
@@ -87,7 +82,6 @@ def show_settings_support():
 # Execução do aplicativo
 if __name__ == "__main__":
     main()
-
 
 df = pd.DataFrame(
     [
