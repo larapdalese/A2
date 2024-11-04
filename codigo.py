@@ -66,12 +66,24 @@ with col1:
     st.write(f"Total de Ganhos: R$ {total_ganhos:.2f}")
     st.write(f"Saldo: R$ {saldo:.2f}")
 
-    # Agrupar despesas e ganhos por categoria
-    despesas_ganhos_por_categoria = df.groupby(['Categoria', 'Tipo'])['Valor'].sum().reset_index()
+    # Agrupar despesas por categoria
+    despesas_por_categoria = df[df['Tipo'] == 'gasto'].groupby('Categoria')['Valor'].sum().reset_index()
 
-    # Gráfico de pizza para despesas e ganhos
-    fig = px.pie(despesas_ganhos_por_categoria, values='Valor', names='Categoria', title='Distribuição das Despesas e Ganhos por Categoria', color='Tipo')
+    # Definir um limite para considerar as menores categorias como "Outros"
+    threshold = 50  # Exemplo: categorias com valor total menor que 50 serão agrupadas
 
+    # Criar nova categoria "Outros" para categorias menores que o limite
+    despesas_por_categoria['Categoria'] = despesas_por_categoria.apply(
+        lambda x: x['Categoria'] if x['Valor'] >= threshold else 'Outros',
+        axis=1
+    )
+
+    # Agrupar novamente após a modificação
+    despesas_por_categoria = despesas_por_categoria.groupby('Categoria')['Valor'].sum().reset_index()
+
+    # Gráfico de pizza para despesas
+    fig = px.pie(despesas_por_categoria, values='Valor', names='Categoria', title='Distribuição das Despesas por Categoria')
+    
     # Atualizar layout para aumentar o tamanho do gráfico
     fig.update_layout(width=800, height=600)  # Ajuste os valores conforme necessário
     st.plotly_chart(fig)
