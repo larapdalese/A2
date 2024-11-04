@@ -20,7 +20,9 @@ st.markdown("""
     }
     </style>
     """, unsafe_allow_html=True)
-st.markdown(f"<h3 style='text-align: right;'>{datetime.now().strftime('%d/%m/%Y %H:%M:%S')}</h3>", unsafe_allow_html=True)
+fuso_horario_brasilia = pytz.timezone("America/Sao_Paulo")
+data_hora_atual = datetime.now(fuso_horario_brasilia).strftime("%d/%m/%Y %H:%M:%S")
+st.write(f"**Data e Hora Atual (Brasília):** {data_hora_atual}")
 df = pd.DataFrame(
     [
         {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
