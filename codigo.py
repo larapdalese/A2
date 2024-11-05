@@ -106,6 +106,9 @@ def display_budget_section(df):
 
         display_expense_chart(df)
 
+with col2:
+    st.write("")
+    
     with col2:
         display_expense_view_options(df)
 
