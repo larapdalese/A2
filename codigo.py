@@ -102,6 +102,7 @@ def display_budget_section(df):
         st.write(f"Saldo: R$ {saldo:.2f}")
 
         display_expense_chart(df)
+        display_line_chart(df)
 
     with col2:
         st.write("")  # Espaço vazio para alinhamento
