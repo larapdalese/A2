@@ -124,6 +124,22 @@ def display_expense_chart(df):
     fig.update_layout(width=800, height=600)
     st.plotly_chart(fig)
 
+def display_line_chart(df):
+    st.subheader("Dinheiro ao longo do tempo")
+    gasto_color = st.color_picker("Escolha a cor para a linha de Gastos", "#FF6347")
+    ganho_color = st.color_picker("Escolha a cor para a linha de Ganhos", "#4682B4")
+
+    df = df.sort_values('Data')  # Ordenar por data
+    df_gastos = df[df['Tipo'] == 'gasto'].groupby('Data')['Valor'].sum().cumsum().reset_index()
+    df_ganhos = df[df['Tipo'] == 'ganho'].groupby('Data')['Valor'].sum().cumsum().reset_index()
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=df_gastos['Data'], y=df_gastos['Valor'], mode='lines', name='Gastos', line=dict(color=gasto_color)))
+    fig.add_trace(go.Scatter(x=df_ganhos['Data'], y=df_ganhos['Valor'], mode='lines', name='Ganhos', line=dict(color=ganho_color)))
+
+    fig.update_layout(title="Evolução dos Gastos e Ganhos ao longo do tempo", xaxis_title="Data", yaxis_title="Valor Acumulado")
+    st.plotly_chart(fig)
+
 # Função para exibir opções de visualização de despesas
 def display_expense_view_options(df):
     st.subheader("Despesas")
