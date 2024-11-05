@@ -18,7 +18,7 @@ def apply_custom_css():
             max-width: 100%;
         }
         .wishlist-widget {
-            width: 100%;
+            width: 25%;  /* Ocupa 1/4 da largura da página */
             height: 150px;
             display: flex;
             justify-content: flex-start;
@@ -44,13 +44,16 @@ def apply_custom_css():
             width: 50px;
             height: 100%;
         }
+        .small-text {
+            font-size: 0.8em;
+        }
         </style>
     """, unsafe_allow_html=True)
 
 # Função para carregar dados de despesas
 def load_data():
     data = [
-         {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
+                {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
         {"Nome da despesa": "Farmácia", "Data": "2024-01-28", "Categoria": "saúde", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 125.50},
         {"Nome da despesa": "Starbucks", "Data": "2024-02-05", "Categoria": "comida", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 36},
         {"Nome da despesa": "Restaurante", "Data": "2024-02-18", "Categoria": "comida", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 80},
@@ -107,7 +110,6 @@ def load_data():
         {"Nome da despesa": "Sorvete", "Data": "2024-09-25", "Categoria": "comida", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 15},
         {"Nome da despesa": "Passeio de bicicleta", "Data": "2024-10-20", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 40},
         {"Nome da despesa": "Show de música", "Data": "2024-10-30", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 100}
-
     ]
     df = pd.DataFrame(data)
     df['Data'] = pd.to_datetime(df['Data'])
@@ -153,22 +155,34 @@ def display_expense_chart(df):
     fig.update_layout(width=800, height=600)
     st.plotly_chart(fig)
 
-# Função para exibir gráfico de linhas "Dinheiro ao longo do tempo"
+# Função para exibir gráfico de linhas "Dinheiro ao longo do tempo" com opção de editar cores
 def display_line_chart(df):
     st.subheader("Dinheiro ao longo do tempo")
-    gasto_color = st.color_picker("Escolha a cor para a linha de Gastos", "#FF6347")
-    ganho_color = st.color_picker("Escolha a cor para a linha de Ganhos", "#4682B4")
-
+    
+    # Gráfico inicial
     df = df.sort_values('Data')  # Ordenar por data
     df_gastos = df[df['Tipo'] == 'gasto'].groupby('Data')['Valor'].sum().cumsum().reset_index()
     df_ganhos = df[df['Tipo'] == 'ganho'].groupby('Data')['Valor'].sum().cumsum().reset_index()
 
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=df_gastos['Data'], y=df_gastos['Valor'], mode='lines', name='Gastos', line=dict(color=gasto_color)))
-    fig.add_trace(go.Scatter(x=df_ganhos['Data'], y=df_ganhos['Valor'], mode='lines', name='Ganhos', line=dict(color=ganho_color)))
+    fig.add_trace(go.Scatter(x=df_gastos['Data'], y=df_gastos['Valor'], mode='lines', name='Gastos', line=dict(color="#FF6347")))
+    fig.add_trace(go.Scatter(x=df_ganhos['Data'], y=df_ganhos['Valor'], mode='lines', name='Ganhos', line=dict(color="#4682B4")))
 
     fig.update_layout(title="Evolução dos Gastos e Ganhos ao longo do tempo", xaxis_title="Data", yaxis_title="Valor Acumulado")
     st.plotly_chart(fig)
+    
+    # Opção para editar cores das linhas
+    with st.expander("Editar"):
+        st.markdown('<span class="small-text">Linha de ganhos</span>', unsafe_allow_html=True)
+        ganho_color = st.color_picker("", "#4682B4", key="ganho_color_picker")
+        
+        st.markdown('<span class="small-text">Linha de gastos</span>', unsafe_allow_html=True)
+        gasto_color = st.color_picker("", "#FF6347", key="gasto_color_picker")
+
+        # Atualizar gráfico com novas cores
+        fig.update_traces(selector=dict(name='Gastos'), line=dict(color=gasto_color))
+        fig.update_traces(selector=dict(name='Ganhos'), line=dict(color=ganho_color))
+        st.plotly_chart(fig)
 
 # Função para exibir opções de visualização de despesas
 def display_expense_view_options(df):
@@ -236,7 +250,11 @@ def main_page():
 # Página Wishlist
 def wishlist_page():
     st.header("Wishlist")
-    st.write("Esta é a página da Wishlist. Adicione seu conteúdo aqui.")
+    wishlist_df = pd.DataFrame({
+        "Item": ["Fenty Beauty Lipgloss", "Clinique Almost Lipstick", "Monotheme Vanilla Blossom"],
+        "Valor": [750.99, 125.50, 36.00]
+    })
+    st.dataframe(wishlist_df)
 
 # Controle de navegação entre páginas
 def main():
