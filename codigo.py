@@ -2,28 +2,26 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# Aplicar estilo CSS para usar tela cheia
-st.set_page_config(layout="wide")  # Configurar a página para o layout expandido
+# Configurar página para layout expandido
+st.set_page_config(layout="wide")
 
-# Estilo CSS para reduzir margens laterais e expandir área de exibição
-st.markdown("""
-    <style>
-    /* Expandir o container principal */
-    .main .block-container {
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-        max-width: 100%;
-    }
-    /* Expandir visualização dos gráficos e dataframes */
-    .css-1lcbmhc, .css-1fcdlh8 {
-        max-width: 100%;
-    }
-    </style>
+# Adicionar CSS para expandir área de exibição
+def apply_custom_css():
+    st.markdown("""
+        <style>
+        .main .block-container {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            max-width: 100%;
+        }
+        </style>
     """, unsafe_allow_html=True)
 
-df = pd.DataFrame(
+# Função para carregar dados de despesas
+def load_data():
+    df = pd.DataFrame(
     [
         {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
         {"Nome da despesa": "Farmácia", "Data": "2024-01-28", "Categoria": "saúde", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 125.50},
@@ -88,64 +86,73 @@ df = pd.DataFrame(
     ]
 )
 
-# Criar uma coluna de data do tipo datetime
-df['Data'] = pd.to_datetime(df['Data'])
+    df = pd.DataFrame(data)
+    df['Data'] = pd.to_datetime(df['Data'])
+    return df
 
-# Calcular totais
-total_gastos = df[df['Tipo'] == 'gasto']['Valor'].sum()
-total_ganhos = df[df['Tipo'] == 'ganho']['Valor'].sum()
-saldo = total_ganhos - total_gastos
+# Função para calcular e exibir o orçamento e totais
+def display_budget_section(df):
+    total_gastos = df[df['Tipo'] == 'gasto']['Valor'].sum()
+    total_ganhos = df[df['Tipo'] == 'ganho']['Valor'].sum()
+    saldo = total_ganhos - total_gastos
 
-# Colunas para a seção do orçamento
-col1, col2 = st.columns([2, 1])  # Mais espaço para a coluna do orçamento
+    col1, col2 = st.columns([2, 1])
 
-with col1:
-    st.header("Orçamento do Mês:")
-    # Campo para inserir o orçamento do mês
-    orçamento = st.number_input("Insira seu orçamento mensal:", min_value=0, value=0, step=100)
-    st.write(f"O orçamento mensal é: R$ {orçamento}")
+    with col1:
+        st.header("Orçamento do Mês:")
+        orçamento = st.number_input("Insira seu orçamento mensal:", min_value=0, value=0, step=100)
+        st.write(f"O orçamento mensal é: R$ {orçamento:.2f}")
+        st.write(f"Total de Gastos: R$ {total_gastos:.2f}")
+        st.write(f"Total de Ganhos: R$ {total_ganhos:.2f}")
+        st.write(f"Saldo: R$ {saldo:.2f}")
 
-    # Exibir totais
-    st.write(f"Total de Gastos: R$ {total_gastos:.2f}")
-    st.write(f"Total de Ganhos: R$ {total_ganhos:.2f}")
-    st.write(f"Saldo: R$ {saldo:.2f}")
+        display_expense_chart(df)
 
-    # Agrupar despesas por categoria
-    despesas_por_categoria = df[df['Tipo'] == 'gasto'].groupby('Categoria')['Valor'].sum().reset_index()
+    with col2:
+        display_expense_view_options(df)
 
-    # Definir um limite para considerar as menores categorias como "Outros"
-    threshold = 50  # Exemplo: categorias com valor total menor que 50 serão agrupadas
-
-    # Criar nova categoria "Outros" para categorias menores que o limite
-    despesas_por_categoria['Categoria'] = despesas_por_categoria.apply(
-        lambda x: x['Categoria'] if x['Valor'] >= threshold else 'Outros',
-        axis=1
+# Função para exibir gráfico de despesas por categoria
+def display_expense_chart(df):
+    despesas_por_categoria = (
+        df[df['Tipo'] == 'gasto']
+        .groupby('Categoria')['Valor']
+        .sum()
+        .reset_index()
+        .assign(Categoria=lambda x: x['Categoria'].where(x['Valor'] >= 50, 'Outros'))
+        .groupby('Categoria')
+        .sum()
+        .reset_index()
     )
-
-    # Agrupar novamente após a modificação
-    despesas_por_categoria = despesas_por_categoria.groupby('Categoria')['Valor'].sum().reset_index()
-
-    # Gráfico de pizza para despesas
-    fig = px.pie(despesas_por_categoria, values='Valor', names='Categoria', title='Distribuição das Despesas por Categoria')
     
-    # Atualizar layout para aumentar o tamanho do gráfico
-    fig.update_layout(width=800, height=600)  # Ajuste os valores conforme necessário
+    fig = px.pie(despesas_por_categoria, values='Valor', names='Categoria', title='Distribuição das Despesas por Categoria')
+    fig.update_layout(width=800, height=600)
     st.plotly_chart(fig)
 
-with col2:
-    st.write("")
-
-with col2:
+# Função para exibir opções de visualização de despesas
+def display_expense_view_options(df):
     st.subheader("Despesas")
     option = st.selectbox("Selecione uma visualização:", ["Todas as Despesas", "Por mês", "Por categoria"])
     
     if option == "Todas as Despesas":
         st.dataframe(df)
     elif option == "Por mês":
-        mes_selecionado = st.selectbox("Selecione o mês:", df['Data'].dt.month.unique(), format_func=lambda x: pd.to_datetime(f"2024-{x}-01").strftime("%B"))
+        mes_selecionado = st.selectbox(
+            "Selecione o mês:",
+            sorted(df['Data'].dt.month.unique()),
+            format_func=lambda x: pd.to_datetime(f"2024-{x}-01").strftime("%B")
+        )
         despesas_mes = df[df['Data'].dt.month == mes_selecionado]
         st.dataframe(despesas_mes)
     elif option == "Por categoria":
         categoria_selecionada = st.selectbox("Selecione a categoria:", df['Categoria'].unique())
         despesas_categoria = df[df['Categoria'] == categoria_selecionada]
         st.dataframe(despesas_categoria)
+
+# Função principal para executar o app
+def main():
+    apply_custom_css()
+    df = load_data()
+    display_budget_section(df)
+
+if __name__ == "__main__":
+    main()
