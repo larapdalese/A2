@@ -147,6 +147,19 @@ def display_expense_view_options(df):
         despesas_categoria = df[df['Categoria'] == categoria_selecionada]
         st.dataframe(despesas_categoria)
 
+def display_wishlist_widget():
+    st.write("## Wishlist")
+    color = st.color_picker("Escolha uma cor para sua capa", "#000000")
+    st.markdown(
+        f"""
+        <div class="wishlist-widget" style="background-color: {color};">
+            Wishlist
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
 # Função principal para executar o app
 def main():
     apply_custom_css()
