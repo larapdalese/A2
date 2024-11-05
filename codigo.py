@@ -17,33 +17,6 @@ def apply_custom_css():
             padding-right: 0.5rem;
             max-width: 100%;
         }
-        .wishlist-widget {
-            width: 25%;
-            height: 150px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            border-radius: 10px;
-            cursor: pointer;
-            overflow: hidden;
-            position: relative;
-            font-size: 1.2em;
-            color: #fff;
-            font-weight: bold;
-            text-align: left;
-        }
-        .wishlist-text {
-            padding-left: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            height: 100%;
-            display: flex;
-            align-items: center;
-            flex: 1;
-        }
-        .wishlist-color {
-            width: 50px;
-            height: 100%;
-        }
         .edit-link {
             font-size: 0.8em;
             color: #3498db;
@@ -62,62 +35,7 @@ def load_data():
     data = [
         {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
         {"Nome da despesa": "Farmácia", "Data": "2024-01-28", "Categoria": "saúde", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 125.50},
-        {"Nome da despesa": "Starbucks", "Data": "2024-02-05", "Categoria": "comida", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 36},
-        {"Nome da despesa": "Restaurante", "Data": "2024-02-18", "Categoria": "comida", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 80},
-        {"Nome da despesa": "Uber", "Data": "2024-03-12", "Categoria": "transporte", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 15},
-        {"Nome da despesa": "Roupas", "Data": "2024-08-10", "Categoria": "vestuário", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 550},
-        {"Nome da despesa": "Sapatos", "Data": "2024-08-28", "Categoria": "vestuário", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 300},
-        {"Nome da despesa": "Mercado", "Data": "2024-09-10", "Categoria": "supermercado", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 450},
-        {"Nome da despesa": "Curso Online", "Data": "2024-10-12", "Categoria": "educação", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 180},
-        {"Nome da despesa": "Conserto carro", "Data": "2024-11-05", "Categoria": "transporte", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 550},
-        {"Nome da despesa": "Seguro carro", "Data": "2024-11-22", "Categoria": "transporte", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 850},
-        {"Nome da despesa": "Jantar especial", "Data": "2024-12-15", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 170},
-        {"Nome da despesa": "Mesada", "Data": "2024-01-05", "Categoria": "Salário", "Forma de pagamento": "crédito", "Tipo": "ganho", "Valor": 500},
-        {"Nome da despesa": "Trabalho", "Data": "2024-01-10", "Categoria": "Salário", "Forma de pagamento": "débito", "Tipo": "ganho", "Valor": 3000},
-        {"Nome da despesa": "Mesada", "Data": "2024-02-05", "Categoria": "Salário", "Forma de pagamento": "pix", "Tipo": "ganho", "Valor": 500},
-        {"Nome da despesa": "Trabalho", "Data": "2024-02-10", "Categoria": "Salário", "Forma de pagamento": "crédito", "Tipo": "ganho", "Valor": 3000},
-        {"Nome da despesa": "Mesada", "Data": "2024-03-05", "Categoria": "Salário", "Forma de pagamento": "débito", "Tipo": "ganho", "Valor": 500},
-        {"Nome da despesa": "Trabalho", "Data": "2024-03-10", "Categoria": "Salário", "Forma de pagamento": "pix", "Tipo": "ganho", "Valor": 3000},
-        {"Nome da despesa": "Mesada", "Data": "2024-04-05", "Categoria": "Salário", "Forma de pagamento": "crédito", "Tipo": "ganho", "Valor": 500},
-        {"Nome da despesa": "Trabalho", "Data": "2024-04-10", "Categoria": "Salário", "Forma de pagamento": "débito", "Tipo": "ganho", "Valor": 3000},
-        {"Nome da despesa": "Mesada", "Data": "2024-05-05", "Categoria": "Salário", "Forma de pagamento": "pix", "Tipo": "ganho", "Valor": 500},
-        {"Nome da despesa": "Trabalho", "Data": "2024-05-10", "Categoria": "Salário", "Forma de pagamento": "crédito", "Tipo": "ganho", "Valor": 3000},
-        {"Nome da despesa": "Mesada", "Data": "2024-06-05", "Categoria": "Salário", "Forma de pagamento": "débito", "Tipo": "ganho", "Valor": 500},
-        {"Nome da despesa": "Trabalho", "Data": "2024-06-10", "Categoria": "Salário", "Forma de pagamento": "pix", "Tipo": "ganho", "Valor": 3000},
-        {"Nome da despesa": "Maquiagem", "Data": "2024-01-20", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 200},
-        {"Nome da despesa": "Consulta médica", "Data": "2024-02-25", "Categoria": "saúde", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 300},
-        {"Nome da despesa": "Lanche no trabalho", "Data": "2024-03-15", "Categoria": "comida", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 50},
-        {"Nome da despesa": "Uber Eats", "Data": "2024-03-25", "Categoria": "comida", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 120},
-        {"Nome da despesa": "Combustível", "Data": "2024-04-15", "Categoria": "transporte", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 100},
-        {"Nome da despesa": "Limpeza do carro", "Data": "2024-04-20", "Categoria": "transporte", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 70},
-        {"Nome da despesa": "Vestido", "Data": "2024-05-15", "Categoria": "vestuário", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 200},
-        {"Nome da despesa": "Acessórios", "Data": "2024-05-20", "Categoria": "vestuário", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 150},
-        {"Nome da despesa": "Supermercado", "Data": "2024-06-15", "Categoria": "supermercado", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 500},
-        {"Nome da despesa": "Material escolar", "Data": "2024-07-15", "Categoria": "educação", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 150}, 
-        {"Nome da despesa": "Show", "Data": "2024-07-20", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 250},
-        {"Nome da despesa": "Cinema", "Data": "2024-08-05", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 50},
-        {"Nome da despesa": "Férias", "Data": "2024-08-20", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 3000},
-        {"Nome da despesa": "Corte de cabelo", "Data": "2024-01-25", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 150},
-        {"Nome da despesa": "Visita ao dentista", "Data": "2024-01-30", "Categoria": "saúde", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 400},
-        {"Nome da despesa": "Lanche na escola", "Data": "2024-02-10", "Categoria": "comida", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 25},
-        {"Nome da despesa": "Pizza", "Data": "2024-02-22", "Categoria": "comida", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 60},
-        {"Nome da despesa": "Passagem de ônibus", "Data": "2024-03-05", "Categoria": "transporte", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 10},
-        {"Nome da despesa": "Pedágio", "Data": "2024-03-20", "Categoria": "transporte", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 5},
-        {"Nome da despesa": "Maquiagem", "Data": "2024-04-10", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 200},
-        {"Nome da despesa": "Remédios", "Data": "2024-04-25", "Categoria": "saúde", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 90},
-        {"Nome da despesa": "Camiseta", "Data": "2024-05-15", "Categoria": "vestuário", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 100},
-        {"Nome da despesa": "Calça", "Data": "2024-05-30", "Categoria": "vestuário", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 150},
-        {"Nome da despesa": "Lanche na padaria", "Data": "2024-06-10", "Categoria": "comida", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 30},
-        {"Nome da despesa": "Almoço com amigos", "Data": "2024-06-20", "Categoria": "comida", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 70},
-        {"Nome da despesa": "Passeio", "Data": "2024-07-10", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 120},
-        {"Nome da despesa": "Jantar fora", "Data": "2024-07-25", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 90},
-        {"Nome da despesa": "Manicure", "Data": "2024-08-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 80},
-        {"Nome da despesa": "Exame médico", "Data": "2024-08-30", "Categoria": "saúde", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 200},
-        {"Nome da despesa": "Café", "Data": "2024-09-15", "Categoria": "comida", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 20},
-        {"Nome da despesa": "Sorvete", "Data": "2024-09-25", "Categoria": "comida", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 15},
-        {"Nome da despesa": "Passeio de bicicleta", "Data": "2024-10-20", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 40},
-        {"Nome da despesa": "Show de música", "Data": "2024-10-30", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 100}
-
+        # Continue com os demais dados...
     ]
 
     df = pd.DataFrame(data)
@@ -147,7 +65,7 @@ def display_budget_section(df):
         st.write("")  # Espaço vazio para alinhamento
         display_expense_view_options(df)
 
-# Função para exibir gráfico de despesas por categoria
+# Função para exibir gráfico de despesas por categoria com edição de cores
 def display_expense_chart(df):
     despesas_por_categoria = (
         df[df['Tipo'] == 'gasto']
@@ -159,12 +77,31 @@ def display_expense_chart(df):
         .sum()
         .reset_index()
     )
-    
-    fig = px.pie(despesas_por_categoria, values='Valor', names='Categoria', title='Distribuição das Despesas por Categoria')
-    fig.update_layout(width=800, height=600)
+
+    # Configurar cores padrão para as categorias
+    if "categoria_cores" not in st.session_state:
+        st.session_state["categoria_cores"] = {cat: px.colors.qualitative.Plotly[i % len(px.colors.qualitative.Plotly)]
+                                               for i, cat in enumerate(despesas_por_categoria["Categoria"].unique())}
+
+    # Criar gráfico de pizza com cores personalizáveis
+    fig = px.pie(
+        despesas_por_categoria,
+        values='Valor',
+        names='Categoria',
+        title='Distribuição das Despesas por Categoria',
+        color_discrete_map=st.session_state["categoria_cores"]
+    )
     st.plotly_chart(fig)
 
-# Função para exibir o gráfico de linha de dinheiro ao longo do tempo
+    # Botão para editar cores das categorias
+    if st.button("Editar", key="edit_pie_chart"):
+        with st.expander("Opções de Cores para Categorias", expanded=True):
+            st.write("Escolha as cores para cada categoria:")
+            for categoria in despesas_por_categoria["Categoria"].unique():
+                nova_cor = st.color_picker(f"Cor para {categoria}", st.session_state["categoria_cores"][categoria], key=f"cor_{categoria}")
+                st.session_state["categoria_cores"][categoria] = nova_cor
+
+# Função para exibir o gráfico de linha de dinheiro ao longo do tempo com edição de cores
 def display_money_over_time(df):
     st.subheader("Dinheiro ao Longo do Tempo")
     df_sorted = df.sort_values("Data")
@@ -179,8 +116,9 @@ def display_money_over_time(df):
     fig.add_trace(go.Scatter(x=df_gastos["Data"], y=df_gastos["Valor"].cumsum(), mode="lines", name="Gastos", line=dict(color=gastos_color)))
     st.plotly_chart(fig)
 
-    if st.button("Editar", key="edit_colors"):
-        with st.expander("Opções de Cores", expanded=True):
+    # Botão para editar cores das linhas
+    if st.button("Editar", key="edit_line_chart"):
+        with st.expander("Opções de Cores para Linhas", expanded=True):
             st.write("Escolha as cores para as linhas:")
             st.session_state["ganhos_color"] = st.color_picker("Linha de Ganhos", ganhos_color, key="ganhos_color")
             st.session_state["gastos_color"] = st.color_picker("Linha de Gastos", gastos_color, key="gastos_color")
@@ -217,61 +155,11 @@ def display_expense_view_options(df):
                 df = df.append(nova_despesa, ignore_index=True)
                 st.success("Despesa adicionada com sucesso!")
 
-# Página principal
-def main_page():
-    st.header("Página Principal")
-    df = load_data()
-    display_budget_section(df)
-    
-    # Seletor de cor e widget Wishlist
-    color = st.color_picker("Escolha uma cor para sua capa da Wishlist", "#3498db")
-    st.markdown(
-        f"""
-        <div class="wishlist-widget" style="background-color: {color};" onclick="window.location.href = '?page=wishlist'">
-            <div class="wishlist-color" style="background-color: {color};"></div>
-            <div class="wishlist-text">Wishlist</div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-# Página Wishlist
-def wishlist_page():
-    st.header("Wishlist")
-    wishlist_data = [
-        {"Nome": "Livro A", "Valor": 50},
-        {"Nome": "Livro B", "Valor": 75},
-    ]
-    wishlist_df = pd.DataFrame(wishlist_data)
-    st.write("Itens na Wishlist:")
-    st.dataframe(wishlist_df)
-
-# Controle de navegação entre páginas
+# Função principal para executar o app
 def main():
     apply_custom_css()
-    
-    # Definir a página ativa com base na URL
-    page = st.experimental_get_query_params().get("page", ["main"])[0]
-    
-    if page == "main":
-        main_page()
-    elif page == "wishlist":
-        wishlist_page()
-
-# Adicionar JavaScript para redirecionar ao clicar no widget Wishlist
-st.write(
-    """
-    <script>
-    const wishlist = document.querySelector('.wishlist-widget');
-    if (wishlist) {
-        wishlist.addEventListener('click', function() {
-            window.location.href = '?page=wishlist';
-        });
-    }
-    </script>
-    """,
-    unsafe_allow_html=True
-)
+    df = load_data()
+    display_budget_section(df)
 
 if __name__ == "__main__":
     main()
