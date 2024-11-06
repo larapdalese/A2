@@ -157,22 +157,29 @@ def display_expense_chart(df):
     # Exibir opções de edição de cores se 'Editar' foi clicado
     if st.session_state['editar_grafico_pizza']:
         st.write("**Escolha novas cores para cada categoria**")
-        
-        # Exibir as categorias em linhas de 4 colunas
+
+        # Exibir as categorias em linhas de 2 colunas
         categorias = list(despesas_por_categoria['Categoria'])
-        for i in range(0, len(categorias), 4):
-            cols = st.columns(4)
+        for i in range(0, len(categorias), 2):
+            cols = st.columns(2)
             for j, col in enumerate(cols):
                 if i + j < len(categorias):
                     categoria = categorias[i + j]
                     with col:
-                        nova_cor = st.color_picker(f"{categoria}", st.session_state['categoria_colors'][categoria], label_visibility="collapsed")
+                        st.write(f"{categoria}")
+                        nova_cor = st.color_picker(f"Cor para {categoria}", st.session_state['categoria_colors'][categoria], label_visibility="collapsed")
                         st.session_state['categoria_colors'][categoria] = nova_cor  # Atualiza a cor no estado da sessão
 
         # Botão de salvar para manter as alterações
         if st.button("Salvar"):
             st.success("Cores atualizadas com sucesso!")
             st.session_state['editar_grafico_pizza'] = False  # Esconde as opções de edição após salvar
+
+    # Adicionando espaço para a coluna 2
+    col2 = st.sidebar if st.sidebar else st.empty()  # Ajuste conforme sua lógica para exibir a coluna 2
+    with col2:
+        st.write("Conteúdo da Coluna 2")
+
 
 def display_line_chart(df):
     if 'editar_grafico' not in st.session_state:
