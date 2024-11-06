@@ -3,10 +3,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-# Configurar página para layout expandido
 st.set_page_config(layout="wide")
-
-# Adicionar CSS para expandir área de exibição
 def apply_custom_css():
     st.markdown("""
         <style>
@@ -46,8 +43,6 @@ def apply_custom_css():
         }
         </style>
     """, unsafe_allow_html=True)
-
-# Função para carregar dados de despesas
 def load_data():
     data = [
                 {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
@@ -111,15 +106,11 @@ def load_data():
     df = pd.DataFrame(data)
     df['Data'] = pd.to_datetime(df['Data'])
     return df
-
-# Função para calcular e exibir o orçamento e totais
 def display_budget_section(df):
     total_gastos = df[df['Tipo'] == 'gasto']['Valor'].sum()
     total_ganhos = df[df['Tipo'] == 'ganho']['Valor'].sum()
     saldo = total_ganhos - total_gastos
-
     col1, col2 = st.columns([2, 1])
-
     with col1:
         st.header("Orçamento do Mês:")
         orçamento = st.number_input("Insira seu orçamento mensal:", min_value=0, value=0, step=100)
@@ -127,15 +118,11 @@ def display_budget_section(df):
         st.write(f"Total de Gastos: R$ {total_gastos:.2f}")
         st.write(f"Total de Ganhos: R$ {total_ganhos:.2f}")
         st.write(f"Saldo: R$ {saldo:.2f}")
-
         display_expense_chart(df)
-        display_line_chart(df)  # Adicionar o gráfico de linhas logo abaixo do gráfico de pizza
-
+        display_line_chart(df)  
     with col2:
-        st.write("")  # Espaço vazio para alinhamento
+        st.write("")  
         display_expense_view_options(df)
-
-# Função para exibir gráfico de despesas por categoria
 def display_expense_chart(df):
     despesas_por_categoria = (
         df[df['Tipo'] == 'gasto']
@@ -146,34 +133,25 @@ def display_expense_chart(df):
         .groupby('Categoria')
         .sum()
         .reset_index()
-    )
-    
+    )  
     fig = px.pie(despesas_por_categoria, values='Valor', names='Categoria', title='Distribuição das Despesas por Categoria')
     fig.update_layout(width=800, height=600)
     st.plotly_chart(fig)
-
-# Função para exibir gráfico de linhas "Dinheiro ao longo do tempo"
 def display_line_chart(df):
     st.subheader("Dinheiro ao longo do tempo")
     gasto_color = st.color_picker("Escolha a cor para a linha de Gastos", "#FF6347")
     ganho_color = st.color_picker("Escolha a cor para a linha de Ganhos", "#4682B4")
-
-    df = df.sort_values('Data')  # Ordenar por data
+    df = df.sort_values('Data')
     df_gastos = df[df['Tipo'] == 'gasto'].groupby('Data')['Valor'].sum().cumsum().reset_index()
     df_ganhos = df[df['Tipo'] == 'ganho'].groupby('Data')['Valor'].sum().cumsum().reset_index()
-
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=df_gastos['Data'], y=df_gastos['Valor'], mode='lines', name='Gastos', line=dict(color=gasto_color)))
     fig.add_trace(go.Scatter(x=df_ganhos['Data'], y=df_ganhos['Valor'], mode='lines', name='Ganhos', line=dict(color=ganho_color)))
-
     fig.update_layout(title="Evolução dos Gastos e Ganhos ao longo do tempo", xaxis_title="Data", yaxis_title="Valor Acumulado")
     st.plotly_chart(fig)
-
-# Função para exibir opções de visualização de despesas
 def display_expense_view_options(df):
     st.subheader("Despesas")
     option = st.selectbox("Selecione uma visualização:", ["Todas as Despesas", "Por mês", "Por categoria", "Adicionar despesa"])
-    
     if option == "Todas as Despesas":
         st.dataframe(df)
     elif option == "Por mês":
@@ -190,8 +168,6 @@ def display_expense_view_options(df):
         st.dataframe(despesas_categoria)
     elif option == "Adicionar despesa":
         add_expense(df)
-
-# Função para adicionar uma nova despesa ao DataFrame
 def add_expense(df):
     st.subheader("Adicionar nova despesa")
     nome_despesa = st.text_input("Nome da despesa")
@@ -200,7 +176,6 @@ def add_expense(df):
     forma_pagamento = st.selectbox("Forma de pagamento", ["débito", "crédito", "pix"])
     tipo_despesa = st.selectbox("Tipo", ["gasto", "ganho"])
     valor_despesa = st.number_input("Valor", min_value=0.0, step=0.01)
-
     if st.button("Adicionar"):
         nova_despesa = {
             "Nome da despesa": nome_despesa,
@@ -213,10 +188,7 @@ def add_expense(df):
         df = df.append(nova_despesa, ignore_index=True)
         st.success("Despesa adicionada com sucesso!")
         st.dataframe(df)  
-        # Aplicar o CSS personalizado
 apply_custom_css()
-
-# Carregar os dados e exibir a seção principal da aplicação
 df = load_data()
 display_budget_section(df)
 
