@@ -137,46 +137,54 @@ def display_expense_chart(df):
     fig = px.pie(despesas_por_categoria, values='Valor', names='Categoria', title='Distribuição das Despesas por Categoria')
     fig.update_layout(width=800, height=600)
     st.plotly_chart(fig)
+# Função para exibir gráfico de linhas "Dinheiro ao longo do tempo" com opção de edição de cores
 def display_line_chart(df):
     st.subheader("Dinheiro ao longo do tempo")
-    
-    # Variável de controle para ativar o modo de edição de cores
-    if 'edit_mode' not in st.session_state:
-        st.session_state.edit_mode = False
+    if 'editar_grafico' not in st.session_state:
+        st.session_state['editar_grafico'] = False
 
-    # Botão para ativar o modo de edição de cores
-    if st.button("Editar", key="edit_button"):
-        st.session_state.edit_mode = not st.session_state.edit_mode
-
-    # Se o modo de edição estiver ativado, exibe os seletores de cor
-    if st.session_state.edit_mode:
-        col1, col2 = st.columns(2)
-        with col1:
-            gasto_color = st.color_picker("Cor da linha de Gastos", "#FF6347", key="gasto_color")
-        with col2:
-            ganho_color = st.color_picker("Cor da linha de Ganhos", "#4682B4", key="ganho_color")
-
-        # Botão para salvar as alterações e atualizar o gráfico
-        if st.button("Salvar", key="save_button"):
-            # Atualiza as cores do gráfico com as cores selecionadas
-            st.session_state.edit_mode = False
-    else:
-        # Cores padrão
-        gasto_color = "#FF6347"
-        ganho_color = "#4682B4"
-
-    # Ordenar por data
-    df = df.sort_values('Data')
+    # Gráfico inicial
+    df = df.sort_values('Data')  # Ordenar por data
     df_gastos = df[df['Tipo'] == 'gasto'].groupby('Data')['Valor'].sum().cumsum().reset_index()
     df_ganhos = df[df['Tipo'] == 'ganho'].groupby('Data')['Valor'].sum().cumsum().reset_index()
 
-    # Criação do gráfico
+    # Armazenar cores selecionadas no estado da sessão
+    if 'gasto_color' not in st.session_state:
+        st.session_state['gasto_color'] = "#FF6347"  # Cor padrão para gastos
+    if 'ganho_color' not in st.session_state:
+        st.session_state['ganho_color'] = "#4682B4"  # Cor padrão para ganhos
+
+    # Mostrar gráfico
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=df_gastos['Data'], y=df_gastos['Valor'], mode='lines', name='Gastos', line=dict(color=gasto_color)))
-    fig.add_trace(go.Scatter(x=df_ganhos['Data'], y=df_ganhos['Valor'], mode='lines', name='Ganhos', line=dict(color=ganho_color)))
-    
+    fig.add_trace(go.Scatter(
+        x=df_gastos['Data'], y=df_gastos['Valor'], mode='lines', name='Gastos',
+        line=dict(color=st.session_state['gasto_color'])
+    ))
+    fig.add_trace(go.Scatter(
+        x=df_ganhos['Data'], y=df_ganhos['Valor'], mode='lines', name='Ganhos',
+        line=dict(color=st.session_state['ganho_color'])
+    ))
+
     fig.update_layout(title="Evolução dos Gastos e Ganhos ao longo do tempo", xaxis_title="Data", yaxis_title="Valor Acumulado")
     st.plotly_chart(fig)
+
+    # Botão para mostrar opções de edição
+    if st.button("Editar"):
+        st.session_state['editar_grafico'] = not st.session_state['editar_grafico']
+
+    # Exibir opções de edição de cores se 'Editar' foi clicado
+    if st.session_state['editar_grafico']:
+        col1, col2 = st.columns(2)
+        with col1:
+            st.session_state['gasto_color'] = st.color_picker("Cor de Gastos", st.session_state['gasto_color'])
+        with col2:
+            st.session_state['ganho_color'] = st.color_picker("Cor de Ganhos", st.session_state['ganho_color'])
+
+        # Botão de salvar para manter as alterações
+        if st.button("Salvar"):
+            st.success("Cores atualizadas com sucesso!")
+            st.session_state['editar_grafico'] = False  # Esconde as opções de edição após salvar
+
 
 def display_expense_view_options(df):
     st.subheader("Despesas")
