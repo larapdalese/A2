@@ -137,16 +137,27 @@ def display_expense_chart(df):
     fig = px.pie(despesas_por_categoria, values='Valor', names='Categoria', title='Distribuição das Despesas por Categoria')
     fig.update_layout(width=800, height=600)
     st.plotly_chart(fig)
+# Função para exibir gráfico de linhas "Dinheiro ao longo do tempo"
 def display_line_chart(df):
     st.subheader("Dinheiro ao longo do tempo")
-    df = df.sort_values('Data')  
+    
+    # Mostrar o gráfico de linhas inicial
+    df = df.sort_values('Data')  # Ordenar por data
     df_gastos = df[df['Tipo'] == 'gasto'].groupby('Data')['Valor'].sum().cumsum().reset_index()
     df_ganhos = df[df['Tipo'] == 'ganho'].groupby('Data')['Valor'].sum().cumsum().reset_index()
+
+    # Variáveis para cores padrão
+    gasto_color = "#FF6347"
+    ganho_color = "#4682B4"
+
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=df_gastos['Data'], y=df_gastos['Valor'], mode='lines', name='Gastos'))
-    fig.add_trace(go.Scatter(x=df_ganhos['Data'], y=df_ganhos['Valor'], mode='lines', name='Ganhos'))
+    fig.add_trace(go.Scatter(x=df_gastos['Data'], y=df_gastos['Valor'], mode='lines', name='Gastos', line=dict(color=gasto_color)))
+    fig.add_trace(go.Scatter(x=df_ganhos['Data'], y=df_ganhos['Valor'], mode='lines', name='Ganhos', line=dict(color=ganho_color)))
+
     fig.update_layout(title="Evolução dos Gastos e Ganhos ao longo do tempo", xaxis_title="Data", yaxis_title="Valor Acumulado")
     st.plotly_chart(fig)
+
+    # Botão para mostrar opções de edição de cor
     if st.button("Editar"):
         col1, col2 = st.columns(2)
         with col1:
@@ -155,9 +166,15 @@ def display_line_chart(df):
         with col2:
             st.caption("Cor da linha de Ganhos")
             ganho_color = st.color_picker("", "#4682B4", key="ganho_color")
-        fig.update_traces(selector=dict(name='Gastos'), line=dict(color=gasto_color))
-        fig.update_traces(selector=dict(name='Ganhos'), line=dict(color=ganho_color))
+
+        # Criar o gráfico atualizado com as cores escolhidas
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=df_gastos['Data'], y=df_gastos['Valor'], mode='lines', name='Gastos', line=dict(color=gasto_color)))
+        fig.add_trace(go.Scatter(x=df_ganhos['Data'], y=df_ganhos['Valor'], mode='lines', name='Ganhos', line=dict(color=ganho_color)))
+
+        fig.update_layout(title="Evolução dos Gastos e Ganhos ao longo do tempo", xaxis_title="Data", yaxis_title="Valor Acumulado")
         st.plotly_chart(fig)
+
 def display_expense_view_options(df):
     st.subheader("Despesas")
     option = st.selectbox("Selecione uma visualização:", ["Todas as Despesas", "Por mês", "Por categoria", "Adicionar despesa"])
