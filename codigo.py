@@ -126,18 +126,44 @@ def display_budget_section(df):
         display_insights(df)
 def display_insights(df):
     st.subheader("Insights de Gastos")
-    df['Semana'] = df['Data'].dt.isocalendar().week
-    semana_mais_gastos = df[df['Tipo'] == 'gasto'].groupby('Semana')['Valor'].sum().idxmax()
-    valor_mais_gastos = df[df['Tipo'] == 'gasto'].groupby('Semana')['Valor'].sum().max()
-    st.write(f"A semana com mais gastos foi a semana {semana_mais_gastos}, com um total de R$ {valor_mais_gastos:.2f} em despesas.")
+    st.markdown("""
+    - **Período de maior gasto do mês**:
+    """)
+    data_atual = pd.Timestamp.now().date()
+    df_ultimos_30_dias = df[(df['Data'].dt.date >= (data_atual - pd.Timedelta(days=30))) & (df['Data'].dt.date <= data_atual)]
+    df_gastos_diarios = df_ultimos_30_dias[df_ultimos_30_dias['Tipo'] == 'gasto'].groupby(df_ultimos_30_dias['Data'].dt.date)['Valor'].sum()
+    dia_mais_gasto = df_gastos_diarios.idxmax() if not df_gastos_diarios.empty else "Sem dados"
+    valor_dia_mais_gasto = df_gastos_diarios.max() if not df_gastos_diarios.empty else 0.0
+    st.markdown(f"""
+    - O dia com maior gasto nos últimos 30 dias foi **{dia_mais_gasto}**, com um total de **R$ {valor_dia_mais_gasto:.2f}**.
+    """)
+    st.markdown("""
+    - **Categoria com maior gasto acumulado**:
+    """)
     categoria_mais_gastos = df[df['Tipo'] == 'gasto'].groupby('Categoria')['Valor'].sum().idxmax()
     valor_categoria_mais_gastos = df[df['Tipo'] == 'gasto'].groupby('Categoria')['Valor'].sum().max()
-    st.write(f"A categoria com mais despesas acumuladas é {categoria_mais_gastos}, com um total de R$ {valor_categoria_mais_gastos:.2f} em gastos.")
+    st.markdown(f"""
+    - A categoria com mais despesas acumuladas é **{categoria_mais_gastos}**, com um total de **R$ {valor_categoria_mais_gastos:.2f}** em gastos.
+    """)
+    st.markdown("""
+    - **Probabilidade de ultrapassar o orçamento**:
+    """)
     total_gastos = df[df['Tipo'] == 'gasto']['Valor'].sum()
     df_categoria_prob = df[df['Tipo'] == 'gasto'].groupby('Categoria')['Valor'].sum() / total_gastos
     categoria_alto_risco = df_categoria_prob.idxmax()
     probabilidade_alto_risco = df_categoria_prob.max() * 100
-    st.write(f"A categoria com maior risco de ultrapassar o orçamento é {categoria_alto_risco}, com uma probabilidade de {probabilidade_alto_risco:.2f}%.")
+    st.markdown(f"""
+    - A categoria com maior risco de ultrapassar o orçamento é **{categoria_alto_risco}**, com uma probabilidade de **{probabilidade_alto_risco:.2f}%**.
+    """)
+    if st.button("Fiquei curiosa, quero saber mais"):
+        if dia_mais_gasto != "Sem dados":
+            intervalo_inicio = dia_mais_gasto - pd.Timedelta(days=3)
+            intervalo_fim = dia_mais_gasto + pd.Timedelta(days=3)
+            df_detalhes = df[(df['Data'].dt.date >= intervalo_inicio) & (df['Data'].dt.date <= intervalo_fim)]
+            st.write(f"Despesas entre **{intervalo_inicio}** e **{intervalo_fim}**:")
+            st.dataframe(df_detalhes)
+        else:
+            st.write("Não há dados suficientes para exibir mais detalhes.")
 def display_expense_chart(df):
     despesas_por_categoria = (
         df[df['Tipo'] == 'gasto']
