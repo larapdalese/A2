@@ -110,7 +110,9 @@ def display_budget_section(df):
     total_gastos = df[df['Tipo'] == 'gasto']['Valor'].sum()
     total_ganhos = df[df['Tipo'] == 'ganho']['Valor'].sum()
     saldo = total_ganhos - total_gastos
+
     col1, col2 = st.columns([2, 1])
+
     with col1:
         st.header("Orçamento do Mês:")
         orçamento = st.number_input("Insira seu orçamento mensal:", min_value=0, value=0, step=100)
@@ -118,22 +120,24 @@ def display_budget_section(df):
         st.write(f"Total de Gastos: R$ {total_gastos:.2f}")
         st.write(f"Total de Ganhos: R$ {total_ganhos:.2f}")
         st.write(f"Saldo: R$ {saldo:.2f}")
+
+        # Mostrar gráficos
         display_expense_chart(df)
-        display_line_chart(df)  
+        display_line_chart(df)
+
     with col2:
-        st.write("")  
+        st.subheader("Opções")
         display_expense_view_options(df)
+
 # Função para exibir gráfico de despesas por categoria com opção de edição de cores para cada categoria
 def display_expense_chart(df):
     if 'editar_grafico_pizza' not in st.session_state:
         st.session_state['editar_grafico_pizza'] = False
 
-    # Cores padrão para o gráfico de pizza
     if 'categoria_colors' not in st.session_state:
         categorias_unicas = df['Categoria'].unique()
         st.session_state['categoria_colors'] = {categoria: px.colors.qualitative.Plotly[i % len(px.colors.qualitative.Plotly)] for i, categoria in enumerate(categorias_unicas)}
 
-    # Criar gráfico de pizza
     despesas_por_categoria = (
         df[df['Tipo'] == 'gasto']
         .groupby('Categoria')['Valor']
@@ -144,22 +148,19 @@ def display_expense_chart(df):
         .sum()
         .reset_index()
     )
-    
+
     fig = px.pie(despesas_por_categoria, values='Valor', names='Categoria', title='Distribuição das Despesas por Categoria')
     fig.update_traces(marker=dict(colors=[st.session_state['categoria_colors'].get(cat, '#000000') for cat in despesas_por_categoria['Categoria']]))
     fig.update_layout(width=800, height=600)
     st.plotly_chart(fig)
 
-    # Botão para mostrar opções de edição
     if st.button("Editar"):
         st.session_state['editar_grafico_pizza'] = not st.session_state['editar_grafico_pizza']
 
-    # Exibir opções de edição de cores se 'Editar' foi clicado
     if st.session_state['editar_grafico_pizza']:
         st.write("**Escolha novas cores para cada categoria**")
-
-        # Exibir as categorias em linhas de 2 colunas
         categorias = list(despesas_por_categoria['Categoria'])
+
         for i in range(0, len(categorias), 2):
             cols = st.columns(2)
             for j, col in enumerate(cols):
@@ -168,18 +169,11 @@ def display_expense_chart(df):
                     with col:
                         st.write(f"{categoria}")
                         nova_cor = st.color_picker(f"Cor para {categoria}", st.session_state['categoria_colors'][categoria], label_visibility="collapsed")
-                        st.session_state['categoria_colors'][categoria] = nova_cor  # Atualiza a cor no estado da sessão
+                        st.session_state['categoria_colors'][categoria] = nova_cor
 
-        # Botão de salvar para manter as alterações
         if st.button("Salvar"):
             st.success("Cores atualizadas com sucesso!")
-            st.session_state['editar_grafico_pizza'] = False  # Esconde as opções de edição após salvar
-
-    # Adicionando espaço para a coluna 2
-    col2 = st.sidebar if st.sidebar else st.empty()  # Ajuste conforme sua lógica para exibir a coluna 2
-    with col2:
-        st.write("Conteúdo da Coluna 2")
-
+            st.session_state['editar_grafico_pizza'] = False
 
 def display_line_chart(df):
     if 'editar_grafico' not in st.session_state:
