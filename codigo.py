@@ -121,8 +121,25 @@ def display_budget_section(df):
         display_expense_chart(df)
         display_line_chart(df)  
     with col2:
-        st.write("")  
+        st.write("") 
         display_expense_view_options(df)
+        display_insights(df)
+def display_insights(df):
+    col1, col2 = st.columns([2, 1])
+    with col2:
+        st.subheader("Insights de Gastos")
+        df['Semana'] = df['Data'].dt.isocalendar().week
+        semana_mais_gastos = df[df['Tipo'] == 'gasto'].groupby('Semana')['Valor'].sum().idxmax()
+        valor_mais_gastos = df[df['Tipo'] == 'gasto'].groupby('Semana')['Valor'].sum().max()
+        st.write(f"A semana com mais gastos foi a semana {semana_mais_gastos}, com um total de R$ {valor_mais_gastos:.2f} em despesas.")
+        categoria_mais_gastos = df[df['Tipo'] == 'gasto'].groupby('Categoria')['Valor'].sum().idxmax()
+        valor_categoria_mais_gastos = df[df['Tipo'] == 'gasto'].groupby('Categoria')['Valor'].sum().max()
+        st.write(f"A categoria com mais despesas acumuladas é {categoria_mais_gastos}, com um total de R$ {valor_categoria_mais_gastos:.2f} em gastos.")
+        total_gastos = df[df['Tipo'] == 'gasto']['Valor'].sum()
+        df_categoria_prob = df[df['Tipo'] == 'gasto'].groupby('Categoria')['Valor'].sum() / total_gastos
+        categoria_alto_risco = df_categoria_prob.idxmax()
+        probabilidade_alto_risco = df_categoria_prob.max() * 100
+        st.write(f"A categoria com maior risco de ultrapassar o orçamento é {categoria_alto_risco}, com uma probabilidade de {probabilidade_alto_risco:.2f}%.")
 def display_expense_chart(df):
     despesas_por_categoria = (
         df[df['Tipo'] == 'gasto']
