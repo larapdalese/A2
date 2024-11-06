@@ -139,7 +139,6 @@ def display_expense_chart(df):
     st.plotly_chart(fig)
 # Função para exibir gráfico de linhas "Dinheiro ao longo do tempo" com opção de edição de cores
 def display_line_chart(df):
-    st.subheader("Dinheiro ao longo do tempo")
     if 'editar_grafico' not in st.session_state:
         st.session_state['editar_grafico'] = False
 
