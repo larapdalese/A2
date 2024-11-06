@@ -106,6 +106,7 @@ def load_data():
     df = pd.DataFrame(data)
     df['Data'] = pd.to_datetime(df['Data'])
     return df
+
 def display_budget_section(df):
     total_gastos = df[df['Tipo'] == 'gasto']['Valor'].sum()
     total_ganhos = df[df['Tipo'] == 'ganho']['Valor'].sum()
@@ -129,7 +130,6 @@ def display_budget_section(df):
         st.subheader("Opções")
         display_expense_view_options(df)
 
-# Função para exibir gráfico de despesas por categoria com opção de edição de cores para cada categoria
 def display_expense_chart(df):
     if 'editar_grafico_pizza' not in st.session_state:
         st.session_state['editar_grafico_pizza'] = False
@@ -178,13 +178,16 @@ def display_expense_chart(df):
 def display_line_chart(df):
     if 'editar_grafico' not in st.session_state:
         st.session_state['editar_grafico'] = False
-    df = df.sort_values('Data') 
+
+    df = df.sort_values('Data')
     df_gastos = df[df['Tipo'] == 'gasto'].groupby('Data')['Valor'].sum().cumsum().reset_index()
     df_ganhos = df[df['Tipo'] == 'ganho'].groupby('Data')['Valor'].sum().cumsum().reset_index()
+
     if 'gasto_color' not in st.session_state:
-        st.session_state['gasto_color'] = "#FF6347" 
+        st.session_state['gasto_color'] = "#FF6347"
     if 'ganho_color' not in st.session_state:
-        st.session_state['ganho_color'] = "#4682B4"  
+        st.session_state['ganho_color'] = "#4682B4"
+
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=df_gastos['Data'], y=df_gastos['Valor'], mode='lines', name='Gastos',
@@ -196,17 +199,21 @@ def display_line_chart(df):
     ))
     fig.update_layout(title="Evolução dos Gastos e Ganhos ao longo do tempo", xaxis_title="Data", yaxis_title="Valor Acumulado")
     st.plotly_chart(fig)
+
     if st.button("Editar"):
         st.session_state['editar_grafico'] = not st.session_state['editar_grafico']
+
     if st.session_state['editar_grafico']:
         col1, col2 = st.columns(2)
         with col1:
             st.session_state['gasto_color'] = st.color_picker("Cor de Gastos", st.session_state['gasto_color'])
         with col2:
             st.session_state['ganho_color'] = st.color_picker("Cor de Ganhos", st.session_state['ganho_color'])
+
         if st.button("Salvar"):
             st.success("Cores atualizadas com sucesso!")
-            st.session_state['editar_grafico'] = False 
+            st.session_state['editar_grafico'] = False
+
 def display_expense_view_options(df):
     st.subheader("Despesas")
     option = st.selectbox("Selecione uma visualização:", ["Todas as Despesas", "Por mês", "Por categoria", "Adicionar despesa"])
@@ -226,6 +233,7 @@ def display_expense_view_options(df):
         st.dataframe(despesas_categoria)
     elif option == "Adicionar despesa":
         add_expense(df)
+
 def add_expense(df):
     st.subheader("Adicionar nova despesa")
     nome_despesa = st.text_input("Nome da despesa")
@@ -243,10 +251,11 @@ def add_expense(df):
             "Tipo": tipo_despesa,
             "Valor": valor_despesa
         }
-        df = df.append(nova_despesa, ignore_index=True)
+        df = pd.concat([df, pd.DataFrame([nova_despesa])], ignore_index=True)
         st.success("Despesa adicionada com sucesso!")
-        st.dataframe(df)  
+        st.dataframe(df)
+
+# Aplicar CSS personalizado e carregar dados
 apply_custom_css()
 df = load_data()
 display_budget_section(df)
-
