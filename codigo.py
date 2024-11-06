@@ -135,7 +135,7 @@ def display_insights(df):
     dia_mais_gasto = df_gastos_diarios.idxmax() if not df_gastos_diarios.empty else "Sem dados"
     valor_dia_mais_gasto = df_gastos_diarios.max() if not df_gastos_diarios.empty else 0.0
     st.markdown(f"""
-    - O dia com maior gasto nos últimos 30 dias foi **{dia_mais_gasto}**, com um total de **R$ {valor_dia_mais_gasto:.2f}**.
+    O dia com maior gasto nos últimos 30 dias foi **{dia_mais_gasto}**, com um total de **R$ {valor_dia_mais_gasto:.2f}**.
     """)
     st.markdown("""
     - **Categoria com maior gasto acumulado**:
