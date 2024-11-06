@@ -143,7 +143,7 @@ def display_insights(df):
     categoria_mais_gastos = df[df['Tipo'] == 'gasto'].groupby('Categoria')['Valor'].sum().idxmax()
     valor_categoria_mais_gastos = df[df['Tipo'] == 'gasto'].groupby('Categoria')['Valor'].sum().max()
     st.markdown(f"""
-    - A categoria com mais despesas acumuladas é **{categoria_mais_gastos}**, com um total de **R$ {valor_categoria_mais_gastos:.2f}** em gastos.
+    A categoria com mais despesas acumuladas é **{categoria_mais_gastos}**, com um total de **R$ {valor_categoria_mais_gastos:.2f}** em gastos.
     """)
     st.markdown("""
     - **Probabilidade de ultrapassar o orçamento**:
@@ -153,7 +153,7 @@ def display_insights(df):
     categoria_alto_risco = df_categoria_prob.idxmax()
     probabilidade_alto_risco = df_categoria_prob.max() * 100
     st.markdown(f"""
-    - A categoria com maior risco de ultrapassar o orçamento é **{categoria_alto_risco}**, com uma probabilidade de **{probabilidade_alto_risco:.2f}%**.
+    A categoria com maior risco de ultrapassar o orçamento é **{categoria_alto_risco}**, com uma probabilidade de **{probabilidade_alto_risco:.2f}%**.
     """)
     if st.button("Fiquei curiosa, quero saber mais"):
         if dia_mais_gasto != "Sem dados":
