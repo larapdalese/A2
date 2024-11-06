@@ -135,18 +135,7 @@ def display_budget_section(df):
         st.write("")  # Espaço vazio para alinhamento
         display_expense_view_options(df)
 
-# Função para exibir gráfico de despesas por categoria
-# Função para exibir gráfico de despesas por categoria com opção de edição de cores para cada categoria
 def display_expense_chart(df):
-    if 'editar_grafico_pizza' not in st.session_state:
-        st.session_state['editar_grafico_pizza'] = False
-
-    # Cores padrão para o gráfico de pizza
-    if 'categoria_colors' not in st.session_state:
-        categorias_unicas = df['Categoria'].unique()
-        st.session_state['categoria_colors'] = {categoria: px.colors.qualitative.Plotly[i % len(px.colors.qualitative.Plotly)] for i, categoria in enumerate(categorias_unicas)}
-
-    # Criar gráfico de pizza
     despesas_por_categoria = (
         df[df['Tipo'] == 'gasto']
         .groupby('Categoria')['Valor']
@@ -156,32 +145,10 @@ def display_expense_chart(df):
         .groupby('Categoria')
         .sum()
         .reset_index()
-    )
-    
+    )  
     fig = px.pie(despesas_por_categoria, values='Valor', names='Categoria', title='Distribuição das Despesas por Categoria')
-    fig.update_traces(marker=dict(colors=[st.session_state['categoria_colors'].get(cat, '#000000') for cat in despesas_por_categoria['Categoria']]))
     fig.update_layout(width=800, height=600)
     st.plotly_chart(fig)
-
-    # Botão para mostrar opções de edição
-    if st.button("Editar"):
-        st.session_state['editar_grafico_pizza'] = not st.session_state['editar_grafico_pizza']
-
-    # Exibir opções de edição de cores se 'Editar' foi clicado
-    if st.session_state['editar_grafico_pizza']:
-        st.write("**Escolha novas cores para cada categoria**")
-        for categoria in despesas_por_categoria['Categoria']:
-            nova_cor = st.color_picker(f"Cor para {categoria}", st.session_state['categoria_colors'][categoria])
-            st.session_state['categoria_colors'][categoria] = nova_cor  # Atualiza a cor no estado da sessão
-
-        # Botão de salvar para manter as alterações
-        if st.button("Salvar"):
-            st.success("Cores atualizadas com sucesso!")
-            st.session_state['editar_grafico_pizza'] = False  # Esconde as opções de edição após salvar
-
-
-# Função para exibir gráfico de linhas "Dinheiro ao longo do tempo"
-# Função para exibir gráfico de linhas "Dinheiro ao longo do tempo" com opção de edição de cores
 def display_line_chart(df):
     st.subheader("Dinheiro ao longo do tempo")
     if 'editar_grafico' not in st.session_state:
