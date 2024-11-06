@@ -157,9 +157,17 @@ def display_expense_chart(df):
     # Exibir opções de edição de cores se 'Editar' foi clicado
     if st.session_state['editar_grafico_pizza']:
         st.write("**Escolha novas cores para cada categoria**")
-        for categoria in despesas_por_categoria['Categoria']:
-            nova_cor = st.color_picker(f"Cor para {categoria}", st.session_state['categoria_colors'][categoria])
-            st.session_state['categoria_colors'][categoria] = nova_cor  # Atualiza a cor no estado da sessão
+        
+        # Exibir as categorias em linhas de 4 colunas
+        categorias = list(despesas_por_categoria['Categoria'])
+        for i in range(0, len(categorias), 4):
+            cols = st.columns(4)
+            for j, col in enumerate(cols):
+                if i + j < len(categorias):
+                    categoria = categorias[i + j]
+                    with col:
+                        nova_cor = st.color_picker(f"{categoria}", st.session_state['categoria_colors'][categoria], label_visibility="collapsed")
+                        st.session_state['categoria_colors'][categoria] = nova_cor  # Atualiza a cor no estado da sessão
 
         # Botão de salvar para manter as alterações
         if st.button("Salvar"):
