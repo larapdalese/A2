@@ -219,6 +219,14 @@ def display_expense_view_options(df):
         add_expense(df)
 
 # Função para adicionar uma nova despesa ao DataFrame
+import streamlit as st
+import pandas as pd
+
+# Inicializar o DataFrame no estado da sessão, se ainda não existir
+if 'df' not in st.session_state:
+    st.session_state.df = pd.DataFrame(columns=["Nome da despesa", "Data", "Categoria", "Forma de pagamento", "Tipo", "Valor"])
+
+# Função para adicionar nova despesa
 def add_expense():
     st.subheader("Adicionar nova despesa")
     nome_despesa = st.text_input("Nome da despesa")
@@ -241,11 +249,13 @@ def add_expense():
         st.session_state.df = st.session_state.df.append(nova_despesa, ignore_index=True)
         st.success("Despesa adicionada com sucesso!")
 
-# Mostrar a função de adição de despesa
+# Chamar a função para exibir o formulário de adição de despesa
 add_expense()
 
-# Mostrar o DataFrame atualizado
-st.dataframe(st.session_state.df)  # Atualizar a exibição do DataFrame com a nova despesa
+# Exibir o DataFrame atualizado
+st.subheader("Despesas registradas")
+st.dataframe(st.session_state.df)
+ # Atualizar a exibição do DataFrame com a nova despesa
 apply_custom_css()
 
 # Carregar os dados e exibir a seção principal da aplicação
