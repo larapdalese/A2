@@ -213,3 +213,8 @@ def add_expense(df):
         df = df.append(nova_despesa, ignore_index=True)
         st.success("Despesa adicionada com sucesso!")
         st.dataframe(df)  # Atualizar a exibição do DataFrame com a nova despesa
+apply_custom_css()
+
+# Carregar os dados e exibir a seção principal da aplicação
+df = load_data()
+display_budget_section(df)
