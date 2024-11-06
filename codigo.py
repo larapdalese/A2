@@ -149,6 +149,17 @@ def display_line_chart(df):
     fig.add_trace(go.Scatter(x=df_ganhos['Data'], y=df_ganhos['Valor'], mode='lines', name='Ganhos', line=dict(color=ganho_color)))
     fig.update_layout(title="Evolução dos Gastos e Ganhos ao longo do tempo", xaxis_title="Data", yaxis_title="Valor Acumulado")
     st.plotly_chart(fig)
+    if st.button("Editar"):
+        col1, col2 = st.columns(2)
+        with col1:
+            st.caption("Cor da linha de Gastos")
+            gasto_color = st.color_picker("", "#FF6347", key="gasto_color")
+        with col2:
+            st.caption("Cor da linha de Ganhos")
+            ganho_color = st.color_picker("", "#4682B4", key="ganho_color")
+        fig.update_traces(selector=dict(name='Gastos'), line=dict(color=gasto_color))
+        fig.update_traces(selector=dict(name='Ganhos'), line=dict(color=ganho_color))
+        st.plotly_chart(fig)
 def display_expense_view_options(df):
     st.subheader("Despesas")
     option = st.selectbox("Selecione uma visualização:", ["Todas as Despesas", "Por mês", "Por categoria", "Adicionar despesa"])
