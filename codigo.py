@@ -150,7 +150,6 @@ def display_expense_chart(df):
     fig.update_layout(width=800, height=600)
     st.plotly_chart(fig)
 def display_line_chart(df):
-    st.subheader("Dinheiro ao longo do tempo")
     if 'editar_grafico' not in st.session_state:
         st.session_state['editar_grafico'] = False
 
