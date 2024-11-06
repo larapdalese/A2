@@ -145,10 +145,55 @@ def display_expense_chart(df):
         .groupby('Categoria')
         .sum()
         .reset_index()
-    )  
-    fig = px.pie(despesas_por_categoria, values='Valor', names='Categoria', title='Distribuição das Despesas por Categoria')
+    )
+
+    if 'editar_pizza' not in st.session_state:
+        st.session_state['editar_pizza'] = False
+
+    # Inicializar cores padrão para as categorias, se não existirem
+    if 'categoria_colors' not in st.session_state:
+        st.session_state['categoria_colors'] = {cat: px.colors.qualitative.Plotly[i % len(px.colors.qualitative.Plotly)]
+                                                for i, cat in enumerate(despesas_por_categoria['Categoria'])}
+
+    # Criar gráfico de pizza com as cores atuais
+    fig = px.pie(
+        despesas_por_categoria,
+        values='Valor',
+        names='Categoria',
+        title='Distribuição das Despesas por Categoria',
+        color='Categoria',
+        color_discrete_map=st.session_state['categoria_colors']
+    )
     fig.update_layout(width=800, height=600)
     st.plotly_chart(fig)
+
+    # Botão para mostrar opções de edição
+    if st.button("Editar Cores do Gráfico de Pizza"):
+        st.session_state['editar_pizza'] = not st.session_state['editar_pizza']
+
+    # Exibir opções de edição de cores se 'Editar' foi clicado
+    if st.session_state['editar_pizza']:
+        st.subheader("Editar Cores das Categorias")
+        col1, col2 = st.columns(2)
+
+        categorias = list(st.session_state['categoria_colors'].keys())
+        for i in range(0, len(categorias), 2):
+            with col1:
+                if i < len(categorias):
+                    st.session_state['categoria_colors'][categorias[i]] = st.color_picker(
+                        f"Cor para {categorias[i]}", st.session_state['categoria_colors'][categorias[i]]
+                    )
+            with col2:
+                if i + 1 < len(categorias):
+                    st.session_state['categoria_colors'][categorias[i + 1]] = st.color_picker(
+                        f"Cor para {categorias[i + 1]}", st.session_state['categoria_colors'][categorias[i + 1]]
+                    )
+
+        # Botão de salvar para manter as alterações
+        if st.button("Salvar Cores"):
+            st.success("Cores do gráfico de pizza atualizadas com sucesso!")
+            st.session_state['editar_pizza'] = False  # Esconde as opções de edição após salvar
+
 def display_line_chart(df):
     if 'editar_grafico' not in st.session_state:
         st.session_state['editar_grafico'] = False
