@@ -136,7 +136,17 @@ def display_budget_section(df):
         display_expense_view_options(df)
 
 # Função para exibir gráfico de despesas por categoria
+# Função para exibir gráfico de despesas por categoria com opção de edição de cores para cada categoria
 def display_expense_chart(df):
+    if 'editar_grafico_pizza' not in st.session_state:
+        st.session_state['editar_grafico_pizza'] = False
+
+    # Cores padrão para o gráfico de pizza
+    if 'categoria_colors' not in st.session_state:
+        categorias_unicas = df['Categoria'].unique()
+        st.session_state['categoria_colors'] = {categoria: px.colors.qualitative.Plotly[i % len(px.colors.qualitative.Plotly)] for i, categoria in enumerate(categorias_unicas)}
+
+    # Criar gráfico de pizza
     despesas_por_categoria = (
         df[df['Tipo'] == 'gasto']
         .groupby('Categoria')['Valor']
@@ -149,25 +159,76 @@ def display_expense_chart(df):
     )
     
     fig = px.pie(despesas_por_categoria, values='Valor', names='Categoria', title='Distribuição das Despesas por Categoria')
+    fig.update_traces(marker=dict(colors=[st.session_state['categoria_colors'].get(cat, '#000000') for cat in despesas_por_categoria['Categoria']]))
     fig.update_layout(width=800, height=600)
     st.plotly_chart(fig)
 
+    # Botão para mostrar opções de edição
+    if st.button("Editar"):
+        st.session_state['editar_grafico_pizza'] = not st.session_state['editar_grafico_pizza']
+
+    # Exibir opções de edição de cores se 'Editar' foi clicado
+    if st.session_state['editar_grafico_pizza']:
+        st.write("**Escolha novas cores para cada categoria**")
+        for categoria in despesas_por_categoria['Categoria']:
+            nova_cor = st.color_picker(f"Cor para {categoria}", st.session_state['categoria_colors'][categoria])
+            st.session_state['categoria_colors'][categoria] = nova_cor  # Atualiza a cor no estado da sessão
+
+        # Botão de salvar para manter as alterações
+        if st.button("Salvar"):
+            st.success("Cores atualizadas com sucesso!")
+            st.session_state['editar_grafico_pizza'] = False  # Esconde as opções de edição após salvar
+
+
 # Função para exibir gráfico de linhas "Dinheiro ao longo do tempo"
+# Função para exibir gráfico de linhas "Dinheiro ao longo do tempo" com opção de edição de cores
 def display_line_chart(df):
     st.subheader("Dinheiro ao longo do tempo")
-    gasto_color = st.color_picker("Escolha a cor para a linha de Gastos", "#FF6347")
-    ganho_color = st.color_picker("Escolha a cor para a linha de Ganhos", "#4682B4")
+    if 'editar_grafico' not in st.session_state:
+        st.session_state['editar_grafico'] = False
 
+    # Gráfico inicial
     df = df.sort_values('Data')  # Ordenar por data
     df_gastos = df[df['Tipo'] == 'gasto'].groupby('Data')['Valor'].sum().cumsum().reset_index()
     df_ganhos = df[df['Tipo'] == 'ganho'].groupby('Data')['Valor'].sum().cumsum().reset_index()
 
+    # Armazenar cores selecionadas no estado da sessão
+    if 'gasto_color' not in st.session_state:
+        st.session_state['gasto_color'] = "#FF6347"  # Cor padrão para gastos
+    if 'ganho_color' not in st.session_state:
+        st.session_state['ganho_color'] = "#4682B4"  # Cor padrão para ganhos
+
+    # Mostrar gráfico
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=df_gastos['Data'], y=df_gastos['Valor'], mode='lines', name='Gastos', line=dict(color=gasto_color)))
-    fig.add_trace(go.Scatter(x=df_ganhos['Data'], y=df_ganhos['Valor'], mode='lines', name='Ganhos', line=dict(color=ganho_color)))
+    fig.add_trace(go.Scatter(
+        x=df_gastos['Data'], y=df_gastos['Valor'], mode='lines', name='Gastos',
+        line=dict(color=st.session_state['gasto_color'])
+    ))
+    fig.add_trace(go.Scatter(
+        x=df_ganhos['Data'], y=df_ganhos['Valor'], mode='lines', name='Ganhos',
+        line=dict(color=st.session_state['ganho_color'])
+    ))
 
     fig.update_layout(title="Evolução dos Gastos e Ganhos ao longo do tempo", xaxis_title="Data", yaxis_title="Valor Acumulado")
     st.plotly_chart(fig)
+
+    # Botão para mostrar opções de edição
+    if st.button("Editar"):
+        st.session_state['editar_grafico'] = not st.session_state['editar_grafico']
+
+    # Exibir opções de edição de cores se 'Editar' foi clicado
+    if st.session_state['editar_grafico']:
+        col1, col2 = st.columns(2)
+        with col1:
+            st.session_state['gasto_color'] = st.color_picker("Cor de Gastos", st.session_state['gasto_color'])
+        with col2:
+            st.session_state['ganho_color'] = st.color_picker("Cor de Ganhos", st.session_state['ganho_color'])
+
+        # Botão de salvar para manter as alterações
+        if st.button("Salvar"):
+            st.success("Cores atualizadas com sucesso!")
+            st.session_state['editar_grafico'] = False  # Esconde as opções de edição após salvar
+
 
 # Função para exibir opções de visualização de despesas
 def display_expense_view_options(df):
