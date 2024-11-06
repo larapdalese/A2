@@ -219,7 +219,7 @@ def display_expense_view_options(df):
         add_expense(df)
 
 # Função para adicionar uma nova despesa ao DataFrame
-def add_expense(df):
+def add_expense():
     st.subheader("Adicionar nova despesa")
     nome_despesa = st.text_input("Nome da despesa")
     data_despesa = st.date_input("Data da despesa")
@@ -237,9 +237,15 @@ def add_expense(df):
             "Tipo": tipo_despesa,
             "Valor": valor_despesa
         }
-        df = df.append(nova_despesa, ignore_index=True)
+        # Adicionar a nova despesa ao DataFrame armazenado no estado da sessão
+        st.session_state.df = st.session_state.df.append(nova_despesa, ignore_index=True)
         st.success("Despesa adicionada com sucesso!")
-        st.dataframe(df)  # Atualizar a exibição do DataFrame com a nova despesa
+
+# Mostrar a função de adição de despesa
+add_expense()
+
+# Mostrar o DataFrame atualizado
+st.dataframe(st.session_state.df)  # Atualizar a exibição do DataFrame com a nova despesa
 apply_custom_css()
 
 # Carregar os dados e exibir a seção principal da aplicação
