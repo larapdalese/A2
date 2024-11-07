@@ -43,6 +43,7 @@ def apply_custom_css():
         }
         </style>
     """, unsafe_allow_html=True)
+    
 def load_data():
     data = [
                 {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
