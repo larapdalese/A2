@@ -1,4 +1,3 @@
-### Alinne
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -116,7 +115,7 @@ def load_data():
         {"Nome da despesa": "Show de música", "Data": "2024-10-30", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 100}
     ]
     df = pd.DataFrame(data)
-    df['Data'] = pd.to_datetime(df['Data'], errors='coerce')
+    df['Data'] = pd.to_datetime(df['Data'])
     return df
 def display_expense_chart(df):
     despesas_por_categoria = (
@@ -196,4 +195,6 @@ def display_line_chart(df):
         if st.button("Salvar"):
             st.success("Cores atualizadas com sucesso!")
             st.session_state['editar_grafico'] = False  
+df = load_data()
+display_budget_section(df)
 ###
