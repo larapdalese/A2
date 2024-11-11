@@ -5,6 +5,10 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from st_pages import add_page_title, get_nav_from_toml
+import requests
+import pandas as pd
+import json
+
 
 st.set_page_config(layout="wide")
 
@@ -58,41 +62,40 @@ st.sidebar.markdown("[Notícias 🌎](https://newsa2.streamlit.app/)")
 
 ### OBS: ESTÁ SENDO FEITO O USO DE API, SOMENTE SÃO POSSÍVEIS 100 PESQUISAS MENSAIS!!!
 
-import requests
-import pandas as pd
-import json
+API_KEY = '09b0486c1e432e382a217aaafdf24358f019d8e2ed14e7cee0b6d19e5586a62c'
 
 params = {
-  api_key: "09b0486c1e432e382a217aaafdf24358f019d8e2ed14e7cee0b6d19e5586a62c",
-  engine: "google",
-  q: "Finanças",
-  location: "Brazil",
-  google_domain: "google.com.br",
-  gl: "br",
-  hl: "pt",
-  safe: "active",
-  tbm: "nws",
-  start: "0",
-  num: "1"
+    "api_key": API_KEY,
+    "engine": "google",
+    "q": "Finanças",
+    "location": "Brazil",
+    "google_domain": "google.com.br",
+    "gl": "br",
+    "hl": "pt",
+    "safe": "active",
+    "tbm": "nws",  # Tipo de busca: notícias
+    "start": "0",  # Início dos resultados
+    "num": "1"  # Número de resultados
 }
 
-url = 'https://serpapi.com/search.json?engine=google&q=Finan%C3%A7as&location=Brazil&google_domain=google.com.br&gl=br&hl=pt&safe=active&tbm=nws&start=0&num=1&api_key=09b0486c1e432e382a217aaafdf24358f019d8e2ed14e7cee0b6d19e5586a62c'
+url = 'https://serpapi.com/search.json'
 
 response = requests.get(url, params=params)
 
 if response.status_code == 200:
     data = response.json()
-#   print(json.dumps(data, indent=4))  # Exibe o JSON formatado, apenas para entender a estrutura
-
     organic_results = data.get('organic_results', [])
 
     if organic_results:
         df = pd.DataFrame(organic_results)
-        df[['position', 'title', 'link', 'snippet']].head()
-    else:
-        print("Nenhum resultado orgânico encontrado.")
-else:
-    print(f"Erro na requisição. Status Code: {response.status_code}")
+        df_display = df[['position', 'title', 'link', 'snippet']]
 
+        st.write("Resultados da busca:")
+        st.dataframe(df_display)
+
+    else:
+        st.warning("Nenhum resultado orgânico encontrado.")
+else:
+    st.error(f"Erro na requisição. Status Code: {response.status_code}")
 
 ###
