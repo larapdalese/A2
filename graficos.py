@@ -4,7 +4,6 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from st_pages import add_page_title, get_nav_from_toml
 
 st.set_page_config(layout="wide")
 
@@ -50,11 +49,19 @@ def apply_custom_css():
 
 apply_custom_css()
 
-st.sidebar.title("Navegação")
-st.sidebar.markdown("[Início 🏠](https://financedivas.streamlit.app)")
-st.sidebar.markdown("[Gráficos 📊](https://graficosa2.streamlit.app/)")
-st.sidebar.markdown("[Insights 💡](https://insightsa2.streamlit.app/)")
-st.sidebar.markdown("[Notícias 🌎](https://newsa2.streamlit.app/)")
+pages = {
+    "Essencial": [
+        st.Page("https://financedivas.streamlit.app", title="Dicas"),
+        st.Page("https://newsa2.streamlit.app/", title="Indicações"),
+    ],
+    "Investimentos": [
+        st.Page("https://insightsa2.streamlit.app/", title="Possibilidades"),
+        st.Page("https://graficosa2.streamlit.app/", title="Bolsa Atual"),
+    ],
+}
+
+pg = st.navigation(pages)
+pg.run()
 
 def load_data():
     data = [
