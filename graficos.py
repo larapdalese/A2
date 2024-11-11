@@ -136,17 +136,19 @@ def display_expense_chart(df):
         .reset_index()
     )
     
-    if 'editar_pizza' not in st.session_state:
-        st.session_state['editar_pizza'] = False
+    if 'editar_treemap' not in st.session_state:
+        st.session_state['editar_treemap'] = False
         
     if 'categoria_colors' not in st.session_state:
-        st.session_state['categoria_colors'] = {cat: px.colors.qualitative.Plotly[i % len(px.colors.qualitative.Plotly)]
-                                                for i, cat in enumerate(despesas_por_categoria['Categoria'])}
+        st.session_state['categoria_colors'] = {
+            cat: px.colors.qualitative.Plotly[i % len(px.colors.qualitative.Plotly)]
+            for i, cat in enumerate(despesas_por_categoria['Categoria'])
+        }
     
-    fig = px.pie(
+    fig = px.treemap(
         despesas_por_categoria,
+        path=['Categoria'],
         values='Valor',
-        names='Categoria',
         title='Distribuição das Despesas por Categoria',
         color='Categoria',
         color_discrete_map=st.session_state['categoria_colors']
@@ -155,10 +157,10 @@ def display_expense_chart(df):
     fig.update_layout(width=800, height=600)
     st.plotly_chart(fig)
     
-    if st.button("Editar Cores do Gráfico de Pizza"):
-        st.session_state['editar_pizza'] = not st.session_state['editar_pizza']
+    if st.button("Editar Cores do Gráfico Treemap"):
+        st.session_state['editar_treemap'] = not st.session_state['editar_treemap']
         
-    if st.session_state['editar_pizza']:
+    if st.session_state['editar_treemap']:
         st.subheader("Editar Cores das Categorias")
         col1, col2 = st.columns(2)
         categorias = list(st.session_state['categoria_colors'].keys())
@@ -176,9 +178,9 @@ def display_expense_chart(df):
                     )
         
         if st.button("Salvar Cores"):
-            st.success("Cores do gráfico de pizza atualizadas com sucesso!")
-            st.session_state['editar_pizza'] = False  
-
+            st.success("Cores do gráfico Treemap atualizadas com sucesso!")
+            st.session_state['editar_treemap'] = False
+  
 def display_line_chart(df):
     if 'editar_grafico' not in st.session_state:
         st.session_state['editar_grafico'] = False
