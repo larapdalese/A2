@@ -48,10 +48,16 @@ def apply_custom_css():
 
 apply_custom_css()
 
-nav = get_nav_from_toml(".streamlit/pages_sections.toml")
-#st.image("logo.png", use_column_width=True)  # Ajuste para usar a logo no topo
-pg = st.navigation(nav)
-add_page_title(pg)
+pages = {
+    "Suas Contas": [
+        st.Page("https://financedivas.streamlit.app", title="Início 🏠"),
+        st.Page("https://graficosa2.streamlit.app/", title="Gráficos 📊"),
+    ],
+    "Fiquei Curiosa": [
+        st.Page("https://insightsa2.streamlit.app/", title="Insights 💡"),
+        st.Page("https://newsa2.streamlit.app/", title="Notícias 🌎"),
+    ]}
+pg = st.navigation(pages)
 pg.run()
 
 def load_data():
