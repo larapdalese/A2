@@ -48,12 +48,19 @@ def apply_custom_css():
 
 apply_custom_css()
 
-st.sidebar.title("Navegação")
-st.sidebar.markdown("[Início 🏠](https://financedivas.streamlit.app)")
-st.sidebar.markdown("[Gráficos 📊](https://graficosa2.streamlit.app/)")
-st.sidebar.markdown("[Insights 💡](https://insightsa2.streamlit.app/)")
-st.sidebar.markdown("[Notícias 🌎](https://newsa2.streamlit.app/)")
-st.set_page_config(layout="wide")
+pages = {
+    "Suas Contas": [
+        st.Page("https://financedivas.streamlit.app", title="Início 🏠"),
+        st.Page("https://graficosa2.streamlit.app/", title="Gráficos 📊"),
+    ],
+    "Mais Info": [
+        st.Page("https://insightsa2.streamlit.app/", title="Insights 💡"),
+        st.Page("https://newsa2.streamlit.app/", title="Notícias 🌎"),
+    ],
+}
+
+pg = st.navigation(pages)
+pg.run()
 
 def load_data():
     data = [
