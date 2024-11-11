@@ -196,5 +196,4 @@ def display_line_chart(df):
             st.success("Cores atualizadas com sucesso!")
             st.session_state['editar_grafico'] = False  
 df = load_data()
-display_budget_section(df)
 ###
