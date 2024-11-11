@@ -53,8 +53,6 @@ st.sidebar.markdown("[Gráficos 📊](https://graficosa2.streamlit.app/)")
 st.sidebar.markdown("[Insights 💡](https://insightsa2.streamlit.app/)")
 st.sidebar.markdown("[Notícias 🌎](https://newsa2.streamlit.app/)")
 
-st.write("Conteúdo da página principal.")
-
 def load_data():
     data = [
                 {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
