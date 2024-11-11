@@ -159,13 +159,26 @@ def display_expense_chart(df):
         color_discrete_map=st.session_state['categoria_colors'],
         custom_data=['Porcentagem']
     )
-    
+
     fig.update_traces(
         hovertemplate='%{customdata[0]}%'
     )
+
+    st.markdown(
+        """
+        <style>
+        .centered-chart {
+            display: flex;
+            justify-content: center;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
     
-    fig.update_layout(width=800, height=600)
-    st.plotly_chart(fig)
+    st.markdown('<div class="centered-chart">', unsafe_allow_html=True)
+    st.plotly_chart(fig, use_container_width=False)
+    st.markdown('</div>', unsafe_allow_html=True)
     
     if st.button("Editar Cores do Gráfico Treemap"):
         st.session_state['editar_treemap'] = not st.session_state['editar_treemap']
