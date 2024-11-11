@@ -135,7 +135,7 @@ def display_expense_chart(df):
         .sum()
         .reset_index()
     )
-    
+
     if 'editar_treemap' not in st.session_state:
         st.session_state['editar_treemap'] = False
         
@@ -144,7 +144,7 @@ def display_expense_chart(df):
             cat: px.colors.qualitative.Plotly[i % len(px.colors.qualitative.Plotly)]
             for i, cat in enumerate(despesas_por_categoria['Categoria'])
         }
-    
+
     fig = px.treemap(
         despesas_por_categoria,
         path=['Categoria'],
