@@ -116,7 +116,7 @@ def load_data():
         {"Nome da despesa": "Show de música", "Data": "2024-10-30", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 100}
     ]
     df = pd.DataFrame(data)
-    df['Data'] = pd.to_datetime(df['Data'])
+    df['Data'] = pd.to_datetime(df['Data'], errors='coerce')
     return df
 def display_expense_chart(df):
     despesas_por_categoria = (
