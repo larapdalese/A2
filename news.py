@@ -62,18 +62,21 @@ import requests
 import pandas as pd
 import json
 
-# Defina os parâmetros da pesquisa
 params = {
-    'api_key': '09b0486c1e432e382a217aaafdf24358f019d8e2ed14e7cee0b6d19e5586a62c'
-    'engine': 'google',
-    'q': 'Coffee',
-    'location': 'Brazil',
-    'google_domain': 'google.com.br',
-    'gl': 'br',
-    'hl': 'pt'
+  api_key: "09b0486c1e432e382a217aaafdf24358f019d8e2ed14e7cee0b6d19e5586a62c",
+  engine: "google",
+  q: "Finanças",
+  location: "Brazil",
+  google_domain: "google.com.br",
+  gl: "br",
+  hl: "pt",
+  safe: "active",
+  tbm: "nws",
+  start: "0",
+  num: "1"
 }
 
-url = 'https://serpapi.com/search.json?engine=google&q=Coffee&location=Brazil&google_domain=google.com.br&gl=br&hl=pt&api_key=09b0486c1e432e382a217aaafdf24358f019d8e2ed14e7cee0b6d19e5586a62c'
+url = 'https://serpapi.com/search.json?engine=google&q=Finan%C3%A7as&location=Brazil&google_domain=google.com.br&gl=br&hl=pt&safe=active&tbm=nws&start=0&num=1&api_key=09b0486c1e432e382a217aaafdf24358f019d8e2ed14e7cee0b6d19e5586a62c'
 
 response = requests.get(url, params=params)
 
