@@ -136,6 +136,11 @@ def display_expense_chart(df):
         .reset_index()
     )
 
+    total_valor = despesas_por_categoria['Valor'].sum()
+    despesas_por_categoria['Porcentagem'] = (
+        despesas_por_categoria['Valor'] / total_valor * 100
+    ).round(2)
+
     if 'editar_treemap' not in st.session_state:
         st.session_state['editar_treemap'] = False
         
@@ -151,7 +156,12 @@ def display_expense_chart(df):
         values='Valor',
         title='Distribuição das Despesas por Categoria',
         color='Categoria',
-        color_discrete_map=st.session_state['categoria_colors']
+        color_discrete_map=st.session_state['categoria_colors'],
+        custom_data=['Porcentagem']
+    )
+    
+    fig.update_traces(
+        hovertemplate='%{customdata[0]}%'
     )
     
     fig.update_layout(width=800, height=600)
