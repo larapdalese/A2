@@ -2,3 +2,5 @@ streamlit==1.39.0
 st-pages>=0.2
 pandas
 plotly
+requests
+json
