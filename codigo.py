@@ -3,15 +3,8 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-### Alinne
-st.page_link("https://financedivas.streamlit.app", label="Início", icon="🏠")
-st.page_link("https://graficosa2.streamlit.app/", label="Gráficos")
-st.page_link("https://insightsa2.streamlit.app/", label="Insights")
-st.page_link("https://newsa2.streamlit.app/", label="Notícias", icon="🌎")
-
-###
-
 st.set_page_config(layout="wide")
+
 def apply_custom_css():
     st.markdown("""
         <style>
@@ -51,7 +44,14 @@ def apply_custom_css():
         }
         </style>
     """, unsafe_allow_html=True)
-    
+
+apply_custom_css()
+
+st.page_link("https://financedivas.streamlit.app", label="Início", icon="🏠")
+st.page_link("https://graficosa2.streamlit.app/", label="Gráficos")
+st.page_link("https://insightsa2.streamlit.app/", label="Insights")
+st.page_link("https://newsa2.streamlit.app/", label="Notícias", icon="🌎")
+
 def load_data():
     data = [
                 {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
