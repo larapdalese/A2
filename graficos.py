@@ -197,7 +197,6 @@ def display_line_chart(df):
             st.session_state['editar_grafico'] = False  
 
 data = load_data()
-df = create_dataframe(data)
 
 display_expense_chart(df)
 display_line_chart(df)
