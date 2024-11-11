@@ -49,12 +49,9 @@ def apply_custom_css():
 apply_custom_css()
 
 nav = get_nav_from_toml(".streamlit/pages_sections.toml")
-
 #st.image("logo.png", use_column_width=True)  # Ajuste para usar a logo no topo
-
 pg = st.navigation(nav)
 add_page_title(pg)
-
 pg.run()
 
 def load_data():
