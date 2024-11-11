@@ -114,9 +114,14 @@ def load_data():
         {"Nome da despesa": "Passeio de bicicleta", "Data": "2024-10-20", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 40},
         {"Nome da despesa": "Show de música", "Data": "2024-10-30", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 100}
     ]
+
+    return data
+
+def create_dataframe(data):
     df = pd.DataFrame(data)
-    df['Data'] = pd.to_datetime(df['Data'])
+    df['Data'] = pd.to_datetime(df['Data'], errors='coerce')
     return df
+
 def display_expense_chart(df):
     despesas_por_categoria = (
         df[df['Tipo'] == 'gasto']
@@ -128,11 +133,14 @@ def display_expense_chart(df):
         .sum()
         .reset_index()
     )
+    
     if 'editar_pizza' not in st.session_state:
         st.session_state['editar_pizza'] = False
+        
     if 'categoria_colors' not in st.session_state:
         st.session_state['categoria_colors'] = {cat: px.colors.qualitative.Plotly[i % len(px.colors.qualitative.Plotly)]
                                                 for i, cat in enumerate(despesas_por_categoria['Categoria'])}
+    
     fig = px.pie(
         despesas_por_categoria,
         values='Valor',
@@ -141,14 +149,18 @@ def display_expense_chart(df):
         color='Categoria',
         color_discrete_map=st.session_state['categoria_colors']
     )
+    
     fig.update_layout(width=800, height=600)
     st.plotly_chart(fig)
+    
     if st.button("Editar Cores do Gráfico de Pizza"):
         st.session_state['editar_pizza'] = not st.session_state['editar_pizza']
+        
     if st.session_state['editar_pizza']:
         st.subheader("Editar Cores das Categorias")
         col1, col2 = st.columns(2)
         categorias = list(st.session_state['categoria_colors'].keys())
+        
         for i in range(0, len(categorias), 2):
             with col1:
                 if i < len(categorias):
@@ -160,19 +172,26 @@ def display_expense_chart(df):
                     st.session_state['categoria_colors'][categorias[i + 1]] = st.color_picker(
                         f"Cor para {categorias[i + 1]}", st.session_state['categoria_colors'][categorias[i + 1]]
                     )
+        
         if st.button("Salvar Cores"):
             st.success("Cores do gráfico de pizza atualizadas com sucesso!")
             st.session_state['editar_pizza'] = False  
+
 def display_line_chart(df):
     if 'editar_grafico' not in st.session_state:
         st.session_state['editar_grafico'] = False
-    df = df.sort_values('Data')  
+    
+    df = df.sort_values('Data')
+    
+    # Verifique se há dados para 'gasto' e 'ganho'
     df_gastos = df[df['Tipo'] == 'gasto'].groupby('Data')['Valor'].sum().cumsum().reset_index()
     df_ganhos = df[df['Tipo'] == 'ganho'].groupby('Data')['Valor'].sum().cumsum().reset_index()
+    
     if 'gasto_color' not in st.session_state:
-        st.session_state['gasto_color'] = "#FF6347"  
+        st.session_state['gasto_color'] = "#FF6347"
     if 'ganho_color' not in st.session_state:
         st.session_state['ganho_color'] = "#4682B4" 
+    
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=df_gastos['Data'], y=df_gastos['Valor'], mode='lines', name='Gastos',
@@ -182,22 +201,29 @@ def display_line_chart(df):
         x=df_ganhos['Data'], y=df_ganhos['Valor'], mode='lines', name='Ganhos',
         line=dict(color=st.session_state['ganho_color'])
     ))
-    fig.update_layout(title="Evolução dos Gastos e Ganhos ao longo do tempo", xaxis_title="Data", yaxis_title="Valor Acumulado")
+    
+    fig.update_layout(title="Evolução dos Gastos e Ganhos ao longo do tempo", 
+                      xaxis_title="Data", yaxis_title="Valor Acumulado")
     st.plotly_chart(fig)
+    
     if st.button("Editar"):
         st.session_state['editar_grafico'] = not st.session_state['editar_grafico']
+    
     if st.session_state['editar_grafico']:
         col1, col2 = st.columns(2)
         with col1:
             st.session_state['gasto_color'] = st.color_picker("Cor de Gastos", st.session_state['gasto_color'])
         with col2:
             st.session_state['ganho_color'] = st.color_picker("Cor de Ganhos", st.session_state['ganho_color'])
+        
         if st.button("Salvar"):
             st.success("Cores atualizadas com sucesso!")
-            st.session_state['editar_grafico'] = False  
+            st.session_state['editar_grafico'] = False
 
 data = load_data()
+df = create_dataframe(data)
 
 display_expense_chart(df)
 display_line_chart(df)
+
 ###
