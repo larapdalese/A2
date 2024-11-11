@@ -47,10 +47,13 @@ def apply_custom_css():
 
 apply_custom_css()
 
-st.page_link("https://financedivas.streamlit.app", label="Início", icon="🏠")
-st.page_link("https://graficosa2.streamlit.app/", label="Gráficos", icon="📊")
-st.page_link("https://insightsa2.streamlit.app/", label="Insights", icon="💡")
-st.page_link("https://newsa2.streamlit.app/", label="Notícias", icon="🌎")
+st.sidebar.title("Navegação")
+st.sidebar.markdown("[Início 🏠](https://financedivas.streamlit.app)")
+st.sidebar.markdown("[Gráficos 📊](https://graficosa2.streamlit.app/)")
+st.sidebar.markdown("[Insights 💡](https://insightsa2.streamlit.app/)")
+st.sidebar.markdown("[Notícias 🌎](https://newsa2.streamlit.app/)")
+
+st.write("Conteúdo da página principal.")
 
 def load_data():
     data = [
