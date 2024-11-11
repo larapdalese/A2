@@ -195,5 +195,4 @@ def display_line_chart(df):
         if st.button("Salvar"):
             st.success("Cores atualizadas com sucesso!")
             st.session_state['editar_grafico'] = False  
-df = load_data()
 ###
