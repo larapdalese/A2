@@ -62,7 +62,7 @@ st.sidebar.markdown("[Notícias 🌎](https://newsa2.streamlit.app/)")
 
 ### OBS: ESTÁ SENDO FEITO O USO DE API, SOMENTE SÃO POSSÍVEIS 100 PESQUISAS MENSAIS!!!
 
-API_KEY = '09b0486c1e432e382a217aaafdf24358f019d8e2ed14e7cee0b6d19e5586a62c'
+API_KEY = 'ee383981e582d0ebe2db86c966c9f63b004483a9c8263b8bf99d057ad9fc83b7'
 
 params = {
     "api_key": API_KEY,
@@ -73,9 +73,9 @@ params = {
     "gl": "br",
     "hl": "pt",
     "safe": "active",
-    "tbm": "nws",  # Tipo de busca: notícias
-    "start": "0",  # Início dos resultados
-    "num": "1"  # Número de resultados
+    "tbm": "nws",
+    "start": "0",
+    "num": "1"
 }
 
 url = 'https://serpapi.com/search.json'
