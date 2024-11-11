@@ -5,9 +5,9 @@ import plotly.graph_objects as go
 
 ### Alinne
 st.page_link("https://financedivas.streamlit.app", label="Início", icon="🏠")
-st.page_link("pages/page_1.py", label="Gráficos")
-st.page_link("pages/page_2.py", label="Insights de Gastos", disabled=True)
-st.page_link("http://www.google.com", label="Notícias", icon="🌎")
+st.page_link("https://graficosa2.streamlit.app/", label="Gráficos")
+st.page_link("https://insightsa2.streamlit.app/", label="Insights de Gastos", disabled=True)
+st.page_link("https://newsa2.streamlit.app/", label="Notícias", icon="🌎")
 
 ###
 
