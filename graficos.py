@@ -51,16 +51,16 @@ apply_custom_css()
 
 pages = {
     "Essencial": [
-        st.Page("https://financedivas.streamlit.app", title="Dicas"),
-        st.Page("https://newsa2.streamlit.app/", title="Indicações"),
+        st.Page("codigo.py", title="Dicas", icon=None, url_path=None, default=False),
+        st.Page("news.py", title="Indicações", icon=None, url_path=None, default=False)
     ],
     "Investimentos": [
-        st.Page("https://insightsa2.streamlit.app/", title="Possibilidades"),
-        st.Page("https://graficosa2.streamlit.app/", title="Bolsa Atual"),
-    ],
+        st.Page("insights.py", title="Possibilidades", icon=None, url_path=None, default=False),
+        st.Page("graficos.py", title="Bolsa Atual", icon=None, url_path=None, default=False)
+    ]
 }
 
-pg = st.navigation(pages)
+pg = st.navigation(pages, position="sidebar", expanded=False)
 pg.run()
 
 def load_data():
