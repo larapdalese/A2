@@ -52,12 +52,12 @@ apply_custom_css()
 pages = {
     "Essencial": [
         st.Page("codigo.py", title="Dicas", icon=None, url_path=None, default=False),
-        st.Page("news.py", title="Indicações", icon=None, url_path=None, default=False)
+        st.Page("news.py", title="Indicações", icon=None, url_path=None, default=False),
     ],
     "Investimentos": [
         st.Page("insights.py", title="Possibilidades", icon=None, url_path=None, default=False),
-        st.Page("graficos.py", title="Bolsa Atual", icon=None, url_path=None, default=False)
-    ]
+        st.Page("graficos.py", title="Bolsa Atual", icon=None, url_path=None, default=False),
+    ],
 }
 
 pg = st.navigation(pages, position="sidebar", expanded=False)
