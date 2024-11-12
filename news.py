@@ -4,6 +4,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from google_search_results import GoogleSearch
 
 st.set_page_config(layout="wide")
 
@@ -57,40 +58,35 @@ st.sidebar.markdown("[Notícias 🌎](https://newsa2.streamlit.app/)")
 
 ### OBS: ESTÁ SENDO FEITO O USO DE API, SOMENTE SÃO POSSÍVEIS 100 PESQUISAS MENSAIS!!!
 
-API_KEY = 'ee383981e582d0ebe2db86c966c9f63b004483a9c8263b8bf99d057ad9fc83b7'
+def search_edufinance(query):
+    params = {
+        "engine": "google",
+        "q": query,
+        "api_key": "ee383981e582d0ebe2db86c966c9f63b004483a9c8263b8bf99d057ad9fc83b7"
+        "location": "Brazil",
+        "google_domain": "google.com.br",
+        "gl": "br",
+        "hl": "pt",
+        "safe": "active",
+        "tbm": "nws",
+        "start": "0",
+        "num": "1"
+    }
+    search = GoogleSearch(params)
+    organic_results = search.get_hash().get('organic_results', [])
+    return organic_results
 
-params = {
-    "api_key": API_KEY,
-    "engine": "google",
-    "q": "Finanças",
-    "location": "Brazil",
-    "google_domain": "google.com.br",
-    "gl": "br",
-    "hl": "pt",
-    "safe": "active",
-    "tbm": "nws",
-    "start": "0",
-    "num": "1"
-}
+st.title("Pesquisa do Google - Educação Financeira")
+query = st.text_input("Digite o termo de pesquisa", "educação financeira")
 
-url = 'https://serpapi.com/search.json'
-
-response = requests.get(url, params=params)
-
-if response.status_code == 200:
-    data = response.json()
-    organic_results = data.get('organic_results', [])
-
-    if organic_results:
-        df = pd.DataFrame(organic_results)
-        df_display = df[['position', 'title', 'link', 'snippet']]
-
-        st.write("Resultados da busca:")
-        st.dataframe(df_display)
-
+if st.button("Buscar"):
+    results = search_edufinance(query)
+    if results:
+        st.write(f"Encontrei {len(results)} resultados para '{query}':")
+        for result in results:
+            st.write(f"**{result['title']}**")
+            st.write(f"[Link]({result['link']})")
     else:
-        st.warning("Nenhum resultado orgânico encontrado.")
-else:
-    st.error(f"Erro na requisição. Status Code: {response.status_code}")
+        st.write("Nenhum resultado encontrado.")
 
 ###
