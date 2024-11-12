@@ -4,11 +4,6 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from st_pages import add_page_title, get_nav_from_toml
-import requests
-import pandas as pd
-import json
-
 
 st.set_page_config(layout="wide")
 
