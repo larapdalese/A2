@@ -62,7 +62,7 @@ def search_edufinance(query):
     params = {
         "engine": "google",
         "q": query,
-        "api_key": "a7cbe0b089745cc6a71fcf5a7741c09769dd2871f79b9776a6481b41ffd603cc"
+        "api_key": "a7cbe0b089745cc6a71fcf5a7741c09769dd2871f79b9776a6481b41ffd603cc",
         "location": "Brazil",
         "google_domain": "google.com.br",
         "gl": "br",
