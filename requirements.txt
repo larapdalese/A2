@@ -1,4 +1,4 @@
 streamlit
 pandas
 plotly
-google_search_results
+google-search-results==2.0.0
