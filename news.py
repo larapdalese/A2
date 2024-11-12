@@ -62,7 +62,7 @@ def search_edufinance(query):
     params = {
         "engine": "google",
         "q": query,
-        "api_key": "ee383981e582d0ebe2db86c966c9f63b004483a9c8263b8bf99d057ad9fc83b7"
+        "api_key": "a7cbe0b089745cc6a71fcf5a7741c09769dd2871f79b9776a6481b41ffd603cc"
         "location": "Brazil",
         "google_domain": "google.com.br",
         "gl": "br",
@@ -70,22 +70,30 @@ def search_edufinance(query):
         "safe": "active",
         "tbm": "nws",
         "start": "0",
-        "num": "1"
+        "num": "2" 
     }
     search = GoogleSearch(params)
     organic_results = search.get_hash().get('organic_results', [])
     return organic_results
 
-st.title("Pesquisa do Google - Educação Financeira")
+st.title("Pesquisa de Notícias - Educação Financeira")
 query = st.text_input("Digite o termo de pesquisa", "educação financeira")
 
 if st.button("Buscar"):
     results = search_edufinance(query)
     if results:
-        st.write(f"Encontrei {len(results)} resultados para '{query}':")
+        st.write(f"Encontrei {len(results)} notícias sobre '{query}':")
         for result in results:
             st.write(f"**{result['title']}**")
-            st.write(f"[Link]({result['link']})")
+            st.write(f"[Leia a notícia completa]({result['link']})")
+
+            if 'snippet' in result:
+                st.write(result['snippet'])
+
+            if 'image' in result:
+                st.image(result['image']['src'], caption="Imagem da notícia", use_column_width=True)
+
+            st.markdown("---")
     else:
         st.write("Nenhum resultado encontrado.")
 
