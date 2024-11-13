@@ -302,5 +302,4 @@ def display_budget_section(df):
     st.header("Visualização de Despesas")
     st.dataframe(df)
 df = load_data()
-add_expense()
 display_budget_section(st.session_state['despesas_df'])
