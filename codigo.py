@@ -53,8 +53,8 @@ st.sidebar.markdown("[Início 🏠](https://financedivas.streamlit.app)")
 st.sidebar.markdown("[Gráficos 📊](https://graficosa2.streamlit.app/)")
 st.sidebar.markdown("[Insights 💡](https://insightsa2.streamlit.app/)")
 st.sidebar.markdown("[Notícias 🌎](https://newsa2.streamlit.app/)")
-
 def load_data():
+    if 'despesas_df' not in st.session_state:
     data = [
                 {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
         {"Nome da despesa": "Farmácia", "Data": "2024-01-28", "Categoria": "saúde", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 125.50},
@@ -115,7 +115,7 @@ def load_data():
         {"Nome da despesa": "Show de música", "Data": "2024-10-30", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 100}
     ]
     df = pd.DataFrame(data)
-        df['Data'] = pd.to_datetime(df['Data'])
+        df['Data'] = pd.to_datetime(df['Data']) 
         st.session_state['despesas_df'] = df
     return st.session_state['despesas_df']
 def display_budget_section(df):
@@ -293,24 +293,3 @@ def add_expense():
         st.session_state['despesas_df'] = pd.concat([st.session_state['despesas_df'], nova_despesa], ignore_index=True)
         st.success("Despesa adicionada com sucesso!")
         st.dataframe(st.session_state['despesas_df'])
-def display_expense_view_options(df):
-    st.subheader("Despesas")
-    option = st.selectbox("Selecione uma visualização:", ["Todas as Despesas", "Por mês", "Por categoria", "Adicionar despesa"])
-    if option == "Todas as Despesas":
-        st.dataframe(df)
-    elif option == "Por mês":
-        mes_selecionado = st.selectbox(
-            "Selecione o mês:",
-            sorted(df['Data'].dt.month.unique()),
-            format_func=lambda x: pd.to_datetime(f"2024-{x}-01").strftime("%B")
-        )
-        despesas_mes = df[df['Data'].dt.month == mes_selecionado]
-        st.dataframe(despesas_mes)
-    elif option == "Por categoria":
-        categoria_selecionada = st.selectbox("Selecione a categoria:", df['Categoria'].unique())
-        despesas_categoria = df[df['Categoria'] == categoria_selecionada]
-        st.dataframe(despesas_categoria)
-    elif option == "Adicionar despesa":
-        add_expense()
-df = load_data()
-display_expense_view_options(df)
