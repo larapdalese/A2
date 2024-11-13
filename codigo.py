@@ -254,6 +254,12 @@ def display_line_chart(df):
         if st.button("Salvar"):
             st.success("Cores atualizadas com sucesso!")
             st.session_state['editar_grafico'] = False  
+def main():
+    df = load_data()
+    if 'df_despesas' in st.session_state:
+        df = st.session_state.df_despesas
+    display_budget_section(df)
+    display_expense_view_options(df)
 def display_expense_view_options(df):
     st.subheader("Despesas")
     option = st.selectbox("Selecione uma visualização:", ["Todas as Despesas", "Por mês", "Por categoria", "Adicionar despesa"])
@@ -273,13 +279,13 @@ def display_expense_view_options(df):
     elif option == "Por categoria":
         categoria_selecionada = st.selectbox("Selecione a categoria:", df['Categoria'].unique())
         despesas_categoria = df[df['Categoria'] == categoria_selecionada]
-        st.dataframe(despesas_categoria)    
+        st.dataframe(despesas_categoria)
     elif option == "Adicionar despesa":
         add_expense(df)
 def add_expense(df):
     st.subheader("Adicionar nova despesa")
     if 'df_despesas' not in st.session_state:
-        st.session_state.df_despesas = df.copy()
+        st.session_state.df_despesas = df.copy() 
     nome_despesa = st.text_input("Nome da despesa")
     data_despesa = st.date_input("Data da despesa")
     categoria_despesa = st.selectbox("Categoria", ["beleza", "saúde", "comida", "transporte", "vestuário", "supermercado", "educação", "lazer", "investimentos", "Salário"])
@@ -299,7 +305,4 @@ def add_expense(df):
         st.success("Despesa adicionada com sucesso!")
         st.dataframe(st.session_state.df_despesas)
 df = load_data()
-if 'df_despesas' in st.session_state:
-    df = st.session_state.df_despesas
-display_expense_view_options(df)
-display_budget_section(df)
+main()
