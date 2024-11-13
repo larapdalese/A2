@@ -309,11 +309,12 @@ def load_data():
         {"Nome da despesa": "Café", "Data": "2024-09-15", "Categoria": "comida", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 20},
         {"Nome da despesa": "Sorvete", "Data": "2024-09-25", "Categoria": "comida", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 15},
         {"Nome da despesa": "Passeio de bicicleta", "Data": "2024-10-20", "Categoria": "lazer", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 40},
-        {"Nome da despesa": "Show de música", "Data": "2024-10-30", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 100}
+        {"Nome da despesa": "Show de música", "Data": "2024-10-30", "Categoria": "lazer", "Forma de pagamento": "crédito", "Tipo": "gasto", "Valor": 100},
+        {"Nome da despesa": "Farmácia", "Data": "2024-01-28", "Categoria": "saúde", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 125.50},
     ]
-        df = pd.DataFrame(data)
-        df['Data'] = pd.to_datetime(df['Data'])
-        st.session_state['despesas_df'] = df
+    df = pd.DataFrame(data)
+    df['Data'] = pd.to_datetime(df['Data'])
+    st.session_state['despesas_df'] = df
     return st.session_state['despesas_df']
 def display_expense_view_options(df):
     st.subheader("Despesas")
