@@ -252,7 +252,6 @@ def add_expense(df):
         st.dataframe(st.session_state['despesas_df'])
 def load_data():
     if 'despesas_df' not in st.session_state:
-        def load_data():
     data = [
                 {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
         {"Nome da despesa": "Farmácia", "Data": "2024-01-28", "Categoria": "saúde", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 125.50},
