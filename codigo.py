@@ -3,9 +3,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from st_pages import add_page_title, get_nav_from_toml
-
 st.set_page_config(layout="wide")
-
 def apply_custom_css():
     st.markdown("""
         <style>
@@ -45,15 +43,12 @@ def apply_custom_css():
         }
         </style>
     """, unsafe_allow_html=True)
-
 apply_custom_css()
-
 st.sidebar.title("Navegação")
 st.sidebar.markdown("[Início 🏠](https://financedivas.streamlit.app)")
 st.sidebar.markdown("[Gráficos 📊](https://graficosa2.streamlit.app/)")
 st.sidebar.markdown("[Insights 💡](https://insightsa2.streamlit.app/)")
 st.sidebar.markdown("[Notícias 🌎](https://newsa2.streamlit.app/)")
-
 def load_data():
     data = [
                 {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
