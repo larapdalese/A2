@@ -280,6 +280,7 @@ def add_expense(df):
     forma_pagamento = st.selectbox("Forma de pagamento", ["débito", "crédito", "pix"])
     tipo_despesa = st.selectbox("Tipo", ["gasto", "ganho"])
     valor_despesa = st.number_input("Valor", min_value=0.0, step=0.01)
+    
     if st.button("Adicionar"):
         nova_despesa = {
             "Nome da despesa": nome_despesa,
@@ -289,8 +290,43 @@ def add_expense(df):
             "Tipo": tipo_despesa,
             "Valor": valor_despesa
         }
-        df = df.append(nova_despesa, ignore_index=True)
+
+        # Verifica se o DataFrame está no session state e adiciona a nova despesa
+        if 'despesas_df' not in st.session_state:
+            st.session_state['despesas_df'] = pd.DataFrame(columns=["Nome da despesa", "Data", "Categoria", "Forma de pagamento", "Tipo", "Valor"])
+
+        st.session_state['despesas_df'] = pd.concat([st.session_state['despesas_df'], pd.DataFrame([nova_despesa])], ignore_index=True)
+
         st.success("Despesa adicionada com sucesso!")
-        st.dataframe(df)
+        st.dataframe(st.session_state['despesas_df'])
+def load_data():
+    if 'despesas_df' not in st.session_state:
+        data = [
+            {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
+            {"Nome da despesa": "Farmácia", "Data": "2024-01-28", "Categoria": "saúde", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 125.50},
+        ]
+        df = pd.DataFrame(data)
+        df['Data'] = pd.to_datetime(df['Data'])
+        st.session_state['despesas_df'] = df
+    return st.session_state['despesas_df']
+def display_expense_view_options(df):
+    st.subheader("Despesas")
+    option = st.selectbox("Selecione uma visualização:", ["Todas as Despesas", "Por mês", "Por categoria", "Adicionar despesa"])
+    if option == "Todas as Despesas":
+        st.dataframe(st.session_state['despesas_df'])
+    elif option == "Por mês":
+        mes_selecionado = st.selectbox(
+            "Selecione o mês:",
+            sorted(df['Data'].dt.month.unique()),
+            format_func=lambda x: pd.to_datetime(f"2024-{x}-01").strftime("%B")
+        )
+        despesas_mes = df[df['Data'].dt.month == mes_selecionado]
+        st.dataframe(despesas_mes)
+    elif option == "Por categoria":
+        categoria_selecionada = st.selectbox("Selecione a categoria:", df['Categoria'].unique())
+        despesas_categoria = df[df['Categoria'] == categoria_selecionada]
+        st.dataframe(despesas_categoria)
+    elif option == "Adicionar despesa":
+        add_expense(df)
 df = load_data()
-display_budget_section(df)
+display_expense_view_options(df)
