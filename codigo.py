@@ -259,7 +259,6 @@ def main():
     if 'df_despesas' in st.session_state:
         df = st.session_state.df_despesas
     display_budget_section(df)
-    display_expense_view_options(df)
 def display_expense_view_options(df):
     st.subheader("Despesas")
     option = st.selectbox("Selecione uma visualização:", ["Todas as Despesas", "Por mês", "Por categoria", "Adicionar despesa"])
