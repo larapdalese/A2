@@ -133,8 +133,8 @@ def display_budget_section(df):
         display_line_chart(df)  
     with col2:
         st.write("")  
-        display_insights(df)
         display_expense_view_options(df)
+        display_insights(df)
 def display_insights(df):
     st.subheader("Insights de Gastos")
     st.markdown("""
