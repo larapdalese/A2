@@ -186,28 +186,21 @@ def display_expense_chart(df):
         .sum()
         .reset_index()
     )
-    if 'editar_pizza' not in st.session_state:
-        st.session_state['editar_pizza'] = False
     if 'editar_treemap' not in st.session_state:
         st.session_state['editar_treemap'] = False
     if 'categoria_colors' not in st.session_state:
         st.session_state['categoria_colors'] = {cat: px.colors.qualitative.Plotly[i % len(px.colors.qualitative.Plotly)]
                                                 for i, cat in enumerate(despesas_por_categoria['Categoria'])}
-    fig = px.pie(
     fig = px.treemap(
         despesas_por_categoria,
         path=['Categoria'],
         values='Valor',
-        names='Categoria',
         title='Distribuição das Despesas por Categoria',
         color='Categoria',
         color_discrete_map=st.session_state['categoria_colors']
     )
     fig.update_layout(width=800, height=600)
     st.plotly_chart(fig)
-    if st.button("Editar Cores do Gráfico de Pizza"):
-        st.session_state['editar_pizza'] = not st.session_state['editar_pizza']
-    if st.session_state['editar_pizza']:
     if st.button("Editar Cores do Gráfico de Treemap"):
         st.session_state['editar_treemap'] = not st.session_state['editar_treemap']
     if st.session_state['editar_treemap']:
@@ -226,8 +219,6 @@ def display_expense_chart(df):
                         f"Cor para {categorias[i + 1]}", st.session_state['categoria_colors'][categorias[i + 1]]
                     )
         if st.button("Salvar Cores"):
-            st.success("Cores do gráfico de pizza atualizadas com sucesso!")
-            st.session_state['editar_pizza'] = False  
             st.success("Cores do gráfico de treemap atualizadas com sucesso!")
             st.session_state['editar_treemap'] = False
 def display_line_chart(df):
