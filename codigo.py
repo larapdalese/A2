@@ -272,48 +272,11 @@ def display_expense_view_options(df):
         st.dataframe(despesas_categoria)
     elif option == "Adicionar despesa":
         add_expense(df)
-def add_expense(df):
-    st.subheader("Adicionar nova despesa")
-    nome_despesa = st.text_input("Nome da despesa")
-    data_despesa = st.date_input("Data da despesa")
-    categoria_despesa = st.selectbox("Categoria", ["beleza", "saúde", "comida", "transporte", "vestuário", "supermercado", "educação", "lazer", "investimentos", "Salário"])
-    forma_pagamento = st.selectbox("Forma de pagamento", ["débito", "crédito", "pix"])
-    tipo_despesa = st.selectbox("Tipo", ["gasto", "ganho"])
-    valor_despesa = st.number_input("Valor", min_value=0.0, step=0.01)
-    
-    if st.button("Adicionar"):
-        nova_despesa = {
-            "Nome da despesa": nome_despesa,
-            "Data": pd.to_datetime(data_despesa),
-            "Categoria": categoria_despesa,
-            "Forma de pagamento": forma_pagamento,
-            "Tipo": tipo_despesa,
-            "Valor": valor_despesa
-        }
-
-        # Verifica se o DataFrame está no session state e adiciona a nova despesa
-        if 'despesas_df' not in st.session_state:
-            st.session_state['despesas_df'] = pd.DataFrame(columns=["Nome da despesa", "Data", "Categoria", "Forma de pagamento", "Tipo", "Valor"])
-
-        st.session_state['despesas_df'] = pd.concat([st.session_state['despesas_df'], pd.DataFrame([nova_despesa])], ignore_index=True)
-
-        st.success("Despesa adicionada com sucesso!")
-        st.dataframe(st.session_state['despesas_df'])
-def load_data():
-    if 'despesas_df' not in st.session_state:
-        data = [
-            {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
-            {"Nome da despesa": "Farmácia", "Data": "2024-01-28", "Categoria": "saúde", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 125.50},
-        ]
-        df = pd.DataFrame(data)
-        df['Data'] = pd.to_datetime(df['Data'])
-        st.session_state['despesas_df'] = df
-    return st.session_state['despesas_df']
 def display_expense_view_options(df):
     st.subheader("Despesas")
     option = st.selectbox("Selecione uma visualização:", ["Todas as Despesas", "Por mês", "Por categoria", "Adicionar despesa"])
     if option == "Todas as Despesas":
-        st.dataframe(st.session_state['despesas_df'])
+        st.dataframe(df)
     elif option == "Por mês":
         mes_selecionado = st.selectbox(
             "Selecione o mês:",
@@ -328,5 +291,25 @@ def display_expense_view_options(df):
         st.dataframe(despesas_categoria)
     elif option == "Adicionar despesa":
         add_expense(df)
+def add_expense(df):
+    st.subheader("Adicionar nova despesa")
+    nome_despesa = st.text_input("Nome da despesa")
+    data_despesa = st.date_input("Data da despesa")
+    categoria_despesa = st.selectbox("Categoria", ["beleza", "saúde", "comida", "transporte", "vestuário", "supermercado", "educação", "lazer", "investimentos", "Salário"])
+    forma_pagamento = st.selectbox("Forma de pagamento", ["débito", "crédito", "pix"])
+    tipo_despesa = st.selectbox("Tipo", ["gasto", "ganho"])
+    valor_despesa = st.number_input("Valor", min_value=0.0, step=0.01)
+    if st.button("Adicionar"):
+        nova_despesa = {
+            "Nome da despesa": nome_despesa,
+            "Data": pd.to_datetime(data_despesa),
+            "Categoria": categoria_despesa,
+            "Forma de pagamento": forma_pagamento,
+            "Tipo": tipo_despesa,
+            "Valor": valor_despesa
+        }
+        df = df.append(nova_despesa, ignore_index=True)
+        st.success("Despesa adicionada com sucesso!")
+        st.dataframe(df)
 df = load_data()
-display_expense_view_options(df)
+display_budget_section(df)
