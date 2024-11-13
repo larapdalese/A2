@@ -261,7 +261,7 @@ def main():
     display_budget_section(df)
 def display_expense_view_options(df):
     st.subheader("Despesas")
-    option = st.selectbox("Selecione uma visualização:", ["Todas as Despesas", "Por mês", "Por categoria", "Adicionar despesa"])
+    option = st.selectbox("Selecione uma visualização:", ["Todas as Despesas", "Por mês", "Por categoria", "Adicionar despesa", "Editar planilha"])
     if option == "Todas as Despesas":
         if 'df_despesas' in st.session_state:
             st.dataframe(st.session_state.df_despesas)
@@ -281,6 +281,8 @@ def display_expense_view_options(df):
         st.dataframe(despesas_categoria)
     elif option == "Adicionar despesa":
         add_expense(df)
+    elif option == "Editar planilha":
+        edit_expense(df)
 def add_expense(df):
     st.subheader("Adicionar nova despesa")
     if 'df_despesas' not in st.session_state:
@@ -304,4 +306,41 @@ def add_expense(df):
         st.success("Despesa adicionada com sucesso!")
         st.dataframe(st.session_state.df_despesas)
 df = load_data()
+def edit_expense(df):
+    st.subheader("Editar Planilha")
+    if 'df_despesas' not in st.session_state:
+        st.session_state.df_despesas = df.copy()
+    df_display = st.session_state.df_despesas.reset_index(drop=True).copy()
+    st.dataframe(df_display)
+    linha_para_excluir = st.number_input("Número da linha para excluir (baseado no índice):", min_value=0, max_value=len(df_display)-1, step=1)
+    if st.button("Excluir linha"):
+        st.session_state.df_despesas = st.session_state.df_despesas.drop(index=linha_para_excluir).reset_index(drop=True)
+        st.success(f"Linha {linha_para_excluir} excluída com sucesso!")
+        st.dataframe(st.session_state.df_despesas)
+    if st.button("Reordenar linhas"):
+        st.session_state.df_despesas = st.session_state.df_despesas.sort_values(by="Data").reset_index(drop=True)
+        st.success("Linhas reordenadas por Data!")
+        st.dataframe(st.session_state.df_despesas)
+def add_expense(df):
+    st.subheader("Adicionar nova despesa") 
+    if 'df_despesas' not in st.session_state:
+        st.session_state.df_despesas = df.copy()
+    nome_despesa = st.text_input("Nome da despesa")
+    data_despesa = st.date_input("Data da despesa")
+    categoria_despesa = st.selectbox("Categoria", ["beleza", "saúde", "comida", "transporte", "vestuário", "supermercado", "educação", "lazer", "investimentos", "Salário"])
+    forma_pagamento = st.selectbox("Forma de pagamento", ["débito", "crédito", "pix"])
+    tipo_despesa = st.selectbox("Tipo", ["gasto", "ganho"])
+    valor_despesa = st.number_input("Valor", min_value=0.0, step=0.01)
+    if st.button("Adicionar"):
+        nova_despesa = {
+            "Nome da despesa": nome_despesa,
+            "Data": pd.to_datetime(data_despesa),
+            "Categoria": categoria_despesa,
+            "Forma de pagamento": forma_pagamento,
+            "Tipo": tipo_despesa,
+            "Valor": valor_despesa
+        }
+        st.session_state.df_despesas = pd.concat([st.session_state.df_despesas, pd.DataFrame([nova_despesa])], ignore_index=True)
+        st.success("Despesa adicionada com sucesso!")
+        st.dataframe(st.session_state.df_despesas)
 main()
