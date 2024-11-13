@@ -256,9 +256,9 @@ def display_line_chart(df):
             st.session_state['editar_grafico'] = False  
 def display_expense_view_options(df):
     st.subheader("Despesas")
-    option = st.selectbox("Selecione uma visualização:", ["Todas as Despesas", "Por mês", "Por categoria", "Adicionar despesa"])
+    option = st.selectbox("Selecione uma visualização:", ["Todas as Despesas", "Por mês", "Por categoria", "Adicionar despesa"]) 
     if option == "Todas as Despesas":
-        st.dataframe(df)
+        st.dataframe(df)    
     elif option == "Por mês":
         mes_selecionado = st.selectbox(
             "Selecione o mês:",
@@ -270,11 +270,13 @@ def display_expense_view_options(df):
     elif option == "Por categoria":
         categoria_selecionada = st.selectbox("Selecione a categoria:", df['Categoria'].unique())
         despesas_categoria = df[df['Categoria'] == categoria_selecionada]
-        st.dataframe(despesas_categoria)
+        st.dataframe(despesas_categoria)     
     elif option == "Adicionar despesa":
         add_expense(df)
 def add_expense(df):
     st.subheader("Adicionar nova despesa")
+    if 'df_despesas' not in st.session_state:
+        st.session_state.df_despesas = df.copy()  
     nome_despesa = st.text_input("Nome da despesa")
     data_despesa = st.date_input("Data da despesa")
     categoria_despesa = st.selectbox("Categoria", ["beleza", "saúde", "comida", "transporte", "vestuário", "supermercado", "educação", "lazer", "investimentos", "Salário"])
@@ -290,9 +292,10 @@ def add_expense(df):
             "Tipo": tipo_despesa,
             "Valor": valor_despesa
         }
-        df = df.append(nova_despesa, ignore_index=True)
+        st.session_state.df_despesas = st.session_state.df_despesas.append(nova_despesa, ignore_index=True)    
         st.success("Despesa adicionada com sucesso!")
-        st.dataframe(df)
+        st.dataframe(st.session_state.df_despesas)
 df = load_data()
-display_budget_section(df)
-
+if 'df_despesas' in st.session_state:
+    df = st.session_state.df_despesas
+display_expense_view_options(df)
