@@ -272,7 +272,7 @@ def display_expense_view_options(df):
         st.dataframe(despesas_categoria)
     elif option == "Adicionar despesa":
         add_expense(df)
-def add_expense(df):
+def add_expense():
     st.subheader("Adicionar nova despesa")
     nome_despesa = st.text_input("Nome da despesa")
     data_despesa = st.date_input("Data da despesa")
@@ -281,16 +281,26 @@ def add_expense(df):
     tipo_despesa = st.selectbox("Tipo", ["gasto", "ganho"])
     valor_despesa = st.number_input("Valor", min_value=0.0, step=0.01)
     if st.button("Adicionar"):
-        nova_despesa = {
-            "Nome da despesa": nome_despesa,
-            "Data": pd.to_datetime(data_despesa),
-            "Categoria": categoria_despesa,
-            "Forma de pagamento": forma_pagamento,
-            "Tipo": tipo_despesa,
-            "Valor": valor_despesa
-        }
-        df = df.append(nova_despesa, ignore_index=True)
+        nova_despesa = pd.DataFrame({
+            "Nome da despesa": [nome_despesa],
+            "Data": [pd.to_datetime(data_despesa)],
+            "Categoria": [categoria_despesa],
+            "Forma de pagamento": [forma_pagamento],
+            "Tipo": [tipo_despesa],
+            "Valor": [valor_despesa]
+        })
+        if 'despesas_df' not in st.session_state:
+            st.session_state['despesas_df'] = pd.DataFrame(columns=["Nome da despesa", "Data", "Categoria", "Forma de pagamento", "Tipo", "Valor"])
+        st.session_state['despesas_df'] = pd.concat([st.session_state['despesas_df'], nova_despesa], ignore_index=True)
         st.success("Despesa adicionada com sucesso!")
-        st.dataframe(df)
+        st.dataframe(st.session_state['despesas_df'])
+def load_data():
+    if 'despesas_df' not in st.session_state:
+        st.session_state['despesas_df'] = pd.DataFrame(columns=["Nome da despesa", "Data", "Categoria", "Forma de pagamento", "Tipo", "Valor"])
+    return st.session_state['despesas_df']
+def display_budget_section(df):
+    st.header("Visualização de Despesas")
+    st.dataframe(df)
 df = load_data()
-display_budget_section(df)
+add_expense()
+display_budget_section(st.session_state['despesas_df'])
