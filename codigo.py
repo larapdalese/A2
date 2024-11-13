@@ -295,3 +295,4 @@ def add_expense(df):
         st.dataframe(df)
 df = load_data()
 display_budget_section(df)
+
