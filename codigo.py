@@ -44,6 +44,21 @@ def apply_custom_css():
         </style>
     """, unsafe_allow_html=True)
 apply_custom_css()
+
+pages = {
+    "Essencial": [
+        st.Page("codigo.py", title="Dicas", icon=None, url_path=None, default=True),
+        st.Page("news.py", title="Indicações", icon=None, url_path=None, default=False),
+    ],
+    "Investimentos": [
+        st.Page("insights.py", title="Possibilidades", icon=None, url_path=None, default=False),
+        st.Page("graficos.py", title="Bolsa Atual", icon=None, url_path=None, default=False),
+    ],
+}
+
+pg = st.navigation(pages, position="sidebar", expanded=False)
+pg.run()
+
 st.set_page_config(layout="wide", page_title="Meu Site de Finanças")
 st.sidebar.title("Navegação")
 st.sidebar.subtitle("Essencial")
