@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide", page_title="Meu Site de Finanças")
 def apply_custom_css():
     st.markdown("""
         <style>
@@ -59,7 +59,6 @@ pages = {
 pg = st.navigation(pages, position="sidebar", expanded=False)
 pg.run()
 
-st.set_page_config(layout="wide", page_title="Meu Site de Finanças")
 st.sidebar.title("Navegação")
 st.sidebar.subtitle("Essencial")
 menu_option = st.sidebar.radio("Selecione uma página:", ["Dicas", "Indicações", "Possibilidades", "Bolsa Atual"])
