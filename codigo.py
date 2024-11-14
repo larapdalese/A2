@@ -59,24 +59,24 @@ pages = {
 pg = st.navigation(pages, position="sidebar", expanded=False)
 pg.run()
 
-st.sidebar.title("Navegação")
-st.sidebar.subtitle("Essencial")
-menu_option = st.sidebar.radio("Selecione uma página:", ["Dicas", "Indicações", "Possibilidades", "Bolsa Atual"])
-if menu_option == "Dicas":
-    st.title("Dicas")
-    st.write("Esta é a página de dicas. Aqui você pode adicionar conteúdo específico para o usuário.")
-elif menu_option == "Indicações":
-    st.title("Indicações")
-    st.write("Esta é a página de indicações. Adicione conteúdo relevante para os usuários aqui.")
-elif menu_option == "Possibilidades":
-    st.title("Possibilidades")
-    st.write("Esta é a página de possibilidades. Coloque suas análises ou conteúdo interessante aqui.")
-elif menu_option == "Bolsa Atual":
-    st.title("Bolsa Atual")
-    st.write("Esta é a página com as informações da bolsa atual. Adicione gráficos, tabelas ou outros dados interessantes.")
-st.sidebar.markdown("### Investimentos")
-st.sidebar.markdown("Possibilidades")
-st.sidebar.markdown("Bolsa Atual")
+#st.sidebar.title("Navegação")
+#st.sidebar.subtitle("Essencial")
+#menu_option = st.sidebar.radio("Selecione uma página:", ["Dicas", "Indicações", "Possibilidades", "Bolsa Atual"])
+#if menu_option == "Dicas":
+#    st.title("Dicas")
+#    st.write("Esta é a página de dicas. Aqui você pode adicionar conteúdo específico para o usuário.")
+#elif menu_option == "Indicações":
+#    st.title("Indicações")
+#    st.write("Esta é a página de indicações. Adicione conteúdo relevante para os usuários aqui.")
+#elif menu_option == "Possibilidades":
+#    st.title("Possibilidades")
+#    st.write("Esta é a página de possibilidades. Coloque suas análises ou conteúdo interessante aqui.")
+#elif menu_option == "Bolsa Atual":
+#    st.title("Bolsa Atual")
+#    st.write("Esta é a página com as informações da bolsa atual. Adicione gráficos, tabelas ou outros dados interessantes.")
+#st.sidebar.markdown("### Investimentos")
+#st.sidebar.markdown("Possibilidades")
+#st.sidebar.markdown("Bolsa Atual")
 def load_data():
     data = [
                 {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
