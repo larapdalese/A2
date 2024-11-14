@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from st_pages import add_page_title, get_nav_from_toml
+
 st.set_page_config(layout="wide")
 def apply_custom_css():
     st.markdown("""
