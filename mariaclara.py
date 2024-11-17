@@ -1,21 +1,18 @@
 ### Alinne
 
 import streamlit as st
-import requests
 import os
+from groq import Groq
 
 st.set_page_config(page_title="Maria Clara - CHATBOT")
 
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "assistant", "content": "Como posso te ajudar hoje, diva?"}]
 
+api_key = "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"
+
 def generate_groq_response(prompt_input):
-    api_key = os.environ.get("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")  
-    url = "https://api.groq.com/openai/v1/completions"
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
+    client = Groq(api_key=api_key)
 
     messages = [
         {"role": "system", "content": (
@@ -29,29 +26,21 @@ def generate_groq_response(prompt_input):
     for dict_message in st.session_state.messages:
         messages.append(dict_message)
 
+    messages.append({"role": "user", "content": prompt_input})
+
     try:
-        response = requests.post(
-            url,
-            headers=headers,
-            json={
-                "model": "llama3-8b-8192", 
-                "messages": messages + [{"role": "user", "content": prompt_input}],
-                "temperature": 0.5,
-                "max_tokens": 1024,
-                "top_p": 1,
-                "stop": None,
-                "stream": False 
-            }
+        chat_completion = client.chat.completions.create(
+            messages=messages,
+            model="llama3-8b-8192",
+            temperature=0.5,
+            max_tokens=1024,
+            top_p=1,
+            stop=None,
+            stream=False,
         )
 
-        if response.status_code == 200:
-            response_data = response.json()
-            if 'choices' in response_data and len(response_data['choices']) > 0:
-                return response_data['choices'][0]['message']['content']
-            else:
-                return "Resposta não encontrada ou formato inesperado."
-        else:
-            return f"Erro na API Groq: {response.status_code} - {response.text}"
+        return chat_completion.choices[0].message.content
+
     except Exception as e:
         return f"Erro ao chamar a API Groq: {str(e)}"
 
@@ -64,14 +53,14 @@ def clear_chat_history():
 st.sidebar.button('Limpar histórico de chat', on_click=clear_chat_history)
 
 if prompt := st.chat_input("Digite sua pergunta:"):
-    st.session_state.messages.append({"role": "user", "content": prompt}) 
+    st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.write(prompt) 
 
     with st.chat_message("assistant"):
         with st.spinner("Pensando..."): 
             response = generate_groq_response(prompt)
-            st.write(response)
+            st.write(response) 
 
     message = {"role": "assistant", "content": response}
     st.session_state.messages.append(message)
