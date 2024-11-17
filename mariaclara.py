@@ -9,16 +9,8 @@ st.set_page_config(page_title="Maria Clara - CHATBOT")
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "assistant", "content": "Como posso te ajudar hoje, diva?"}]
 
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.write(message["content"])
-
-def clear_chat_history():
-    st.session_state.messages = [{"role": "assistant", "content": "Como posso te ajudar hoje, diva?"}]
-st.sidebar.button('Limpar histórico de chat', on_click=clear_chat_history)
-
 def generate_groq_response(prompt_input):
-    api_key = os.environ.get("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")
+    api_key = os.environ.get("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")  
     url = "https://api.groq.com/openai/v1/completions"
     headers = {
         "Authorization": f"Bearer {api_key}",
@@ -39,19 +31,19 @@ def generate_groq_response(prompt_input):
 
     try:
         response = requests.post(
-            url, 
+            url,
             headers=headers,
             json={
-                "model": "llama3-8b-8192",
+                "model": "llama3-8b-8192", 
                 "messages": messages + [{"role": "user", "content": prompt_input}],
                 "temperature": 0.5,
                 "max_tokens": 1024,
                 "top_p": 1,
                 "stop": None,
-                "stream": False
+                "stream": False 
             }
         )
-        
+
         if response.status_code == 200:
             response_data = response.json()
             if 'choices' in response_data and len(response_data['choices']) > 0:
@@ -63,23 +55,25 @@ def generate_groq_response(prompt_input):
     except Exception as e:
         return f"Erro ao chamar a API Groq: {str(e)}"
 
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.write(message["content"])
+
+def clear_chat_history():
+    st.session_state.messages = [{"role": "assistant", "content": "Como posso te ajudar hoje, diva?"}]
+st.sidebar.button('Limpar histórico de chat', on_click=clear_chat_history)
+
 if prompt := st.chat_input("Digite sua pergunta:"):
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.messages.append({"role": "user", "content": prompt}) 
     with st.chat_message("user"):
-        st.write(prompt)
+        st.write(prompt) 
 
-    if st.session_state.messages[-1]["role"] != "assistant":
-        with st.chat_message("assistant"):
-            with st.spinner("Pensando..."):
-                response = generate_groq_response(prompt)
-                placeholder = st.empty()
-                full_response = ''
-                for item in response:
-                    full_response += item
-                    placeholder.markdown(full_response)
-                placeholder.markdown(full_response)
+    with st.chat_message("assistant"):
+        with st.spinner("Pensando..."): 
+            response = generate_groq_response(prompt)
+            st.write(response)
 
-        message = {"role": "assistant", "content": full_response}
-        st.session_state.messages.append(message)
+    message = {"role": "assistant", "content": response}
+    st.session_state.messages.append(message)
 
 ### Alinne
