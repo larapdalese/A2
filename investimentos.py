@@ -36,7 +36,8 @@ st.markdown("""
         bolsa atual. Caso não entenda algo, a Maria Clara estará sempre à sua disposição!<3
     </p>
     """, unsafe_allow_html=True)
-url = "https://www.bv.com.br/bv-inspira/orientacao-financeira/comecar-a-investir"
+url1 = "https://www.bv.com.br/bv-inspira/orientacao-financeira/comecar-a-investir"
+url2 = "https://www.gov.br/investidor/pt-br/investir/como-investir/como-funciona-a-bolsa"
 def raspar_conteudo(url):
     try:
         response = requests.get(url)
@@ -48,29 +49,14 @@ def raspar_conteudo(url):
         return f"Erro de requisição: {e}"
     except Exception as e:
         return f"Erro inesperado: {e}"
-url1 = "https://www.gov.br/investidor/pt-br/investir/como-investir/como-funciona-a-bolsa"
-def raspar_conteudo1(url1):
-    try:
-        response = requests.get(url1)
-        response.raise_for_status()  
-        soup = BeautifulSoup(response.content, 'html.parser')
-        conteudo = soup.find('h1')  
-        return conteudo.text.strip() if conteudo else "Conteúdo não encontrado."
-    except requests.exceptions.RequestException as e:
-        return f"Erro de requisição: {e}"
-    except Exception as e:
-        return f"Erro inesperado: {e}"
 col1, col2 = st.columns(2)
 with col1:
     st.subheader("Desmistificação")
     try:
-        conteudo_raspado = raspar_conteudo(url)
-        st.markdown(f"[O que são investimentos?]({url})") 
+        conteudo_raspado1 = raspar_conteudo(url1)
+        conteudo_raspado2 = raspar_conteudo(url2)
+        st.markdown(f"[O que são investimentos?]({url1})")
+        st.markdown(f"[O que é a bolsa de valores?]({url2})")
+        st.write("Raspagem concluída com sucesso.")
     except Exception as e:
         st.error(f"Erro ao raspar conteúdo: {e}")
-        conteudo_raspado = None
-        conteudo_raspado = raspar_conteudo(url1)
-        st.markdown(f"[Como funciona a bolsa?]({url1})")  
-    except Exception as e:
-        st.error(f"Erro ao raspar conteúdo: {e}")
-        conteudo_raspado = None
