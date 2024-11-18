@@ -37,23 +37,22 @@ st.markdown("""
     </p>
     """, unsafe_allow_html=True)
 def raspar_conteudo(url):
-    response = requests.get(url)
-    if response.status_code != 200:
-        return f"Erro ao acessar o site: código {response.status_code}"
-    soup = BeautifulSoup(response.content, 'html.parser')
-    print(soup.prettify())  
-    conteudo = soup.find('div') 
-    return conteudo.text.strip() if conteudo else "Conteúdo não encontrado."
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  
+        soup = BeautifulSoup(response.content, 'html.parser')
+        conteudo = soup.find('div')  
+        return conteudo.text.strip() if conteudo else "Conteúdo não encontrado."
+    except requests.exceptions.RequestException as e:
+        return f"Erro de requisição: {e}"
+    except Exception as e:
+        return f"Erro inesperado: {e}"
 col1, col2 = st.columns(2)
 with col1:
     st.subheader("Desmistificação")
-    conteudo_raspado = raspar_conteudo(url)
-    if conteudo_raspado != "Conteúdo não encontrado.":
-        st.markdown(f"""
-            <div>
-                <h4>O que são investimentos?</h4>
-                <p>{conteudo_raspado[:300]}... <a href="{url}" target="_blank">Leia mais</a></p>
-            </div>
-            """, unsafe_allow_html=True)
-    else:
-        st.error("Não foi possível encontrar o conteúdo.")
+    try:
+        conteudo_raspado = raspar_conteudo(url)
+        st.write("Raspagem concluída com sucesso.")  
+    except Exception as e:
+        st.error(f"Erro ao raspar conteúdo: {e}")
+        conteudo_raspado = None
