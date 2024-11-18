@@ -31,10 +31,6 @@ st.markdown("""
     }
     </style>
     <h1 class="centered-title">Investimentos</h1>
-    <p class="centered-subtitle">
-        Aqui você encontra possibilidades de investimentos, cotação do dólar e outros valores da <br>
-        bolsa atual. Caso não entenda algo, a Maria Clara estará sempre à sua disposição!<3
-    </p>
     """, unsafe_allow_html=True)
 url1 = "https://www.bv.com.br/bv-inspira/orientacao-financeira/comecar-a-investir"
 url2 = "https://www.gov.br/investidor/pt-br/investir/como-investir/como-funciona-a-bolsa"
