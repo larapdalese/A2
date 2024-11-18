@@ -37,6 +37,7 @@ st.markdown("""
     </p>
     """, unsafe_allow_html=True)
 def raspar_conteudo(url):
+    url = "https://www.bv.com.br/bv-inspira/orientacao-financeira/comecar-a-investir"
     try:
         response = requests.get(url)
         response.raise_for_status()  
