@@ -40,10 +40,10 @@ url1 = "https://www.bv.com.br/bv-inspira/orientacao-financeira/comecar-a-investi
 url2 = "https://www.gov.br/investidor/pt-br/investir/como-investir/como-funciona-a-bolsa"
 def raspar_conteudo(url):
     try:
-        response = requests.get(url)
-        response.raise_for_status()  
+        response = requests.get(url, timeout=10)  
+        response.raise_for_status()
         soup = BeautifulSoup(response.content, 'html.parser')
-        conteudo = soup.find('div')  
+        conteudo = soup.find('h1')  
         return conteudo.text.strip() if conteudo else "Conteúdo não encontrado."
     except requests.exceptions.RequestException as e:
         return f"Erro de requisição: {e}"
@@ -57,6 +57,5 @@ with col1:
         conteudo_raspado2 = raspar_conteudo(url2)
         st.markdown(f"[O que são investimentos?]({url1})")
         st.markdown(f"[O que é a bolsa de valores?]({url2})")
-        st.write("Raspagem concluída com sucesso.")
     except Exception as e:
         st.error(f"Erro ao raspar conteúdo: {e}")
