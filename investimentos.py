@@ -38,8 +38,11 @@ st.markdown("""
     """, unsafe_allow_html=True)
 def raspar_conteudo(url):
     response = requests.get(url)
+    if response.status_code != 200:
+        return f"Erro ao acessar o site: código {response.status_code}"
     soup = BeautifulSoup(response.content, 'html.parser')
-    conteudo = soup.find('div', class_='bv-text')  
+    print(soup.prettify())  
+    conteudo = soup.find('div') 
     return conteudo.text.strip() if conteudo else "Conteúdo não encontrado."
 col1, col2 = st.columns(2)
 with col1:
