@@ -36,8 +36,8 @@ st.markdown("""
         bolsa atual. Caso não entenda algo, a Maria Clara estará sempre à sua disposição!<3
     </p>
     """, unsafe_allow_html=True)
+url = "https://www.bv.com.br/bv-inspira/orientacao-financeira/comecar-a-investir"
 def raspar_conteudo(url):
-    url = "https://www.bv.com.br/bv-inspira/orientacao-financeira/comecar-a-investir"
     try:
         response = requests.get(url)
         response.raise_for_status()  
@@ -53,7 +53,8 @@ with col1:
     st.subheader("Desmistificação")
     try:
         conteudo_raspado = raspar_conteudo(url)
-        st.write("Raspagem concluída com sucesso.")  
+        st.write("Raspagem concluída com sucesso.")
+        st.markdown(f"[O que são investimentos?]({url})") 
     except Exception as e:
         st.error(f"Erro ao raspar conteúdo: {e}")
         conteudo_raspado = None
