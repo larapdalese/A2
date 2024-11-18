@@ -29,7 +29,10 @@ st.markdown("""
     }
     </style>
     <h1 class="centered-title">Investimentos</h1>
-    <p class="centered-subtitle">Aqui você encontra possibilidades de investimentos, cotação do dólar e outros valores da bolsa atual. Caso não entenda algo, a Maria Clara estará sempre à sua disposição!<3</p>
+    <p class="centered-subtitle">
+        Aqui você encontra possibilidades de investimentos, cotação do dólar e outros valores da bolsa atual.<br>
+        Caso não entenda algo, a Maria Clara estará sempre à sua disposição!<3
+    </p>
     """, unsafe_allow_html=True)
 ticker = 'USDBRL=X'
 dados = yf.download(ticker, start='2023-01-01', end='2024-11-18')
