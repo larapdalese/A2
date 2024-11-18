@@ -36,18 +36,16 @@ st.markdown("""
         bolsa atual. Caso não entenda algo, a Maria Clara estará sempre à sua disposição!<3
     </p>
     """, unsafe_allow_html=True)
-st.write("") 
-url = "https://www.bv.com.br/bv-inspira/orientacao-financeira/comecar-a-investir"
 def raspar_conteudo(url):
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
-    conteudo = soup.find('div')  
-    return conteudo.text if conteudo else "Conteúdo não encontrado."
+    conteudo = soup.find('div', class_='bv-text')  
+    return conteudo.text.strip() if conteudo else "Conteúdo não encontrado."
 col1, col2 = st.columns(2)
 with col1:
     st.subheader("Desmistificação")
     conteudo_raspado = raspar_conteudo(url)
-    if conteudo_raspado:
+    if conteudo_raspado != "Conteúdo não encontrado.":
         st.markdown(f"""
             <div>
                 <h4>O que são investimentos?</h4>
