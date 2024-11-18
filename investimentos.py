@@ -34,9 +34,14 @@ st.markdown("""
         bolsa atual. Caso não entenda algo, a Maria Clara estará sempre à sua disposição!<3
     </p>
     """, unsafe_allow_html=True)
-ticker = 'USDBRL=X'
-dados = yf.download(ticker, start='2023-01-01', end='2024-11-18')
-if not dados.empty:
-    st.line_chart(dados['Close'])
-else:
-    st.error('Não foi possível obter os dados da cotação do dólar.')
+st.write("") 
+col1, col2 = st.columns(2)
+with col1:
+    st.subheader("Desmistificação")
+    st.markdown(
+        """
+        <iframe src="https://www.bv.com.br/bv-inspira/orientacao-financeira/comecar-a-investir" 
+        width="100%" height="600px" frameborder="0"></iframe>
+        """, 
+        unsafe_allow_html=True
+    )
