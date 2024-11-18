@@ -2,6 +2,8 @@
 #aqui o ususário encontra possibilidades de investimentos e, ao final da página, uma raspagem da bolsa de valores
 import streamlit as st
 import yfinance as yf
+import requests
+from bs4 import BeautifulSoup
 st.set_page_config(layout="wide", page_title="Investimentos")
 def apply_custom_css():
     st.markdown("""
@@ -35,13 +37,22 @@ st.markdown("""
     </p>
     """, unsafe_allow_html=True)
 st.write("") 
+url = "https://www.bv.com.br/bv-inspira/orientacao-financeira/comecar-a-investir"
+def raspar_conteudo(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    conteudo = soup.find('div')  
+    return conteudo.text if conteudo else "Conteúdo não encontrado."
 col1, col2 = st.columns(2)
 with col1:
     st.subheader("Desmistificação")
-    st.markdown(
-        """
-        <iframe src="https://www.bv.com.br/bv-inspira/orientacao-financeira/comecar-a-investir" 
-        width="100%" height="600px" frameborder="0"></iframe>
-        """, 
-        unsafe_allow_html=True
-    )
+    conteudo_raspado = raspar_conteudo(url)
+    if conteudo_raspado:
+        st.markdown(f"""
+            <div>
+                <h4>O que são investimentos?</h4>
+                <p>{conteudo_raspado[:300]}... <a href="{url}" target="_blank">Leia mais</a></p>
+            </div>
+            """, unsafe_allow_html=True)
+    else:
+        st.error("Não foi possível encontrar o conteúdo.")
