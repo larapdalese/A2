@@ -4,6 +4,7 @@ import streamlit as st
 import yfinance as yf
 import pandas as pd
 st.title('Gráfico da Cotação do Dólar (USD/BRL)')
+st.markdown("<p style='text-align: center;'>Aqui você encontra possibilidades de investimentos, cotação do dólar e outros valores da bolsa atual</p>", unsafe_allow_html=True)
 ticker = 'USDBRL=X'
 dados = yf.download(ticker, start='2023-01-01', end='2024-11-18')
 if not dados.empty:
