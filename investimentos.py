@@ -4,6 +4,7 @@ import streamlit as st
 import yfinance as yf
 import requests
 from bs4 import BeautifulSoup
+import datetime
 st.set_page_config(layout="wide", page_title="Investimentos")
 def apply_custom_css():
     st.markdown("""
