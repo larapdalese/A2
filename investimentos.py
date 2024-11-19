@@ -58,14 +58,29 @@ with col1:
     except Exception as e:
         st.error(f"Erro ao raspar conteúdo: {e}")
 with col2:
+def exibir_grafico_cotacao(ticker, moeda):
+    today = datetime.datetime.today().strftime('%Y-%m-%d')
+    data_inicio = (datetime.datetime.today() - datetime.timedelta(days=180)).strftime('%Y-%m-%d')  
+    dados = yf.download(ticker, start=data_inicio, end=today)
+    if not dados.empty:
+        st.markdown(f"**{moeda}**")
+        st.line_chart(dados['Close'])
+        cotacao_dia = dados['Close'].iloc[-1]
+        media_30_dias = dados['Close'][-30:].mean()
+        media_3_meses = dados['Close'][-90:].mean()
+        variacao_percentual = ((cotacao_dia - media_3_meses) / media_3_meses) * 100
+        st.write(f"Cotação do dia: {cotacao_dia:.2f}")
+        st.write(f"Média dos últimos 30 dias: {media_30_dias:.2f}")
+        if st.button(f"É um bom momento para comprar {moeda.lower()}?"):
+            if cotacao_dia < media_3_meses:
+                st.write(f"Sim, porque o valor de hoje é {cotacao_dia:.2f}, {abs(variacao_percentual):.2f}% abaixo da média dos últimos 3 meses ({media_3_meses:.2f}).")
+            else:
+                st.write(f"Não, porque o valor de hoje é {cotacao_dia:.2f}, {variacao_percentual:.2f}% acima da média dos últimos 3 meses ({media_3_meses:.2f}).")
+            if st.button("Obrigada!"):
+                st.empty()       
+    else:
+        st.error(f'Não foi possível obter os dados da cotação do {moeda}.')
+with col2:
     st.subheader("Gráficos de Cotação")
-    def exibir_grafico_cotacao(ticker, moeda):
-        today = datetime.datetime.today().strftime('%Y-%m-%d')  
-        dados = yf.download(ticker, start='2023-01-01', end=today)
-        if not dados.empty:
-            st.markdown(f"**{moeda}**")
-            st.line_chart(dados['Close'])
-        else:
-            st.error(f'Não foi possível obter os dados da cotação do {moeda}.')
     exibir_grafico_cotacao('USDBRL=X', 'Dólar')
     exibir_grafico_cotacao('EURBRL=X', 'Euro')
