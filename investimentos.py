@@ -5,6 +5,7 @@ import yfinance as yf
 import requests
 from bs4 import BeautifulSoup
 import datetime
+import pandas as pd 
 st.set_page_config(layout="wide", page_title="Investimentos")
 def apply_custom_css():
     st.markdown("""
@@ -79,6 +80,7 @@ with col2:
                         st.write(f"Sim, porque o valor de hoje é {cotacao_dia:.2f}, {abs(variacao_percentual):.2f}% abaixo da média dos últimos 3 meses ({media_3_meses:.2f}).")
                     else:
                         st.write(f"Não, porque o valor de hoje é {cotacao_dia:.2f}, {variacao_percentual:.2f}% acima da média dos últimos 3 meses ({media_3_meses:.2f}).")
+
                     if st.button("Obrigada!"):
                         st.empty()  
             else:
