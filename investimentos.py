@@ -43,12 +43,12 @@ with col1:
 with col2:
     st.subheader("Gráficos de Cotação")
     def exibir_grafico_cotacao(ticker, moeda):
-        today = datetime.datetime.today().strftime('%Y-%m-%d') 
-        dados = yf.download(ticker, start='2023-01-01', end=today)      
-        if not dados.empty:
+        today = datetime.datetime.today().strftime('%Y-%m-%d')  
+        dados = yf.download(ticker, start='2023-01-01', end=today)     
+        if not dados.empty and 'Close' in dados.columns:
             st.markdown(f"**{moeda}**")
             st.line_chart(dados['Close'])
-            cotacao_dia = dados['Close'][-1]
+            cotacao_dia = dados['Close'].iloc[-1]  
             st.write(f"Cotação do dia: R$ {cotacao_dia:.2f}")
             if len(dados) >= 30:
                 media_30_dias = dados['Close'][-30:].mean()
@@ -56,6 +56,6 @@ with col2:
             else:
                 st.write("Média dos últimos 30 dias: Não disponível (menos de 30 dias de dados)")
         else:
-            st.error(f'Não foi possível obter os dados da cotação do {moeda}.')
+            st.error(f'Não foi possível obter os dados da cotação do {moeda} ou a coluna "Close" está ausente.')
     exibir_grafico_cotacao('USDBRL=X', 'Dólar')
     exibir_grafico_cotacao('EURBRL=X', 'Euro')
