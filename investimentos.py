@@ -33,6 +33,7 @@ st.markdown("""
     </style>
     <h1 class="centered-title">Investimentos</h1>
     """, unsafe_allow_html=True)
+st.write("") 
 url1 = "https://www.bv.com.br/bv-inspira/orientacao-financeira/comecar-a-investir"
 url2 = "https://www.gov.br/investidor/pt-br/investir/como-investir/como-funciona-a-bolsa"
 def raspar_conteudo(url):
@@ -58,7 +59,7 @@ with col1:
         st.error(f"Erro ao raspar conteúdo: {e}")
 with col2:
     st.subheader("Gráficos de cotação")
-    st.write("### Dólar")
+    st.markdown("- **Dólar**")
     ticker = 'USDBRL=X'
     today = datetime.datetime.today().strftime('%Y-%m-%d')  
     dados = yf.download(ticker, start='2023-01-01', end=today)
