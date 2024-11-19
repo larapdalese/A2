@@ -5,7 +5,7 @@ import yfinance as yf
 import requests
 from bs4 import BeautifulSoup
 import datetime
-import pandas as pd 
+import pandas as pd
 st.set_page_config(layout="wide", page_title="Investimentos")
 def apply_custom_css():
     st.markdown("""
@@ -67,8 +67,8 @@ with col2:
         if not dados.empty:
             st.markdown(f"**{moeda}**")
             st.line_chart(dados['Close'])
-            cotacao_dia = dados['Close'].iloc[-1]
-            if not pd.isnull(cotacao_dia): 
+            cotacao_dia = dados['Close'].iloc[-1]       
+            if pd.notnull(cotacao_dia) and isinstance(cotacao_dia, (int, float)): 
                 cotacao_dia = float(cotacao_dia)
                 media_30_dias = float(dados['Close'][-30:].mean())
                 media_3_meses = float(dados['Close'][-90:].mean())
