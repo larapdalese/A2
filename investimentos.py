@@ -55,3 +55,13 @@ with col1:
         st.markdown(f"[O que é a bolsa de valores?]({url2})")
     except Exception as e:
         st.error(f"Erro ao raspar conteúdo: {e}")
+with col2:
+    st.subheader("Gráficos de cotação")
+    st.write("### Dólar")
+    ticker = 'USDBRL=X'
+    today = datetime.datetime.today().strftime('%Y-%m-%d')  
+    dados = yf.download(ticker, start='2023-01-01', end=today)
+    if not dados.empty:
+        st.line_chart(dados['Close'])
+    else:
+        st.error('Não foi possível obter os dados da cotação do dólar.')
