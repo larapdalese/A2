@@ -59,7 +59,7 @@ with col1:
         st.error(f"Erro ao raspar conteúdo: {e}")
 with col2:
     st.subheader("Gráficos de cotação")
-    st.markdown("- **Dólar**")
+    st.markdown("<ul><li><span style='font-size: 24px;'>Dólar</span></li></ul>", unsafe_allow_html=True)
     ticker = 'USDBRL=X'
     today = datetime.datetime.today().strftime('%Y-%m-%d')  
     dados = yf.download(ticker, start='2023-01-01', end=today)
