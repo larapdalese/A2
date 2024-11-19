@@ -61,16 +61,17 @@ with col2:
     st.subheader("Gráficos de Cotação")
     def exibir_grafico_cotacao(ticker, moeda):
         today = datetime.datetime.today().strftime('%Y-%m-%d')
-        data_inicio = (datetime.datetime.today() - datetime.timedelta(days=180)).strftime('%Y-%m-%d') 
+        data_inicio = (datetime.datetime.today() - datetime.timedelta(days=180)).strftime('%Y-%m-%d')  
         dados = yf.download(ticker, start=data_inicio, end=today)
         if not dados.empty:
             st.markdown(f"**{moeda}**")
             st.line_chart(dados['Close'])
-            cotacao_dia = float(dados['Close'].iloc[-1]) if not dados['Close'].isnull().iloc[-1] else None
-            media_30_dias = float(dados['Close'][-30:].mean())
-            media_3_meses = float(dados['Close'][-90:].mean())
-            variacao_percentual = ((cotacao_dia - media_3_meses) / media_3_meses) * 100 if cotacao_dia else None
-            if cotacao_dia is not None:
+            cotacao_dia = dados['Close'].iloc[-1]
+            if not pd.isnull(cotacao_dia): 
+                cotacao_dia = float(cotacao_dia)
+                media_30_dias = float(dados['Close'][-30:].mean())
+                media_3_meses = float(dados['Close'][-90:].mean())
+                variacao_percentual = ((cotacao_dia - media_3_meses) / media_3_meses) * 100
                 st.write(f"Cotação do dia: {cotacao_dia:.2f}")
                 st.write(f"Média dos últimos 30 dias: {media_30_dias:.2f}")
                 if st.button(f"É um bom momento para comprar {moeda.lower()}?"):
@@ -82,5 +83,7 @@ with col2:
                         st.empty()  
             else:
                 st.warning(f"A cotação do dia não está disponível para o {moeda}.")
+        else:
+            st.error(f'Não foi possível obter os dados da cotação do {moeda}.')
     exibir_grafico_cotacao('USDBRL=X', 'Dólar')
     exibir_grafico_cotacao('EURBRL=X', 'Euro')
