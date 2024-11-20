@@ -2,10 +2,10 @@ import streamlit as st
 import requests
 
 # Função para buscar notícias sobre educação financeira usando a GNews API
-def buscar_noticias_gnews(api_key, termos_busca):
+def buscar_noticias_gnews(api_key, termos_busca, pagina=1):
     try:
         # Definindo a URL da API e os parâmetros
-        api_url = f"https://gnews.io/api/v4/search?q={termos_busca}&lang=pt&token={api_key}&country=br"
+        api_url = f"https://gnews.io/api/v4/search?q={termos_busca}&lang=pt&token={api_key}&country=br&page={pagina}"
         
         # Fazendo a requisição GET à GNews API
         response = requests.get(api_url)
@@ -23,12 +23,15 @@ def mostrar_dicas():
     st.title("Dicas de Educação Financeira para Mulheres")
     st.write("Explore notícias simples e práticas que ajudam mulheres a entender melhor o mundo das finanças pessoais!")
 
-    # Parâmetros da API (substitua pelo valor real)
-    api_key = "d700b8cb09b888dc838bf50109bedd9e"  # Substitua pela sua chave API válida
+
+ api_key = "d700b8cb09b888dc838bf50109bedd9e"  
     termos_busca = "educação financeira OR finanças OR mulheres OR empreendedorismo"
 
+    # Controle de paginação
+    pagina = st.number_input("Página", min_value=1, step=1, value=1)
+
     # Buscar notícias usando a API
-    noticias = buscar_noticias_gnews(api_key, termos_busca)
+    noticias = buscar_noticias_gnews(api_key, termos_busca, pagina)
 
     # Se não houver notícias encontradas
     if not noticias:
@@ -45,3 +48,4 @@ def mostrar_dicas():
 # Rodar a função de dicas se for o arquivo principal
 if __name__ == "__main__":
     mostrar_dicas()
+
