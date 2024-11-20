@@ -45,4 +45,3 @@ def mostrar_dicas():
 # Rodar a função de dicas se for o arquivo principal
 if __name__ == "__main__":
     mostrar_dicas()
-
