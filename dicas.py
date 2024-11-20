@@ -7,7 +7,7 @@ def buscar_noticias_educacao_financeira(api_url, api_key, termos_busca):
         # Definindo os parâmetros da requisição
         params = {
             'q': termos_busca,            # Termos de busca (notícias relacionadas a educação financeira)
-            'apiKey': '4f55225bc66b48659ecd186d41db2db5',            # Chave da API (obtida ao se registrar na NewsAPI)
+            'apiKey': api_key,            # Chave da API (obtida ao se registrar na NewsAPI)
             'language': 'pt',             # Notícias em português
             'sortBy': 'relevance'         # Ordenação por relevância
         }
@@ -31,7 +31,7 @@ def mostrar_dicas():
     # Parâmetros da API (substitua pelo valor real)
     api_url = "https://newsapi.org/v2/everything"
     api_key = "4f55225bc66b48659ecd186d41db2db5"  # Substitua pela sua chave API válida
-    termos_busca = "educação financeira OR finanças pessoais OR economia pessoal"
+    termos_busca = "finanças para mulheres OR educação financeira feminina OR mulheres e economia"
 
     # Buscar notícias usando a API
     noticias = buscar_noticias_educacao_financeira(api_url, api_key, termos_busca)
@@ -41,8 +41,18 @@ def mostrar_dicas():
         st.write("Nenhuma notícia encontrada. Tente novamente mais tarde.")
         return
 
-    # Mostrar as notícias encontradas
-    for noticia in noticias:
+    # Filtrar notícias que sejam realmente sobre o tema e remover qualquer elemento não esperado
+    noticias_relevantes = [
+        noticia for noticia in noticias
+        if noticia.get('title') and "educação financeira" in noticia['title'].lower()
+    ]
+
+    if not noticias_relevantes:
+        st.write("Nenhuma notícia relevante encontrada. Tente novamente mais tarde.")
+        return
+
+    # Mostrar as notícias relevantes encontradas
+    for noticia in noticias_relevantes:
         st.subheader(noticia['title'])
         st.write(noticia['description'])
         st.write(f"[Leia mais]({noticia['url']})")
