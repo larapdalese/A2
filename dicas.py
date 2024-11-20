@@ -31,7 +31,7 @@ def mostrar_dicas():
     # Parâmetros da API (substitua pelo valor real)
     api_url = "https://newsapi.org/v2/everything"
     api_key = "4f55225bc66b48659ecd186d41db2db5"  # Substitua pela sua chave API válida
-    termos_busca = "finanças para mulheres OR educação financeira feminina OR mulheres e economia"
+    termos_busca = "finanças OR educação financeira OR mulheres"
 
     # Buscar notícias usando a API
     noticias = buscar_noticias_educacao_financeira(api_url, api_key, termos_busca)
