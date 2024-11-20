@@ -1,13 +1,13 @@
 import streamlit as st
 import requests
 
-# Função para buscar notícias sobre investimentos usando a NewsAPI
-def buscar_noticias_educacaofinanceira(api_url, api_key, termos_busca):
+# Função para buscar notícias sobre educação financeira usando a NewsAPI
+def buscar_noticias_educacao_financeira(api_url, api_key, termos_busca):
     try:
-   
+        # Definindo os parâmetros da requisição
         params = {
-            'q': termos_busca,            # Termos de busca (notícias relacionadas a finanças simples)
-            'apiKey': api_key,            # Chave da API (obtida ao se registrar na NewsAPI)
+            'q': termos_busca,            # Termos de busca (notícias relacionadas a educação financeira)
+            'apiKey': '4f55225bc66b48659ecd186d41db2db5',            # Chave da API (obtida ao se registrar na NewsAPI)
             'language': 'pt',             # Notícias em português
             'sortBy': 'relevance'         # Ordenação por relevância
         }
@@ -25,16 +25,16 @@ def buscar_noticias_educacaofinanceira(api_url, api_key, termos_busca):
 
 # Função para mostrar as notícias na aba "Dicas"
 def mostrar_dicas():
-    st.title("Dicas de Investimentos para Iniciantes")
-    st.write("Confira notícias simples e fáceis de entender para começar sua jornada no mundo das finanças!")
+    st.title("Dicas de Educação Financeira para Iniciantes")
+    st.write("Confira notícias simples e fáceis de entender para começar sua jornada no mundo da educação financeira!")
 
     # Parâmetros da API (substitua pelo valor real)
     api_url = "https://newsapi.org/v2/everything"
-    api_key = "4f55225bc66b48659ecd186d41db2db5"  
-    termos_busca = "investimentos OR educação financeira para iniciantes OR conceitos básicos de economia"
+    api_key = "4f55225bc66b48659ecd186d41db2db5"  # Substitua pela sua chave API válida
+    termos_busca = "educação financeira OR finanças pessoais OR economia pessoal"
 
     # Buscar notícias usando a API
-    noticias = buscar_noticias_investimentos(api_url, api_key, termos_busca)
+    noticias = buscar_noticias_educacao_financeira(api_url, api_key, termos_busca)
 
     # Se não houver notícias encontradas
     if not noticias:
@@ -51,4 +51,3 @@ def mostrar_dicas():
 # Rodar a função de dicas se for o arquivo principal
 if __name__ == "__main__":
     mostrar_dicas()
-
