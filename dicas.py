@@ -25,7 +25,7 @@ def mostrar_dicas():
 
     # Parâmetros da API (substitua pelo valor real)
     api_key = "d700b8cb09b888dc838bf50109bedd9e"  # Substitua pela sua chave API válida
-    termos_busca = "educação financeira OR finanças"
+    termos_busca = "educação financeira OR finanças OR mulheres OR empreendedorismo"
 
     # Buscar notícias usando a API
     noticias = buscar_noticias_gnews(api_key, termos_busca)
