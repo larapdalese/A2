@@ -23,9 +23,9 @@ def mostrar_dicas():
     st.title("Dicas de Educação Financeira para Mulheres")
     st.write("Explore notícias simples e práticas que ajudam mulheres a entender melhor o mundo das finanças pessoais!")
 
-
- api_key = "d700b8cb09b888dc838bf50109bedd9e"  
-    termos_busca = "educação financeira OR finanças OR mulheres OR empreendedorismo"
+    # Parâmetros da API (substitua pelo valor real)
+    api_key = "SUA_API_KEY_AQUI"  # Substitua pela sua chave API válida
+    termos_busca = st.text_input("Digite palavras-chave para buscar notícias sobre educação financeira:", "educação financeira para mulheres")
 
     # Controle de paginação
     pagina = st.number_input("Página", min_value=1, step=1, value=1)
@@ -48,4 +48,5 @@ def mostrar_dicas():
 # Rodar a função de dicas se for o arquivo principal
 if __name__ == "__main__":
     mostrar_dicas()
+
 
