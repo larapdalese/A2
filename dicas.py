@@ -18,6 +18,10 @@ def buscar_noticias_educacao_financeira(api_url, api_key, termos_busca):
 
         # Convertendo a resposta para JSON
         dados = response.json()
+
+        # Printar a resposta para ver o que está sendo retornado pela API
+        print(dados)  # Isso ajudará a ver se há alguma mensagem de erro ou se não há resultados
+
         return dados['articles']
     except Exception as e:
         st.error(f"Erro ao buscar notícias: {e}")
@@ -31,7 +35,7 @@ def mostrar_dicas():
     # Parâmetros da API (substitua pelo valor real)
     api_url = "https://newsapi.org/v2/everything"
     api_key = "4f55225bc66b48659ecd186d41db2db5"  # Substitua pela sua chave API válida
-    termos_busca = "finanças OR educação financeira OR mulheres"
+    termos_busca = "educação financeira OR finanças OR economia"
 
     # Buscar notícias usando a API
     noticias = buscar_noticias_educacao_financeira(api_url, api_key, termos_busca)
@@ -41,18 +45,8 @@ def mostrar_dicas():
         st.write("Nenhuma notícia encontrada. Tente novamente mais tarde.")
         return
 
-    # Filtrar notícias que sejam realmente sobre o tema e remover qualquer elemento não esperado
-    noticias_relevantes = [
-        noticia for noticia in noticias
-        if noticia.get('title') and "educação financeira" in noticia['title'].lower()
-    ]
-
-    if not noticias_relevantes:
-        st.write("Nenhuma notícia relevante encontrada. Tente novamente mais tarde.")
-        return
-
     # Mostrar as notícias relevantes encontradas
-    for noticia in noticias_relevantes:
+    for noticia in noticias:
         st.subheader(noticia['title'])
         st.write(noticia['description'])
         st.write(f"[Leia mais]({noticia['url']})")
