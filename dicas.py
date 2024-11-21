@@ -24,20 +24,23 @@ palavra_chave = st.text_input("Digite a palavra-chave para buscar notícias:")
 if "pagina" not in st.session_state:
     st.session_state.pagina = 1
 
-noticias = buscar_noticias(palavra_chave, st.session_state.pagina)
+if st.button('Buscar Notícias') or palavra_chave:
+    st.session_state.pagina = 1
+    noticias = buscar_noticias(palavra_chave, st.session_state.pagina)
 
-if noticias['articles']:
-    for artigo in noticias['articles']:
-        st.subheader(artigo['title'])
-        st.markdown(f"[{artigo['source']['name']}]({artigo['url']})")
-        st.write(artigo['description'])
-        st.write("---")
+    if noticias['articles']:
+        for artigo in noticias['articles']:
+            st.subheader(artigo['title'])
+            st.markdown(f"[{artigo['source']['name']}]({artigo['url']})")
+            st.write(artigo['description'])
+            st.write("---")
 
-    # Botão de navegação de página
-    total_paginas = math.ceil(noticias.get('totalArticles', 10) / 10)
-    if st.session_state.pagina < total_paginas:
-        if st.button('Próxima Página'):
-            st.session_state.pagina += 1
-            st.experimental_rerun()
-else:
-    st.write("Nenhuma notícia encontrada para essa palavra-chave.")
+        # Botão de navegação de página
+        total_paginas = math.ceil(noticias.get('totalArticles', 10) / 10)
+        if st.session_state.pagina < total_paginas:
+            if st.button('Próxima Página'):
+                st.session_state.pagina += 1
+                noticias = buscar_noticias(palavra_chave, st.session_state.pagina)
+                st.experimental_rerun()
+    else:
+        st.write("Nenhuma notícia encontrada para essa palavra-chave.")
