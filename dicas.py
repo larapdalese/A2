@@ -20,8 +20,7 @@ def buscar_noticias_gnews(api_key, termos_busca, pagina=1):
 
 # Função para mostrar as notícias na aba "Dicas"
 def mostrar_dicas():
-    st.title("Dicas de Educação Financeira para Mulheres")
-    st.write("Explore notícias simples e práticas que ajudam mulheres a entender melhor o mundo das finanças pessoais!")
+     st.write("Explore notícias simples e práticas que ajudam mulheres a entender melhor o mundo das finanças pessoais!")
 
     # Parâmetros da API (substitua pelo valor real)
     api_key = "d700b8cb09b888dc838bf50109bedd9e"  # Substitua pela sua chave API válida
