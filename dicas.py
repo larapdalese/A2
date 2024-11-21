@@ -20,16 +20,15 @@ def buscar_noticias_gnews(api_key, termos_busca, pagina=1):
 
 # Função para mostrar as notícias na aba "Dicas"
 def mostrar_dicas():
-     st.write("Explore notícias simples e práticas que ajudam mulheres a entender melhor o mundo das finanças pessoais!")
+    st.title("Dicas de Educação Financeira para Mulheres")
+    st.write("Explore notícias simples e práticas que ajudam mulheres a entender melhor o mundo das finanças pessoais!")
 
     # Parâmetros da API (substitua pelo valor real)
     api_key = "d700b8cb09b888dc838bf50109bedd9e"  # Substitua pela sua chave API válida
-    termos_busca = st.text_area("Busque por palavras-chave para encontrar resultados ainda melhores, diva:", "educação financeira para mulheres", height=100)
-
-    # Controle de paginação
-    pagina = st.number_input("Página", min_value=1, step=1, value=1)
+    termos_busca = st.text_area("Busque por palavras-chave para encontrar resultados ainda melhores, diva:", "", height=100)
 
     # Buscar notícias usando a API
+    pagina = st.number_input("Página", min_value=1, step=1, value=1)
     noticias = buscar_noticias_gnews(api_key, termos_busca, pagina)
 
     # Se não houver notícias encontradas
@@ -50,14 +49,17 @@ def mostrar_dicas():
         st.markdown("---")
 
     # Rodapé com controle de páginas
+    st.markdown("---")
     total_paginas = len(noticias) // noticias_por_pagina + (1 if len(noticias) % noticias_por_pagina > 0 else 0)
-    st.write(f"Página {pagina} de {total_paginas}")
-    if pagina < total_paginas:
-        if st.button("Próxima Página"):
-            st.experimental_rerun()
-    if pagina > 1:
-        if st.button("Página Anterior"):
-            st.experimental_rerun()
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.write(f"Página {pagina} de {total_paginas}")
+        if pagina < total_paginas:
+            if st.button("Próxima Página"):
+                st.experimental_rerun()
+        if pagina > 1:
+            if st.button("Página Anterior"):
+                st.experimental_rerun()
 
 # Rodar a função de dicas se for o arquivo principal
 if __name__ == "__main__":
