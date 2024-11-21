@@ -3,6 +3,12 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+caminho_logo = "C:\Users\Manuela Muniz\Downloads\Feminance.logo.png""  
+
+st.image(caminho_logo, use_column_width=False, width=100)
+
+
+
 st.set_page_config()
 st.set_page_config(layout="wide", page_title="Meu Site de Finanças")
 def apply_custom_css():
