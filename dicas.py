@@ -20,8 +20,11 @@ st.markdown("Encontre as últimas notícias e atualizações sobre educação fi
 palavra_chave = st.text_input("Digite a palavra-chave para buscar notícias:")
 
 if palavra_chave:
-    pagina = st.number_input("Página", min_value=1, value=1, step=1)
-    noticias = buscar_noticias(palavra_chave, pagina)
+    pagina = 1
+    if "pagina" not in st.session_state:
+        st.session_state.pagina = 1
+
+    noticias = buscar_noticias(palavra_chave, st.session_state.pagina)
 
     if noticias['articles']:
         for artigo in noticias['articles']:
@@ -30,18 +33,11 @@ if palavra_chave:
             st.write(artigo['description'])
             st.write("---")
 
-        # Botões de navegação de páginas
-        col1, col2 = st.columns(2)
-        with col1:
-            if pagina > 1:
-                if st.button('Página Anterior'):
-                    pagina -= 1
-                    st.experimental_rerun()
-        with col2:
-            total_paginas = math.ceil(noticias.get('totalArticles', 10) / 10)
-            if pagina < total_paginas:
-                if st.button('Próxima Página'):
-                    pagina += 1
-                    st.experimental_rerun()
+        # Botão de navegação de página
+        total_paginas = math.ceil(noticias.get('totalArticles', 10) / 10)
+        if st.session_state.pagina < total_paginas:
+            if st.button('Próxima Página'):
+                st.session_state.pagina += 1
+                st.experimental_rerun()
     else:
         st.write("Nenhuma notícia encontrada para essa palavra-chave.")
