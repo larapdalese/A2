@@ -23,12 +23,13 @@ def mostrar_dicas():
     st.title("Dicas de Educação Financeira para Mulheres")
     st.write("Explore notícias simples e práticas que ajudam mulheres a entender melhor o mundo das finanças pessoais!")
 
-    # Debug: Adicionar um print para confirmar a execução até esse ponto
-    st.write("Debug: Passou pela parte inicial sem erros")
-
     # Parâmetros da API (substitua pelo valor real)
     api_key = "d700b8cb09b888dc838bf50109bedd9e"  # Substitua pela sua chave API válida
     termos_busca = st.text_area("Busque por palavras-chave para encontrar resultados ainda melhores, diva:", "", height=100)
+
+    # Garantir que a consulta não esteja vazia
+    if not termos_busca.strip():
+        termos_busca = "educação financeira"
 
     # Controle de paginação
     pagina = st.number_input("Página", min_value=1, step=1, value=1)
