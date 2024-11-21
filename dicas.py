@@ -42,18 +42,6 @@ def mostrar_dicas():
         st.write("Nenhuma notícia encontrada. Tente novamente mais tarde.")
         return
 
-    # Mostrar as notícias encontradas (4 por página)
-    noticias_por_pagina = 4
-    inicio = (pagina - 1) * noticias_por_pagina
-    fim = inicio + noticias_por_pagina
-    noticias_pagina = noticias[inicio:fim]
-
-    for noticia in noticias_pagina:
-        st.subheader(noticia['title'])
-        st.write(noticia['description'])
-        st.write(f"[Leia mais]({noticia['url']})")
-        st.markdown("---")
-
     # Rodapé com controle de páginas
     st.markdown("---")
     total_paginas = len(noticias) // noticias_por_pagina + (1 if len(noticias) % noticias_por_pagina > 0 else 0)
