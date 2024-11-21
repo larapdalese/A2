@@ -25,7 +25,7 @@ def mostrar_dicas():
 
     # Parâmetros da API (substitua pelo valor real)
     api_key = "d700b8cb09b888dc838bf50109bedd9e"  # Substitua pela sua chave API válida
-    termos_busca = st.text_input("Digite palavras-chave para buscar notícias sobre educação financeira:", "educação financeira para mulheres")
+    termos_busca = st.text_area("Busque por palavras-chave para encontrar resultados ainda melhores, diva:", "educação financeira para mulheres", height=100)
 
     # Controle de paginação
     pagina = st.number_input("Página", min_value=1, step=1, value=1)
@@ -38,12 +38,27 @@ def mostrar_dicas():
         st.write("Nenhuma notícia encontrada. Tente novamente mais tarde.")
         return
 
-    # Mostrar as notícias encontradas
-    for noticia in noticias:
+    # Mostrar as notícias encontradas (4 por página)
+    noticias_por_pagina = 4
+    inicio = (pagina - 1) * noticias_por_pagina
+    fim = inicio + noticias_por_pagina
+    noticias_pagina = noticias[inicio:fim]
+
+    for noticia in noticias_pagina:
         st.subheader(noticia['title'])
         st.write(noticia['description'])
         st.write(f"[Leia mais]({noticia['url']})")
         st.markdown("---")
+
+    # Rodapé com controle de páginas
+    total_paginas = len(noticias) // noticias_por_pagina + (1 if len(noticias) % noticias_por_pagina > 0 else 0)
+    st.write(f"Página {pagina} de {total_paginas}")
+    if pagina < total_paginas:
+        if st.button("Próxima Página"):
+            st.experimental_rerun()
+    if pagina > 1:
+        if st.button("Página Anterior"):
+            st.experimental_rerun()
 
 # Rodar a função de dicas se for o arquivo principal
 if __name__ == "__main__":
