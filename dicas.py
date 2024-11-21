@@ -27,20 +27,25 @@ def mostrar_dicas():
     api_key = "d700b8cb09b888dc838bf50109bedd9e"  # Substitua pela sua chave API válida
     termos_busca = st.text_area("Busque por palavras-chave para encontrar resultados ainda melhores, diva:", "", height=100)
 
-    # Garantir que a consulta não esteja vazia
-    if not termos_busca.strip():
-        termos_busca = "educação financeira"
-
-    # Controle de paginação
-    pagina = st.number_input("Página", min_value=1, step=1, value=1)
-
     # Buscar notícias usando a API
-    noticias = buscar_noticias_gnews(api_key, termos_busca, pagina)
+        noticias = buscar_noticias_gnews(api_key, termos_busca, pagina)
 
     # Se não houver notícias encontradas
     if not noticias:
         st.write("Nenhuma notícia encontrada. Tente novamente mais tarde.")
         return
+
+    # Mostrar as notícias encontradas (4 por página)
+    noticias_por_pagina = 4
+    inicio = (pagina - 1) * noticias_por_pagina
+    fim = inicio + noticias_por_pagina
+    noticias_pagina = noticias[inicio:fim]
+
+    for noticia in noticias_pagina:
+        st.subheader(noticia['title'])
+        st.write(noticia['description'])
+        st.write(f"[Leia mais]({noticia['url']})")
+        st.markdown("---")
 
     # Rodapé com controle de páginas
     st.markdown("---")
