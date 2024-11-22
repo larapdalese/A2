@@ -45,7 +45,6 @@ with col1:
     .custom-subsubtitle {
         font-size: 20px; /* Tamanho entre o subheader e o texto normal */
         font-weight: bold; /* Negrito */
-        color: #333333; /* Cor opcional, ajustável */
         margin-bottom: 10px; /* Espaço abaixo do texto */
     }
     </style>
