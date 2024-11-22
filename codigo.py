@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-import base64
+
+st.image("logo.png", caption=None, width=300, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
 
 def apply_custom_css():
     st.markdown("""
