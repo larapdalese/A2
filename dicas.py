@@ -35,18 +35,4 @@ if st.button('Buscar Notícias') or palavra_chave:
             st.write(artigo['description'])
             st.write("---")
 
-        # Botão de navegação de página
-        total_paginas = math.ceil(noticias.get('totalArticles', 10) / 10)
-        col1, col2 = st.columns([1, 1])
-        with col1:
-            if st.session_state.pagina > 1:
-                if st.button('Página 1', key='first_page'):
-                    st.session_state.pagina = 1
-                    st.experimental_rerun()
-        with col2:
-            if st.session_state.pagina < total_paginas:
-                if st.button('Próxima Página', key='next_page'):
-                    st.session_state.pagina += 1
-                    st.experimental_rerun()
-    else:
-        st.write("Nenhuma notícia encontrada para essa palavra-chave.")
+      
