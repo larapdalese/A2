@@ -3,28 +3,6 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-
-st.set_page_config(layout="wide", page_title="Feminance")
-def display_logo():
-    st.markdown(
-        """
-        <style>
-            .logo-container {
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
-                padding: 10px;
-            }
-            .logo-container img {
-                height: 60px; /* Ajuste o tamanho conforme necessário */
-            }
-        </style>
-        <div class="logo-container">
-            <img src="https://example.com/logo.png" alt="Feminance Logo">
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
 def apply_custom_css():
     st.markdown("""
         <style>
