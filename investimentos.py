@@ -38,7 +38,7 @@ st.markdown("""
 col1, col2 = st.columns(2)
 with col1:
     st.subheader("Tipos de investimento")
-    st.markdown("Clique nas palavras azuis sublinhadas para ser direcionada a páginas que te trarão mais informações sobre os tipos de investimentos.")
+    st.markdown("Saiba um pouco mais sobre investimentos e as alternativas para o dinheiro que está sobrando na conta e que você não deseja gastar com mimos. Clique nas palavras azuis sublinhadas para ser direcionada a páginas que te trarão mais informações sobre os tipos de investimentos.")
     st.markdown("""
     <style>
     .custom-subsubtitle {
@@ -58,9 +58,19 @@ with col1:
         [Certificados de Depósito Bancário que oferecem segurança e rendimento superior à poupança, cada banco possui o seu.](https://www.b3.com.br/pt_br/produtos-e-servicos/registro/renda-fixa-e-valores-mobiliarios/certificado-de-deposito-bancario.htm)
     """)
     st.markdown("""
-        - **Tesouro Direto**: 
-        [Um dos investimentos mais seguros do Brasil, ideal para quem busca estabilidade.](https://www.tesourodireto.com.br/)
+        - **Poupança**: 
+        [Apesar de menos rentável, ainda é uma opção segura para reservas de emergência.](https://www.gov.br/pt-br/servicos-estaduais/conta-poupanca)
     """)
+    st.markdown("""
+    <style>
+    .custom-subsubtitle {
+        font-size: 20px; 
+        font-weight: bold; 
+        margin-bottom: 10px; 
+    }
+    </style>
+    <p class="custom-subsubtitle">Investimentos de médio risco</p>
+""", unsafe_allow_html=True)
 with col2:
     st.subheader("Gráficos de Cotação")
     def exibir_grafico_cotacao(ticker, moeda):
