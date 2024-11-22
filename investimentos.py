@@ -67,3 +67,17 @@ with col2:
             st.error(f'Não foi possível obter os dados da cotação do {moeda} ou a coluna "Close" está ausente.')
     exibir_grafico_cotacao('USDBRL=X', 'Dólar')
     exibir_grafico_cotacao('EURBRL=X', 'Euro')
+st.markdown("""
+    <style>
+    a {
+        text-decoration: none;
+        color: #0073e6; /* Cor padrão */
+        font-weight: bold;
+    }
+    a:hover {
+        color: #005bb5; /* Cor ao passar o mouse */
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+st.markdown("[O que são investimentos?](https://www.bv.com.br/bv-inspira/orientacao-financeira/comecar-a-investir)")
