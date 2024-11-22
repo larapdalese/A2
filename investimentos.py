@@ -38,7 +38,7 @@ st.markdown("""
 col1, col2 = st.columns(2)
 with col1:
     st.subheader("Tipos de investimento")
-    st.markdown("Saiba um pouco mais sobre investimentos e as alternativas para o dinheiro que está sobrando na conta e que você não deseja gastar com mimos. Clique nas palavras azuis sublinhadas para ser direcionada a páginas que te trarão mais informações sobre os tipos de investimentos.")
+    st.markdown("Saiba um pouco mais sobre investimentos e as alternativas para o dinheiro que está sobrando na conta e que você não deseja gastar com mimos, clique nas palavras azuis sublinhadas para ser direcionada a páginas que te trarão mais informações sobre os tipos de investimentos.")
     st.markdown("""
     <style>
     .custom-subsubtitle {
@@ -49,6 +49,7 @@ with col1:
     </style>
     <p class="custom-subsubtitle">Investimentos de baixo risco</p>
 """, unsafe_allow_html=True)
+        st.markdown("Rendem menos & são mais seguros!")
     st.markdown("""
         - **Tesouro Direto**: 
         [Um dos investimentos mais seguros do Brasil, ideal para quem busca estabilidade.](https://www.tesourodireto.com.br/)
