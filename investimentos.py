@@ -38,8 +38,7 @@ st.markdown("""
 col1, col2 = st.columns(2)
 with col1:
     st.subheader("Tipos de investimento")
-    st.markdown("Clique nas palavras azuis sublinhadas para ser direcionada a páginas que te trarão mais
-    informações sobre os tipos de investimentos")
+    st.markdown("Clique nas palavras azuis sublinhadas para ser direcionada a páginas que te trarão mais informações sobre os tipos de investimentos")
     st.markdown("""
     <style>
     .custom-subsubtitle {
