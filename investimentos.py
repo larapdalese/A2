@@ -37,9 +37,9 @@ st.markdown("""
     """, unsafe_allow_html=True)
 col1, col2 = st.columns(2)
 with col1:
-    st.subheader("Desmistificação")
-    st.markdown("[O que são investimentos?](https://www.bv.com.br/bv-inspira/orientacao-financeira/comecar-a-investir)")
-    st.markdown("[O que é a bolsa de valores?](https://www.gov.br/investidor/pt-br/investir/como-investir/como-funciona-a-bolsa)")
+    st.subheader("Tipos de investimento")
+    st.markdown("Clique nas palavras azuis sublinhadas para ser direcionada a páginas que te trarão mais
+    informações sobre os tipos de investimentos")
     st.markdown("""
     <style>
     .custom-subsubtitle {
@@ -52,9 +52,8 @@ with col1:
 """, unsafe_allow_html=True)
     st.markdown("""
         - **Tesouro Direto**: 
-        [Um dos investimentos mais seguros do Brasil, ideal para quem busca estabilidade.](https://www.tesourodireto.com.br/)
+        Um dos investimentos mais seguros do Brasil, ideal para quem busca estabilidade.(https://www.tesourodireto.com.br/)
     """)
-st.markdown("[O que são investimentos?](https://www.bv.com.br/bv-inspira/orientacao-financeira/comecar-a-investir)")
 with col2:
     st.subheader("Gráficos de Cotação")
     def exibir_grafico_cotacao(ticker, moeda):
