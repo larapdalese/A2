@@ -3,18 +3,11 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-image_path = "logo.png"  # Caminho relativo para a imagem logo.png
+image_path = "logo.png"
 
-st.markdown(
-    f"""
-    <div style="display: flex; justify-content: center;">
-        <img src="{image_path}" width="300" alt="Logo">
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-st.image(image_path, caption=None, width=300, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
+col1, col2, col3 = st.columns([1, 6, 1])
+with col2:
+    st.image(image_path, caption=None, width=300, use_column_width=False, clamp=False, channels="RGB", output_format="auto")
 
 def apply_custom_css():
     st.markdown("""
