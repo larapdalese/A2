@@ -40,6 +40,14 @@ with col1:
     st.subheader("Desmistificação")
     st.markdown("[O que são investimentos?](https://www.bv.com.br/bv-inspira/orientacao-financeira/comecar-a-investir)")
     st.markdown("[O que é a bolsa de valores?](https://www.gov.br/investidor/pt-br/investir/como-investir/como-funciona-a-bolsa)")
+    st.subheader("Investimentos de Baixo Risco")
+    st.markdown("""
+        - **Tesouro Direto**: Um dos investimentos mais seguros do Brasil, ideal para quem busca estabilidade.
+        - **CDBs de Bancos Grandes**: Certificados de Depósito Bancário que oferecem segurança e rendimento superior à poupança.
+        - **Fundos de Renda Fixa**: Alternativa para diversificar e manter um risco controlado.
+        - **Poupança**: Apesar de menos rentável, ainda é uma opção segura para reservas de emergência.
+    """)
+    st.markdown("[Saiba mais sobre opções de baixo risco](https://www.tesourodireto.com.br/)")
 with col2:
     st.subheader("Gráficos de Cotação")
     def exibir_grafico_cotacao(ticker, moeda):
