@@ -6,7 +6,12 @@ import plotly.graph_objects as go
 
 st.set_page_config(layout="wide", page_title="Feminance")
 
-st.logo('logo.png', size="medium", link=None, icon_image=None)
+st.image('logo.png', use_column_width=False, width=300, caption="Feminance")
+st.markdown("""
+    <div style="text-align: center; margin-top: -20px;">
+        <img src="logo.png" alt="Feminance Logo" style="width: 400px;">
+    </div>
+""", unsafe_allow_html=True)
 
 def apply_custom_css():
     st.markdown("""
