@@ -74,20 +74,12 @@ with col1:
 """, unsafe_allow_html=True)
 with col2:
     st.subheader("Gráficos de Cotação")
-    def exibir_grafico_cotacao(ticker, moeda):
-        today = datetime.datetime.today().strftime('%Y-%m-%d')  
-        dados = yf.download(ticker, start='2023-01-01', end=today)     
-        if not dados.empty and 'Close' in dados.columns:
-            st.markdown(f"**{moeda}**")
-            st.line_chart(dados['Close'])
-            cotacao_dia = dados['Close'].iloc[-1]  
-            st.write(f"Cotação do dia: R$ {cotacao_dia:.2f}")
-            if len(dados) >= 30:
-                media_30_dias = dados['Close'][-30:].mean()
-                st.write(f"Média dos últimos 30 dias: R$ {media_30_dias:.2f}")
-            else:
-                st.write("Média dos últimos 30 dias: Não disponível (menos de 30 dias de dados)")
-        else:
-            st.error(f'Não foi possível obter os dados da cotação do {moeda} ou a coluna "Close" está ausente.')
-    exibir_grafico_cotacao('USDBRL=X', 'Dólar')
-    exibir_grafico_cotacao('EURBRL=X', 'Euro')
+    st.markdown("<h1 style='text-align: center;'>Investimentos</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>Aqui você encontra possibilidades de investimentos, cotação do dólar e outros valores da bolsa atual</p>", unsafe_allow_html=True)
+ticker = 'USDBRL=X'
+dados = yf.download(ticker, start='2023-01-01', end='2024-11-18')
+
+if not dados.empty:
+    st.line_chart(dados['Close'])
+else:
+    st.error('Não foi possível obter os dados da cotação do dólar.')
