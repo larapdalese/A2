@@ -6,4 +6,3 @@ requests
 groq
 yfinance
 pyspellchecker
-base64
