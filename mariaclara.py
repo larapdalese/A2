@@ -35,7 +35,7 @@ def generate_groq_response(prompt_input):
             temperature=0.2,
             max_tokens=1024,
             top_p=0.65,
-            stop=False,
+            stop=[],
             stream=None,
         )
 
