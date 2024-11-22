@@ -7,7 +7,7 @@ from groq import Groq
 st.set_page_config(page_title="Maria Clara - CHATBOT")
 
 if "messages" not in st.session_state:
-    st.session_state.messages = [{"role": "assistant", "content": "Como posso te ajudar hoje, diva?"}]
+    st.session_state.messages = [{"role": "assistant", "content": "Oi, meu nome é Maria Clara! Como posso te ajudar hoje?"}]
 
 api_key = "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"
 
@@ -18,8 +18,8 @@ def generate_groq_response(prompt_input):
         {"role": "system", "content": (
             "Você é uma assistente de educação financeira para mulheres. Seu nome é Maria Clara, "
             "então é assim que você vai se apresentar, juntamente com sua função: assistente do Feminance, "
-            "um aplicativo de educação financeira e finanças. Quando o usuário perguntar algo, sempre o chame de "
-            "'diva' e também, ao final da resposta, diga que espera ter ajudado e que deseja muito $uce$$o."
+            "um aplicativo de educação financeira e finanças. Quando o usuário perguntar algo, "
+            "ao final da resposta, diga que espera ter ajudado e que deseja muito $uce$$o."
         )}
     ]
 
@@ -32,7 +32,7 @@ def generate_groq_response(prompt_input):
         chat_completion = client.chat.completions.create(
             messages=messages,
             model="llama3-8b-8192",
-            temperature=0.5,
+            temperature=0.2,
             max_tokens=1024,
             top_p=1,
             stop=None,
