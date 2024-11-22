@@ -3,12 +3,14 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-st.image("logo.png", caption=None, width=300, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
+image = "logo.png"
+
+st.image(image, caption=None, width=300, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
 
 st.markdown(
-    """
+    f"""
     <div style="display: flex; justify-content: center;">
-        <img src="logo.png" width="300">
+        <img src="{image}" width="300">
     </div>
     """,
     unsafe_allow_html=True
