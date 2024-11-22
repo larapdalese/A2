@@ -5,14 +5,26 @@ import plotly.graph_objects as go
 
 
 st.set_page_config(layout="wide", page_title="Feminance")
-
-st.image('logo.png', use_column_width=False, width=300, caption="Feminance")
-st.markdown("""
-    <div style="text-align: center; margin-top: -20px;">
-        <img src="logo.png" alt="Feminance Logo" style="width: 400px;">
-    </div>
-""", unsafe_allow_html=True)
-
+def display_logo():
+    st.markdown(
+        """
+        <style>
+            .logo-container {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 10px;
+            }
+            .logo-container img {
+                height: 60px; /* Ajuste o tamanho conforme necessário */
+            }
+        </style>
+        <div class="logo-container">
+            <img src="https://example.com/logo.png" alt="Feminance Logo">
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 def apply_custom_css():
     st.markdown("""
         <style>
