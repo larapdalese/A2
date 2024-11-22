@@ -43,9 +43,9 @@ with col1:
     st.markdown("""
     <style>
     .custom-subsubtitle {
-        font-size: 20px; /* Tamanho entre o subheader e o texto normal */
-        font-weight: bold; /* Negrito */
-        margin-bottom: 10px; /* Espaço abaixo do texto */
+        font-size: 20px; 
+        font-weight: bold; 
+        margin-bottom: 10px; 
     }
     </style>
     <p class="custom-subsubtitle">Investimentos de baixo risco</p>
