@@ -53,6 +53,14 @@ with col1:
         - **Tesouro Direto**: 
         [Um dos investimentos mais seguros do Brasil, ideal para quem busca estabilidade.](https://www.tesourodireto.com.br/)
     """)
+    st.markdown("""
+        - **CDB**: 
+        [Certificados de Depósito Bancário que oferecem segurança e rendimento superior à poupança, cada banco possui o seu.](https://www.b3.com.br/pt_br/produtos-e-servicos/registro/renda-fixa-e-valores-mobiliarios/certificado-de-deposito-bancario.htm)
+    """)
+    st.markdown("""
+        - **Tesouro Direto**: 
+        [Um dos investimentos mais seguros do Brasil, ideal para quem busca estabilidade.](https://www.tesourodireto.com.br/)
+    """)
 with col2:
     st.subheader("Gráficos de Cotação")
     def exibir_grafico_cotacao(ticker, moeda):
