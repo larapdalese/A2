@@ -3,7 +3,14 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-st.image("logo.png", caption=None, width=300, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
+st.markdown(
+    """
+    <div style="display: flex; justify-content: center;">
+        <img src="logo.png" width="300">
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 def apply_custom_css():
     st.markdown("""
