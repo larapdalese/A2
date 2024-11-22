@@ -52,7 +52,7 @@ with col1:
 """, unsafe_allow_html=True)
     st.markdown("""
         - **Tesouro Direto**: 
-        [Um dos investimentos mais seguros do Brasil, ideal para quem busca estabilidade.](https://www.tesourodireto.com.br/)")
+        [Um dos investimentos mais seguros do Brasil, ideal para quem busca estabilidade.](https://www.tesourodireto.com.br/)
     """)
 st.markdown("[O que são investimentos?](https://www.bv.com.br/bv-inspira/orientacao-financeira/comecar-a-investir)")
 with col2:
