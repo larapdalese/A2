@@ -32,8 +32,8 @@ def generate_groq_response(prompt_input):
         chat_completion = client.chat.completions.create(
             messages=messages,
             model="llama3-groq-8b-8192-tool-use-preview",
-            temperature=0.7,
-            max_tokens=1500,
+            temperature=0.5,
+            max_tokens=3000,
             top_p=0.9,
             stop=[],
             stream=None,
