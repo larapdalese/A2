@@ -4,40 +4,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 import base64
 
-logo_path = "logo.png"  
-
-def get_base64_encoded_image(file_path):
-    with open(file_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode()
-
-logo_base64 = get_base64_encoded_image(logo_path)
-
-st.markdown(
-    f"""
-    <style>
-    [data-testid="stAppViewContainer"] {{
-        background-color: #f8f9fa;
-    }}
-    [data-testid="stAppHeader"] {{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px 20px;
-    }}
-    [data-testid="stAppHeader"]::before {{
-        content: "";
-        background-image: url("data:image/png;base64,{logo_base64}");
-        background-repeat: no-repeat;
-        background-size: contain;
-        width: 150px;
-        height: 50px;
-        display: block;
-    }}
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-
 def apply_custom_css():
     st.markdown("""
         <style>
