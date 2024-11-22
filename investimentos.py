@@ -44,19 +44,6 @@ with col1:
     st.markdown("""
         - **Tesouro Direto**: [Saiba mais sobre opções de baixo risco](https://www.tesourodireto.com.br/)")
     """)
-    st.markdown("""
-    <style>
-    a {
-        text-decoration: none;
-        color: #0073e6; /* Cor padrão */
-        font-weight: bold;
-    }
-    a:hover {
-        color: #005bb5; /* Cor ao passar o mouse */
-    }
-    </style>
-""", unsafe_allow_html=True)
-
 st.markdown("[O que são investimentos?](https://www.bv.com.br/bv-inspira/orientacao-financeira/comecar-a-investir)")
 with col2:
     st.subheader("Gráficos de Cotação")
