@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-st.image("logo.png", caption=None, width=300, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
+image = st.image("logo.png", caption=None, width=300, use_column_width=None, clamp=False, channels="RGB", output_format="auto")
 
 st.markdown(
     f"""
