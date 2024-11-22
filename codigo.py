@@ -6,12 +6,7 @@ import plotly.graph_objects as go
 
 st.set_page_config(layout="wide", page_title="Feminance")
 
-logo = "logo.png"
-
-sidebar_logo = st.selectbox("Sidebar logo", logo, 0)
-main_body_logo = st.selectbox("Main body logo",logo, 1)
-
-st.logo(sidebar_logo, icon_image=main_body_logo)
+st.logo('logo.png', size="medium", link=None, icon_image=None)
 
 def apply_custom_css():
     st.markdown("""
