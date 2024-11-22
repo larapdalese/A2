@@ -35,7 +35,7 @@ def generate_groq_response(prompt_input):
             messages=messages,
             model="llama3-groq-8b-8192-tool-use-preview",
             temperature=0.2,
-            max_tokens=1024,
+            max_tokens=3000,
             top_p=0.65,
             stop=[],
             stream=None,
