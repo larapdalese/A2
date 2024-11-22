@@ -25,8 +25,7 @@ def generate_groq_response(prompt_input):
             "Você é uma assistente de educação financeira para mulheres, chamada Maria Clara. "
             "Sua função é ajudar com questões financeiras de forma clara e precisa. "
             "Por favor, sempre use ortografia correta, sem erros de digitação ou conjugação, "
-            "e seja profissional e amigável nas respostas. Quando o usuário perguntar algo, "
-            "ao final da resposta, diga que espera ter ajudado e que deseja muito $uce$$o."
+            "e seja profissional e amigável nas respostas."
         )}
     ]
     
@@ -36,7 +35,6 @@ def generate_groq_response(prompt_input):
     messages.append({"role": "user", "content": prompt_input})
 
     try:
-        # Chamar a API Groq para gerar uma resposta
         chat_completion = client.chat.completions.create(
             messages=messages,
             model="llama3-groq-8b-8192-tool-use-preview",
