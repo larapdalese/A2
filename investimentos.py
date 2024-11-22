@@ -49,7 +49,7 @@ with col1:
     </style>
     <p class="custom-subsubtitle">Investimentos de baixo risco</p>
 """, unsafe_allow_html=True)
-        st.markdown("Rendem menos & são mais seguros!")
+    st.markdown("Rendem menos & são mais seguros!")
     st.markdown("""
         - **Tesouro Direto**: 
         [Um dos investimentos mais seguros do Brasil, ideal para quem busca estabilidade.](https://www.tesourodireto.com.br/)
