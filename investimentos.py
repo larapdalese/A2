@@ -74,12 +74,13 @@ with col1:
 """, unsafe_allow_html=True)
 with col2:
     st.subheader("Gráficos de Cotação")
-    st.markdown("<h1 style='text-align: center;'>Investimentos</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center;'>Aqui você encontra possibilidades de investimentos, cotação do dólar e outros valores da bolsa atual</p>", unsafe_allow_html=True)
-ticker = 'USDBRL=X'
-dados = yf.download(ticker, start='2023-01-01', end='2024-11-18')
-
-if not dados.empty:
-    st.line_chart(dados['Close'])
-else:
-    st.error('Não foi possível obter os dados da cotação do dólar.')
+    def exibir_grafico_cotacao(ticker, moeda):
+        today = datetime.datetime.today().strftime('%Y-%m-%d')  # Data atual
+        dados = yf.download(ticker, start='2023-01-01', end=today)
+        if not dados.empty:
+            st.markdown(f"**{moeda}**")
+            st.line_chart(dados['Close'])
+        else:
+            st.error(f'Não foi possível obter os dados da cotação do {moeda}.')
+    exibir_grafico_cotacao('USDBRL=X', 'Dólar')
+    exibir_grafico_cotacao('EURBRL=X', 'Euro')
