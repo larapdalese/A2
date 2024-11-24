@@ -11,6 +11,10 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import yfinance as yf
 import datetime
 
+def add_image_to_sidebar():
+    image_path = "logo.png"
+    st.sidebar.image(image_path, caption="Logo do site", use_column_width=True)
+
 def home_page():
     st.set_page_config(page_title="Home")
     image_path = "logo.png"
@@ -595,9 +599,6 @@ def investimentos_page():
         exibir_grafico_cotacao('USDBRL=X', 'Dólar')
         exibir_grafico_cotacao('EURBRL=X', 'Euro')
 
-def add_image_to_sidebar():
-    image_path = "logo.png"
-    st.sidebar.image(image_path, caption="Logo do site", use_column_width=True)
 
 pages = {
     "Essencial": [
