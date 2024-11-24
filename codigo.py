@@ -598,7 +598,7 @@ def investimentos_page():
 
 def add_image_to_sidebar():
     image_path = "logo.png"
-    st.sidebar.image(image_path, caption="Logo do site", use_column_width=True)
+    st.sidebar.image(image_path, use_column_width=True)
 
 pages = {
     "Essencial": [
