@@ -38,6 +38,9 @@ pages = {
     ],
 }
 
+pg = st.navigation(pages, position="sidebar", expanded=False)
+pg.run()
+
 image_path = "logo.png"
 col1, col2, col3 = st.columns([1, 6, 1])
 with col2:
@@ -348,6 +351,3 @@ def add_expense(df):
         st.success("Despesa adicionada com sucesso!")
         st.dataframe(st.session_state.df_despesas)
 main()
-
-pg = st.navigation(pages, position="sidebar", expanded=False)
-pg.run()
