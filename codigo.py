@@ -517,8 +517,9 @@ def investimentos_page():
     col1, col2, col3 = st.columns([1, 6, 1])
     with col2:
         st.image(image_path, caption=None, width=300, use_column_width=False, clamp=False, channels="RGB", output_format="auto")
-        
+
     st.set_page_config(layout="wide", page_title="Investimentos")
+
     def apply_custom_css():
         st.markdown("""
             <style>
@@ -531,7 +532,9 @@ def investimentos_page():
             }
             </style>
         """, unsafe_allow_html=True)
+
     apply_custom_css()
+    
     st.markdown("""
         <style>
         .centered-title {
@@ -549,7 +552,8 @@ def investimentos_page():
             Aqui você encontra possibilidades de investimentos, cotação do dólar e outros valores da <br>
             bolsa atual. Caso não entenda algo, a Maria Clara estará sempre à sua disposição!<3
         </p>
-        """, unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
+
     col1, col2 = st.columns(2)
     with col1:
         st.subheader("Tipos de investimento")
