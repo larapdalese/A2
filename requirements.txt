@@ -7,3 +7,4 @@ groq
 yfinance
 os
 spotipy
+spotipy.oauth2
