@@ -315,14 +315,14 @@ def investimentos_page():
 
 pages = {
     "Essencial": [
-        st.Page("home_page", title="Home", icon=None, url_path=None, default=False),
-        st.Page("graphs_page", title="Gráficos", icon=None, url_path=None, default=False),
-        st.Page("mariaclara_page", title="Maria Clara - Chatbot", icon=None, url_path=None, default=False),
+        st.Page(home_page, title="Home", icon=None, url_path=None, default=False),
+        st.Page(graphs_page, title="Gráficos", icon=None, url_path=None, default=False),
+        st.Page(mariaclara_page, title="Maria Clara - Chatbot", icon=None, url_path=None, default=False),
     ],
     "Investimentos": [
-       st.Page("indicacoes_page", title="Indicações", icon=None, url_path=None, default=False),
-       st.Page("insights_page", title="Insights", icon=None, url_path=None, default=False),
-       st.Page("investimentos_page", title="Invista como uma garota", icon=None, url_path=None, default=False),
+       st.Page(indicacoes_page, title="Indicações", icon=None, url_path=None, default=False),
+       st.Page(insights_page, title="Insights", icon=None, url_path=None, default=False),
+       st.Page(investimentos_page, title="Invista como uma garota", icon=None, url_path=None, default=False),
     ],
 }
 
