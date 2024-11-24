@@ -349,4 +349,5 @@ def add_expense(df):
         st.dataframe(st.session_state.df_despesas)
 main()
 
-navigate_pages()
+pg = st.navigation(pages, position="sidebar", expanded=False)
+pg.run()
