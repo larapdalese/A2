@@ -4,28 +4,28 @@ import plotly.express as px
 import plotly.graph_objects as go
 from groq import Groq
 
-image_path = "logo.png"
-col1, col2, col3 = st.columns([1, 6, 1])
-with col2:
-    st.image(image_path, caption=None, width=300, use_column_width=False, clamp=False, channels="RGB", output_format="auto")
-
-def apply_custom_css():
-    st.markdown("""
-        <style>
-        .main .block-container {
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-            max-width: 100%;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-
-apply_custom_css()
-
 def home_page():
     st.set_page_config(page_title="Home")
+    image_path = "logo.png"
+    col1, col2, col3 = st.columns([1, 6, 1])
+    with col2:
+        st.image(image_path, caption=None, width=300, use_column_width=False, clamp=False, channels="RGB", output_format="auto")
+    
+    def apply_custom_css():
+        st.markdown("""
+            <style>
+            .main .block-container {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                max-width: 100%;
+            }
+            </style>
+        """, unsafe_allow_html=True)
+    
+    apply_custom_css()
+
     def load_data():
         data = [
                     {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
