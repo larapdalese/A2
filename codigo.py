@@ -513,11 +513,6 @@ def insights_page():
 
 
 def investimentos_page():
-    image_path = "logo.png"
-    col1, col2, col3 = st.columns([1, 6, 1])
-    with col2:
-        st.image(image_path, caption=None, width=300, use_column_width=False, clamp=False, channels="RGB", output_format="auto")
-
     st.set_page_config(layout="wide", page_title="Investimentos")
 
     def apply_custom_css():
