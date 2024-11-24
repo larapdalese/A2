@@ -1,16 +1,8 @@
-import os
 import streamlit as st
 import requests
-import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
-
-os.environ['SPOTIPY_CLIENT_ID'] = '5dd03bf3704a4a2a903f136a7fd6c593'
-os.environ['SPOTIPY_CLIENT_SECRET'] = 'b13072de7dcf4d58ab6104e68fa649c4'
-
-sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials())
 
 def buscar_noticias(termo=None):
-    api_key = "d700b8cb09b888dc838bf50109bedd9e"
+    api_key = "d700b8cb09b888dc838bf50109bedd9e"  # Substitua pela sua API Key do GNews
     temas_principais = "finanças OR empreendedorismo OR economia"
     query = f"{temas_principais} {termo}" if termo else temas_principais
     url = f"https://gnews.io/api/v4/search?q={query}&lang=pt&token={api_key}&max=5"
@@ -20,18 +12,46 @@ def buscar_noticias(termo=None):
     else:
         return {"articles": []}
 
-def buscar_podcasts(tema):
-    resultados = sp.search(q=tema, type='show', limit=10)
-    podcasts_filtrados = [
-        podcast for podcast in resultados['shows']['items']
-        if any(t in podcast['name'].lower() or t in podcast['description'].lower() for t in ["finanças", "economia", "empreendedorismo"])
+# Lista fixa de podcasts
+def obter_podcasts_femininos():
+    return [
+        {
+            "name": "Não Te Empodero",
+            "description": "Discussões profundas sobre o que realmente significa empoderar mulheres no mundo das finanças e negócios.",
+            "url": "https://open.spotify.com/show/nao-te-empodero",
+            "image": "https://via.placeholder.com/200?text=Nao+Te+Empodero"
+        },
+        {
+            "name": "Ela Investe",
+            "description": "Educação financeira para mulheres que desejam dominar o mercado de investimentos.",
+            "url": "https://open.spotify.com/show/ela-investe",
+            "image": "https://via.placeholder.com/200?text=Ela+Investe"
+        },
+        {
+            "name": "Mulheres que Empreendem",
+            "description": "Histórias inspiradoras e práticas para mulheres no mundo do empreendedorismo.",
+            "url": "https://open.spotify.com/show/mulheres-que-empreendem",
+            "image": "https://via.placeholder.com/200?text=Mulheres+que+Empreendem"
+        },
+        {
+            "name": "Finanças Sem Medo",
+            "description": "Desmistificando o universo financeiro para mulheres de todas as idades.",
+            "url": "https://open.spotify.com/show/financas-sem-medo",
+            "image": "https://via.placeholder.com/200?text=Financas+Sem+Medo"
+        },
+        {
+            "name": "Empreenda Mulher",
+            "description": "Dicas, estratégias e conversas sobre o papel da mulher no mundo dos negócios.",
+            "url": "https://open.spotify.com/show/empreenda-mulher",
+            "image": "https://via.placeholder.com/200?text=Empreenda+Mulher"
+        },
     ]
-    return podcasts_filtrados
 
+# Interface Streamlit
 col1, col2 = st.columns(2)
 
 with col1:
-    st.title("Notícias")
+    st.title("📰 Notícias")
     st.markdown("Pesquise notícias sobre **Finanças**, **Empreendedorismo** e **Economia**.")
 
     termo_busca = st.text_input("Digite um termo para refinar a pesquisa (opcional):", key="noticias")
@@ -51,25 +71,13 @@ with col1:
             st.warning("Nenhuma notícia encontrada para o tema pesquisado.")
 
 with col2:
-    st.title("Podcasts")
-    st.subheader("Pesquise e explore podcasts relacionados a Finanças, Economia e Empreendedorismo.")
+    st.title("🎙️ Podcasts Femininos")
+    st.subheader("Descubra 5 podcasts sobre economia, finanças e empreendedorismo feminino.")
 
-    tema = st.text_input("Digite o tema da pesquisa (ex.: finanças para mulheres):", key="podcasts")
-    if st.button("Pesquisar Podcasts", key="botao_podcasts"):
-        if tema:
-            try:
-                podcasts = buscar_podcasts(tema)
-                if podcasts:
-                    st.success(f"Encontramos {len(podcasts)} podcasts sobre '{tema}'!")
-                    for podcast in podcasts:
-                        st.write(f"### {podcast['name']}")
-                        st.write(podcast['description'])
-                        st.write(f"[Ouvir no Spotify]({podcast['external_urls']['spotify']})")
-                        st.image(podcast['images'][0]['url'], width=200)
-                        st.write("---")
-                else:
-                    st.warning(f"Nenhum podcast encontrado para '{tema}'.")
-            except Exception as e:
-                st.error(f"Erro ao buscar os podcasts: {e}")
-        else:
-            st.warning("Por favor, insira um tema para pesquisar.")
+    podcasts = obter_podcasts_femininos()
+    for podcast in podcasts:
+        st.write(f"### {podcast['name']}")
+        st.write(podcast['description'])
+        st.write(f"[Ouvir no Spotify]({podcast['url']})")
+        st.image(podcast['image'], width=200)
+        st.write("---")
