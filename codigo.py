@@ -3,6 +3,26 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+image_path = "logo.png"
+col1, col2, col3 = st.columns([1, 6, 1])
+with col2:
+    st.image(image_path, caption=None, width=300, use_column_width=False, clamp=False, channels="RGB", output_format="auto")
+
+def apply_custom_css():
+    st.markdown("""
+        <style>
+        .main .block-container {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            max-width: 100%;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+apply_custom_css()
+
 def home_page():
     def load_data():
         data = [
@@ -328,23 +348,3 @@ pages = {
 
 pg = st.navigation(pages, position="sidebar", expanded=False)
 pg.run()
-
-image_path = "logo.png"
-col1, col2, col3 = st.columns([1, 6, 1])
-with col2:
-    st.image(image_path, caption=None, width=300, use_column_width=False, clamp=False, channels="RGB", output_format="auto")
-
-def apply_custom_css():
-    st.markdown("""
-        <style>
-        .main .block-container {
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-            padding-left: 0.5rem;
-            padding-right: 0.5rem;
-            max-width: 100%;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-
-apply_custom_css()
