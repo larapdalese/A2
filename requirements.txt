@@ -2,3 +2,7 @@ streamlit
 pandas
 plotly
 google-search-results==2.0.0
+os
+requests
+spotipy
+spotipy.oauth2
