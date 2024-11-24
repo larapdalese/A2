@@ -640,7 +640,7 @@ pages = {
     ],
 }
 
-st.logo('logo.png', size="medium", link=None, icon_image=None)
+st.logo('logo.png', size="large", link=None, icon_image=None)
 
 pg = st.navigation(pages, position="sidebar", expanded=False)
 pg.run()
