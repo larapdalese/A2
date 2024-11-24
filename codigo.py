@@ -324,9 +324,6 @@ def home_page():
             st.dataframe(st.session_state.df_despesas)
     main()
 
-def graphs_page():
-    st.write("Página de Dicas. Coloque aqui as informações e funcionalidades da página de dicas.")
-
 def mariaclara_page():
     st.set_page_config(layout="wide", page_title="Maria Clara - CHATBOT")
     
@@ -504,10 +501,6 @@ def indicacoes_page():
             except Exception as e:
                 st.error(f"Erro ao buscar os podcasts: {e}")
 
-def insights_page():
-    st.write("Página de Possibilidades. Coloque aqui as informações e funcionalidades da página de Possibilidades.")
-
-
 def investimentos_page():
     st.set_page_config(layout="wide", page_title="Investimentos")
 
@@ -599,12 +592,10 @@ def investimentos_page():
 pages = {
     "Essencial": [
         st.Page(home_page, title="Home", icon=None, url_path=None, default=False),
-        st.Page(graphs_page, title="Gráficos", icon=None, url_path=None, default=False),
         st.Page(mariaclara_page, title="Maria Clara - Chatbot", icon=None, url_path=None, default=False),
     ],
     "Investimentos": [
        st.Page(indicacoes_page, title="Indicações", icon=None, url_path=None, default=False),
-       st.Page(insights_page, title="Insights", icon=None, url_path=None, default=False),
        st.Page(investimentos_page, title="Invista como uma garota", icon=None, url_path=None, default=False),
     ],
 }
