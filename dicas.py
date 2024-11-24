@@ -74,9 +74,7 @@ with col1:
             st.warning("Nenhuma notícia encontrada para o tema pesquisado.")
 
 with col2:
-    st.title("Podcasts Femininos")
-    st.subheader("Descubra 5 podcasts sobre economia, finanças e empreendedorismo feminino.")
-
+    st.title("Podcasts")
     if st.button("Carregar Podcasts", key="botao_podcasts"):
         try:
             podcast_nao_te_empodero = buscar_podcast_por_id("21xaGKadO9f43mpihiAzhX")
