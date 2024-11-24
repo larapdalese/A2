@@ -4,4 +4,4 @@ plotly
 google-search-results==2.0.0
 os
 requests
-spotipy
+spotipy==2.23.0
