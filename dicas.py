@@ -21,7 +21,7 @@ def buscar_noticias(termo=None):
         return {"articles": []}
 
 def buscar_podcasts():
-    temas = "finanças OR economia OR empreendedorismo"
+    temas = "finanças OR feminismo OR empreendedorismo feminino"
     resultados = sp.search(q=temas, type='show', limit=50)
     podcasts_filtrados = [
         podcast for podcast in resultados['shows']['items']
