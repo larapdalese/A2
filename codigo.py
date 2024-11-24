@@ -596,10 +596,6 @@ def investimentos_page():
         exibir_grafico_cotacao('EURBRL=X', 'Euro')
 
 
-def add_image_to_sidebar():
-    image_path = "logo.png"
-    st.sidebar.image(image_path, caption="Logo do site", use_column_width=True)
-
 pages = {
     "Essencial": [
         st.Page(home_page, title="Home", icon=None, url_path=None, default=False),
@@ -612,8 +608,6 @@ pages = {
        st.Page(investimentos_page, title="Invista como uma garota", icon=None, url_path=None, default=False),
     ],
 }
-
-add_image_to_sidebar()
 
 pg = st.navigation(pages, position="sidebar", expanded=False)
 pg.run()
