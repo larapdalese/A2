@@ -4,7 +4,7 @@ import requests
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
-os.environ['SPOTIPY_CLIENT_ID'] = '5dd03bf3704a4a2a903f136a7fd6c593'
+os.environ['SPOTIPY_CLIENT_ID'] = '5dd03bf3704a4a2a903f136a7fd6c593' 
 os.environ['SPOTIPY_CLIENT_SECRET'] = 'b13072de7dcf4d58ab6104e68fa649c4'
 
 sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials())
@@ -20,8 +20,21 @@ def buscar_noticias(termo=None):
     else:
         return {"articles": []}
 
+def buscar_podcast_por_id(podcast_id):
+    try:
+        podcast = sp.show(podcast_id)
+        return {
+            "name": podcast["name"],
+            "description": podcast["description"],
+            "url": podcast["external_urls"]["spotify"],
+            "image": podcast["images"][0]["url"] if podcast["images"] else None
+        }
+    except Exception as e:
+        st.error(f"Erro ao buscar o podcast '{podcast_id}': {e}")
+        return None
+
 def buscar_podcasts():
-    temas = "finanças OR feminismo OR empreendedorismo feminino"
+    temas = "finanças OR economia OR empreendedorismo"
     resultados = sp.search(q=temas, type='show', limit=50)
     podcasts_filtrados = [
         podcast for podcast in resultados['shows']['items']
@@ -30,23 +43,12 @@ def buscar_podcasts():
             for t in ["finanças", "economia", "empreendedorismo", "feminino"]
         )
     ]
-
-    podcast_nao_te_empodero = {
-        "name": "Não Te Empodero",
-        "description": "Um projeto de educação para a autonomia feminina em formato de podcast que acredita que o que empodera mulheres é o conhecimento!
-O que tem em comum nas histórias vividas por mulheres? @mariacarolmedeiros, professora e pesquisadora, comenta o cotidiano na perspectiva da socialização feminina. Aqui você encontra discussões sobre a estrutura social que permeia a vida das mulheres, de forma embasada e a partir de autoras como Simone de Beauvoir e Michelle Perrot, numa linguagem fácil e sem achismos.
-EPISÓDIO NOVO ÀS TERÇAS! Me siga no instagram @mariacarolmedeiros.",
-        "external_urls": {"spotify": "https://open.spotify.com/show/21xaGKadO9f43mpihiAzhX"},
-        "images": [{"url": "https://i.scdn.co/image/ab6765630000ba8a45d6b51f509769bfeb207bbb"}]
-    }
-    podcasts_filtrados.insert(0, podcast_nao_te_empodero)
-
-    return podcasts_filtrados[:5]
+    return podcasts_filtrados[:4]
 
 col1, col2 = st.columns(2)
 
 with col1:
-    st.title("Notícias")
+    st.title("📰 Notícias")
     st.markdown("Pesquise notícias sobre **Finanças**, **Empreendedorismo** e **Economia**.")
 
     termo_busca = st.text_input("Digite um termo para refinar a pesquisa (opcional):", key="noticias")
@@ -66,19 +68,24 @@ with col1:
             st.warning("Nenhuma notícia encontrada para o tema pesquisado.")
 
 with col2:
-    st.title("Podcasts Femininos")
+    st.title("🎙️ Podcasts Femininos")
     st.subheader("Descubra 5 podcasts sobre economia, finanças e empreendedorismo feminino.")
 
     if st.button("Carregar Podcasts", key="botao_podcasts"):
         try:
+            podcast_nao_te_empodero = buscar_podcast_por_id("21xaGKadO9f43mpihiAzhX")
             podcasts = buscar_podcasts()
+
+            if podcast_nao_te_empodero:
+                podcasts.insert(0, podcast_nao_te_empodero)
+
             if podcasts:
-                for podcast in podcasts:
+                for podcast in podcasts[:5]:
                     st.write(f"### {podcast['name']}")
                     st.write(podcast['description'])
-                    st.write(f"[Ouvir no Spotify]({podcast['external_urls']['spotify']})")
-                    if 'images' in podcast and podcast['images']:
-                        st.image(podcast['images'][0]['url'], width=200)
+                    st.write(f"[Ouvir no Spotify]({podcast['url']})")
+                    if 'image' in podcast and podcast['image']:
+                        st.image(podcast['image'], width=200)
                     else:
                         st.warning("Imagem não disponível.")
                     st.write("---")
