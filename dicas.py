@@ -33,9 +33,11 @@ def buscar_podcasts():
 
     podcast_nao_te_empodero = {
         "name": "Não Te Empodero",
-        "description": "Discussões profundas sobre o que realmente significa empoderar mulheres no mundo das finanças e negócios.",
-        "external_urls": {"spotify": "https://open.spotify.com/show/nao-te-empodero"},
-        "images": [{"url": "https://via.placeholder.com/200?text=Nao+Te+Empodero"}]
+        "description": "Um projeto de educação para a autonomia feminina em formato de podcast que acredita que o que empodera mulheres é o conhecimento!
+O que tem em comum nas histórias vividas por mulheres? @mariacarolmedeiros, professora e pesquisadora, comenta o cotidiano na perspectiva da socialização feminina. Aqui você encontra discussões sobre a estrutura social que permeia a vida das mulheres, de forma embasada e a partir de autoras como Simone de Beauvoir e Michelle Perrot, numa linguagem fácil e sem achismos.
+EPISÓDIO NOVO ÀS TERÇAS! Me siga no instagram @mariacarolmedeiros.",
+        "external_urls": {"spotify": "https://open.spotify.com/show/21xaGKadO9f43mpihiAzhX"},
+        "images": [{"url": "https://i.scdn.co/image/ab6765630000ba8a45d6b51f509769bfeb207bbb"}]
     }
     podcasts_filtrados.insert(0, podcast_nao_te_empodero)
 
