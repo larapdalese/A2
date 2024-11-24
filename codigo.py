@@ -3,8 +3,42 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-image_path = "logo.png"
+def home_page():
+    st.write("### Bem-vindo à Home!")
+    st.write("Esta é a página inicial. Coloque aqui uma introdução ao seu app.")
 
+def graphs_page():
+    st.write("Página de Dicas. Coloque aqui as informações e funcionalidades da página de dicas.")
+
+def mariaclara_page():
+    st.write("Página de Dicas. Coloque aqui as informações e funcionalidades da página de dicas.")
+
+
+def indicacoes_page():
+    st.write("Página de Indicações. Coloque aqui as informações e funcionalidades da página de indicações.")
+
+
+def insights_page():
+    st.write("Página de Possibilidades. Coloque aqui as informações e funcionalidades da página de Possibilidades.")
+
+
+def investimentos_page():
+    st.write("Página de Bolsa Atual. Coloque aqui as informações e funcionalidades da página de Bolsa Atual.")
+
+pages = {
+    "Essencial": [
+        st.Page("home_page", title="Home", icon=None, url_path=None, default=False),
+        st.Page("graphs_page", title="Gráficos", icon=None, url_path=None, default=False),
+        st.Page("mariaclara_page", title="Maria Clara - Chatbot", icon=None, url_path=None, default=False),
+    ],
+    "Investimentos": [
+       st.Page("indicacoes_page", title="Indicações", icon=None, url_path=None, default=False),
+       st.Page("insights_page", title="Insights", icon=None, url_path=None, default=False),
+       st.Page("investimentos_page", title="Invista como uma garota", icon=None, url_path=None, default=False),
+    ],
+}
+
+image_path = "logo.png"
 col1, col2, col3 = st.columns([1, 6, 1])
 with col2:
     st.image(image_path, caption=None, width=300, use_column_width=False, clamp=False, channels="RGB", output_format="auto")
@@ -19,69 +53,11 @@ def apply_custom_css():
             padding-right: 0.5rem;
             max-width: 100%;
         }
-        .wishlist-widget {
-            width: 100%;
-            height: 150px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            border-radius: 10px;
-            cursor: pointer;
-            overflow: hidden;
-            position: relative;
-            font-size: 1.2em;
-            color: #fff;
-            font-weight: bold;
-            text-align: left;
-        }
-        .wishlist-text {
-            padding-left: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            height: 100%;
-            display: flex;
-            align-items: center;
-            flex: 1;
-        }
-        .wishlist-color {
-            width: 50px;
-            height: 100%;
-        }
         </style>
     """, unsafe_allow_html=True)
+
 apply_custom_css()
 
-#pages = {
-#    "Essencial": [
-#        st.Page("codigo.py", title="Dicas", icon=None, url_path=None, default=False),
-#        st.Page("news.py", title="Indicações", icon=None, url_path=None, default=False),
-#    ],
-#    "Investimentos": [
-#       st.Page("insights.py", title="Possibilidades", icon=None, url_path=None, default=False),
-#        st.Page("graficos.py", title="Bolsa Atual", icon=None, url_path=None, default=False),
-#    ],
-#}
-
-#pg = st.navigation(pages, position="sidebar", expanded=False)
-#pg.run()
-
-#st.sidebar.title("Navegação")
-#st.sidebar.subtitle("Essencial")
-#menu_option = st.sidebar.radio("Selecione uma página:", ["Dicas", "Indicações", "Possibilidades", "Bolsa Atual"])
-#if menu_option == "Dicas":
-#    st.title("Dicas")
-#    st.write("Esta é a página de dicas. Aqui você pode adicionar conteúdo específico para o usuário.")
-#elif menu_option == "Indicações":
-#    st.title("Indicações")
-#    st.write("Esta é a página de indicações. Adicione conteúdo relevante para os usuários aqui.")
-#elif menu_option == "Possibilidades":
-#    st.title("Possibilidades")
-#    st.write("Esta é a página de possibilidades. Coloque suas análises ou conteúdo interessante aqui.")
-#elif menu_option == "Bolsa Atual":
-#    st.title("Bolsa Atual")
-#    st.write("Esta é a página com as informações da bolsa atual. Adicione gráficos, tabelas ou outros dados interessantes.")
-#st.sidebar.markdown("### Investimentos")
-#st.sidebar.markdown("Possibilidades")
-#st.sidebar.markdown("Bolsa Atual")
 def load_data():
     data = [
                 {"Nome da despesa": "Sephora", "Data": "2024-01-15", "Categoria": "beleza", "Forma de pagamento": "débito", "Tipo": "gasto", "Valor": 750.99},
@@ -372,3 +348,5 @@ def add_expense(df):
         st.success("Despesa adicionada com sucesso!")
         st.dataframe(st.session_state.df_despesas)
 main()
+
+navigate_pages()
