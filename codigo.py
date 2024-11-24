@@ -11,9 +11,12 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import yfinance as yf
 import datetime
 
+def add_image_to_sidebar():
+    image_path = "logo.png"
+    st.sidebar.image(image_path, caption="Logo do site", use_column_width=True)
 
 def home_page():
-    st.set_page_config(page_title="Home")
+    st.set_page_config(layout="wide", page_title="Home")
     image_path = "logo.png"
     col1, col2, col3 = st.columns([1, 6, 1])
     with col2:
@@ -329,7 +332,7 @@ def graphs_page():
     st.write("Página de Dicas. Coloque aqui as informações e funcionalidades da página de dicas.")
 
 def mariaclara_page():
-    st.set_page_config(page_title="Maria Clara - CHATBOT")
+    st.set_page_config(layout="wide", page_title="Maria Clara - CHATBOT")
     
     if "messages" not in st.session_state:
         st.session_state.messages = [{"role": "assistant", "content": "Oi, meu nome é Maria Clara! Como posso te ajudar hoje?"}]
@@ -393,7 +396,7 @@ def mariaclara_page():
 
 
 def indicacoes_page():
-    st.set_page_config(page_title="Indicações")
+    st.set_page_config(layout="wide", page_title="Indicações")
     
     def apply_custom_css():
         st.markdown("""
@@ -595,10 +598,6 @@ def investimentos_page():
                 st.error(f'Não foi possível obter os dados da cotação do {moeda}.')
         exibir_grafico_cotacao('USDBRL=X', 'Dólar')
         exibir_grafico_cotacao('EURBRL=X', 'Euro')
-
-def add_image_to_sidebar():
-    image_path = "logo.png"
-    st.sidebar.image(image_path, use_column_width=True)
 
 pages = {
     "Essencial": [
