@@ -5,7 +5,3 @@ google-search-results==2.0.0
 requests
 groq
 yfinance
-os
-spotipy
-spotipy.oauth2
-math
