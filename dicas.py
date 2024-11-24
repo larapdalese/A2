@@ -22,7 +22,11 @@ def buscar_noticias(termo=None):
 
 def buscar_podcasts(tema):
     resultados = sp.search(q=tema, type='show', limit=10)
-    return resultados['shows']['items']
+    podcasts_filtrados = [
+        podcast for podcast in resultados['shows']['items']
+        if any(t in podcast['name'].lower() or t in podcast['description'].lower() for t in ["finanças", "economia", "empreendedorismo"])
+    ]
+    return podcasts_filtrados
 
 col1, col2 = st.columns(2)
 
@@ -40,13 +44,15 @@ with col1:
                 st.subheader(artigo['title'])
                 st.markdown(f"Fonte: [{artigo['source']['name']}]({artigo['url']})")
                 st.write(artigo['description'])
+                if 'image' in artigo and artigo['image']:
+                    st.image(artigo['image'], caption="Imagem da notícia", use_column_width=True)
                 st.write("---")
         else:
             st.warning("Nenhuma notícia encontrada para o tema pesquisado.")
 
 with col2:
-    st.title("🎙️ Podcasts")
-    st.subheader("Pesquise e explore podcasts relacionados a finanças.")
+    st.title("Podcasts")
+    st.subheader("Pesquise e explore podcasts relacionados a Finanças, Economia e Empreendedorismo.")
 
     tema = st.text_input("Digite o tema da pesquisa (ex.: finanças para mulheres):", key="podcasts")
     if st.button("Pesquisar Podcasts", key="botao_podcasts"):
