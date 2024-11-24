@@ -11,10 +11,6 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import yfinance as yf
 import datetime
 
-def add_image_to_sidebar():
-    image_path = "logo.png"
-    st.sidebar.image(image_path, caption="Logo do site", use_column_width=True)
-
 def home_page():
     st.set_page_config(layout="wide", page_title="Home")
     image_path = "logo.png"
@@ -611,8 +607,6 @@ pages = {
        st.Page(investimentos_page, title="Invista como uma garota", icon=None, url_path=None, default=False),
     ],
 }
-
-add_image_to_sidebar()
 
 pg = st.navigation(pages, position="sidebar", expanded=False)
 pg.run()
